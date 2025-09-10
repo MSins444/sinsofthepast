@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Cart — Sins of the Past</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Shared theme + cursor system -->
+  <link rel="stylesheet" href="css/base.css?v=4">
+
+  <!-- Optional: keep follower dot harmless -->
+  <style>
+    .cursor{
+      position:fixed; left:0; top:0; width:16px; height:16px;
+      border-radius:50%; outline:2px solid var(--acid, #00e0c6);
+      opacity:.5; transform:translate(-50%,-50%); z-index:9999;
+      pointer-events:none;
+    }
+  </style>
+</head>
+<body class="page-cart">
+
+  <!-- Apply saved theme (optional) -->
+  <script>
+    (function(){
+      const acid = localStorage.getItem('stp_theme_acid');
+      const hot  = localStorage.getItem('stp_theme_hot');
+      if (acid) document.documentElement.style.setProperty('--acid', acid);
+      if (hot)  document.documentElement.style.setProperty('--hot',  hot);
+    })();
+  </script>
+
+  <header class="header">
+    <a class="brand" href="home.html">
+      <img src="assets/lgo.png" alt="" onerror="this.style.display='none'">
+      <span>Sins of the Past</span>
+    </a>
+    <nav class="nav">
+      <a href="home.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="about.html">About</a>
+      <a href="arcade.html">Arcade</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <a href="cart.html" id="cartLink" class="active">Cart <span id="cartCount" style="opacity:.8"></span></a>
+  </header>
+
+  <section class="section">
+    <h1>Your Cart</h1>
+    <div id="cartEmpty" class="muted" style="margin:10px 0 20px;display:none">Your bag is empty.</div>
+
+    <div id="cartWrap" class="card" style="max-width:900px;margin:0 auto;overflow:hidden">
+      <div id="cartItems"></div>
+
+      <div style="border-top:1px solid var(--line);padding:12px">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <input id="coupon" placeholder="coupon code" style="padding:8px;border-radius:8px;border:1px solid #444;background:#0b0c13;color:#fff">
+          <button id="applyCoupon" class="btn small" type="button">Apply</button>
+          <span id="couponMsg" class="muted"></span>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:24px;margin-top:12px;align-items:flex-end;flex-wrap:wrap">
+          <div class="muted">Subtotal: <b id="sub"></b></div>
+          <div class="muted">Discount: <b id="disc"></b></div>
+          <div><b>Total: <span id="total"></span></b></div>
+          <button id="checkout" class="btn primary" type="button">Checkout</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:10px">
+      <button id="clearCart" class="btn" type="button">Clear Cart</button>
+    </div>
+  </section>
+
+  <footer class="footer">© <span id="y"></span> Sins of the Past</footer>
+
+  <!-- Site JS (module = no duplicate “already declared” globals) -->
+  <script type="module" src="app.js"></script>
+
+  <!-- Cart page logic -->
+  <script>
+    const $ = (s)=>document.querySelector(s);
+    const fmt = (n)=>"$"+(n/1).toFixed(2);
+
+    function getCart(){ try{return JSON.parse(localStorage.getItem('stp_cart')||'[]')}catch{return[]} }
+    function setCart(items){ localStorage.setItem('stp_cart', JSON.stringify(items)); if (window.updateBadge) updateBadge(); }
+
+    function render(){
+      const items = getCart();
+      const list = $("#cartItems");
+      const empty = $("#cartEmpty");
+      const wrap  = $("#cartWrap");
+      list.innerHTML = "";
+      if (!items.length){
+        empty.style.display = "";
+        wrap.style.display  = "none";
+        $("#sub").textContent   = fmt(0);
+        $("#disc").textContent  = "-"+fmt(0);
+        $("#total").textContent = fmt(0);
+        return;
+      }
+      empty.style.display = "none";
+      wrap.style.display  = "";
+
+      let subtotal = 0;
+      items.forEach((it, i)=>{
+        subtotal += it.price * it.qty;
+        const row = document.createElement('div');
+        row.style.cssText = "display:grid;grid-template-columns:80px 1fr auto;gap:12px;align-items:center;border-bottom:1px solid var(--line);padding:12px";
+        row.innerHTML = `
+          <img src="${it.img||'assets/prod1.jpg'}" alt="" style="width:80px;height:80px;object-fit:cover;border-radius:8px">
+          <div>
+            <div style="font-weight:700">${it.name}</div>
+            <div class="muted">${fmt(it.price)}</div>
+            <div style="margin-top:6px;display:flex;gap:6px;align-items:center">
+              <button data-i="${i}" class="qbtn" data-delta="-1" type="button">−</button>
+              <span>${it.qty}</span>
+              <button data-i="${i}" class="qbtn" data-delta="1" type="button">+</button>
+              <button data-i="${i}" class="rm btn small" type="button" style="margin-left:10px">Remove</button>
+            </div>
+          </div>
+          <div style="text-align:right;font-weight:700">${fmt(it.price*it.qty)}</div>
+        `;
+        list.appendChild(row);
+      });
+
+      // discount
+      let discount = 0;
+      const code = ($("#coupon").value||"").trim().toUpperCase();
+      if (code === "REAPER10") discount = Math.round(subtotal * 0.10 * 100)/100;
+
+      $("#sub").textContent   = fmt(subtotal);
+      $("#disc").textContent  = "-"+fmt(discount);
+      $("#total").textContent = fmt(Math.max(0, subtotal - discount));
+    }
+
+    document.addEventListener('click', (e)=>{
+      if (e.target.classList.contains('qbtn')){
+        const idx = +e.target.dataset.i, d = +e.target.dataset.delta;
+        const cart = getCart();
+        cart[idx].qty = Math.max(1, cart[idx].qty + d);
+        setCart(cart); render();
+      }
+      if (e.target.classList.contains('rm')){
+        const idx = +e.target.dataset.i;
+        const cart = getCart();
+        cart.splice(idx,1);
+        setCart(cart); render();
+      }
+    });
+
+    $("#applyCoupon").onclick = ()=>{
+      const val = ($("#coupon").value||"").trim().toUpperCase();
+      const msg = $("#couponMsg");
+      if (val === "REAPER10"){ msg.textContent = "10% off applied."; }
+      else if (!val){ msg.textContent = ""; }
+      else { msg.textContent = "Invalid code."; }
+      render();
+    };
+
+    $("#clearCart").onclick = ()=>{ setCart([]); render(); };
+    $("#checkout").onclick  = ()=>{ alert("Demo checkout — wire this to your store when ready."); };
+
+    // Prefill coupon if unlocked in Arcade
+    if (localStorage.getItem('stp_win') === '1') { $("#coupon").value = "REAPER10"; }
+
+    render();
+    if (window.updateBadge) updateBadge();
+  </script>
+
+  <!-- Optional follower dot -->
+  <div class="cursor"></div>
+  <script>
+    const cursor = document.querySelector('.cursor');
+    document.addEventListener('mousemove', e => {
+      if (!cursor) return;
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+  </script>
+
+  <p class="muted" style="text-align:center;margin:6px 0 16px">
+    Footwear handcrafted in Le Marche, Italy — The Shoe Valley (since 1901).
+  </p>
+</body>
+</html>

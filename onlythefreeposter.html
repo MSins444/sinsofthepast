@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sins of the Past — We Are The Fallen Angels Poster</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/cursor-shop.css">
+  <style>
+    .product-hero {
+      display: grid;
+      gap: 32px;
+      grid-template-columns: 1fr 1fr;
+      align-items: flex-start;
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 16px;
+    }
+    .product-hero img {
+      width: 100%;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 4px 14px rgba(0,0,0,.25);
+    }
+    .product-info h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    .product-info .price {
+      font-weight: 600;
+      font-size: 1.4rem;
+      margin: 12px 0;
+    }
+    .product-info ul {
+      margin: 12px 0 20px 18px;
+      list-style: disc;
+    }
+  </style>
+</head>
+<body class="page-product">
+
+<header class="header">
+  <a class="brand" href="home.html" aria-label="Go to Home">
+    <img src="assets/lgo.png" alt="Sins of the Past" onerror="this.style.display='none'">
+    <span>Sins of the Past</span>
+  </a>
+  <nav class="nav">
+    <a href="home.html">Home</a>
+    <a href="shop.html" class="active">Shop</a>
+    <a href="about.html">About</a>
+    <a href="arcade.html">Arcade</a>
+    <a href="contact.html">Contact</a>
+    <a href="care.html">Care</a>
+  </nav>
+  <a href="cart.html" id="cartLink">Cart <span id="cartCount" style="opacity:.8"></span></a>
+</header>
+
+<main id="main" tabindex="-1">
+  <section class="product-hero">
+    <!-- Left: product image -->
+    <div class="product-media">
+      <img src="assets/onlythefree.JPG" alt="We Are The Fallen Angels Poster">
+    </div>
+
+    <!-- Right: product info -->
+    <div class="product-info">
+      <h1>We Are The Fallen Angels</h1>
+      <p class="muted">Archival poster — trippy visuals</p>
+      <p class="price">$50.00</p>
+
+      <p>
+        A bold, thought-provoking design capturing the unapologetic energy of
+        <em>Sins of the Past</em>. High-fidelity print, ready for framing.
+      </p>
+
+      <ul>
+        <li>Archival print, acid-free paper</li>
+        <li>Matte or glossy finish options</li>
+        <li>Precision color, high fidelity</li>
+        <li>Size: 18&quot; × 24&quot;</li>
+      </ul>
+
+      <button
+        class="btn add-to-cart"
+        data-id="only-the-free-poster"
+        data-name="We Are The Fallen Angels"
+        data-price="50.00"
+        data-img="assets/onlythefree.JPG">
+        Add to Bag
+      </button>
+
+      <p style="margin-top:16px">
+        <a href="shop.html" class="muted">&larr; Back to Shop</a>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">© <span id="y"></span> Sins of the Past</footer>
+
+<script src="app.js" defer></script>
+<script>
+  // Footer year
+  (function(){
+    var y = document.getElementById('y');
+    if (y) y.textContent = new Date().getFullYear();
+  })();
+</script>
+
+</body>
+</html>

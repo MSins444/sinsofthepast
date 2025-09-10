@@ -1,0 +1,3 @@
+/* Home cursor (grim) */
+html, body, * { cursor: url('/assets/grim.png') 12 12, auto !important; }
+input, textarea { cursor: text !important; }

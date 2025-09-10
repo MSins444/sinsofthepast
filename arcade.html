@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Arcade — Sins of the Past</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"/>
+<!-- Phaser must be included on this page for the game -->
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+<a href="cart.html" id="cartLink">Cart <span id="cartCount" style="opacity:.8"></span></a>
+
+</head><body>
+<header class="header">
+  <a class="brand" href="index.html">
+    <img src="assets/lgo.png" alt="" onerror="this.style.display='none'">
+    <span>Sins of the Past</span>
+  </a>
+  <nav class="nav">
+    <a href="home.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="arcade.html">Arcade</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+   <a href="cart.html" id="cartLink">Cart <span id="cartCount" style="opacity:.8"></span></a>
+  </header>
+</header>
+
+<section class="section arcade">
+  <h1>Arcade — Practice Mode</h1>
+  <p class="muted" style="max-width:900px;margin:6px auto 16px">
+    Single player controls: <b>A/D</b> move, <b>W</b> jump, <b>J</b> punch, <b>K</b> kick.
+  </p>
+
+  <!-- The game mounts into this DIV -->
+  <div id="game"></div>
+
+  <div class="controls" style="margin-top:10px">
+    <div><b>P1:</b> A/D move • W jump • J punch • K kick</div>
+  </div>
+
+  <div id="coupon" class="coupon hidden" aria-live="polite">
+    <h3>Unlocked 🎉</h3>
+    <p>Use code <b>REAPER10</b> for 10% off.</p>
+    <p class="muted">Saved in your browser.</p>
+  </div>
+</section>
+
+<footer class="footer">© <span id="y"></span> Sins of the Past</footer>
+
+<!-- Shared UI effects -->
+<script src="app.js"></script>
+
+<!-- Your single-player game logic -->
+<script src="game.js"></script>
+</body></html>

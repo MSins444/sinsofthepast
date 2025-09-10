@@ -1,0 +1,7 @@
+<div id="site-header"></div>
+<script>
+  (async () => {
+    const html = await fetch('partials/header.html').then(r => r.text());
+    document.getElementById('site-header').innerHTML = html;
+  })();
+</script>

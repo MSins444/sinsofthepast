@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Pusillanimous Heels — Sins of the Past</title>
+  <link rel="stylesheet" href="css/base.css?v=2">
+  <style>
+    .product-page{display:grid;gap:24px;grid-template-columns:1.1fr .9fr;padding:24px}
+    .product-hero img{width:100%;height:auto;border-radius:18px;display:block}
+    .product-info h1{margin:0 0 .25rem}
+    .product-info .price{font-weight:800;font-size:1.25rem}
+    @media(max-width:900px){.product-page{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="home.html"><span>Sins of the Past</span></a>
+    <nav class="nav">
+      <a href="shop.html" class="active">Shop</a>
+      <a href="about.html">About</a>
+      <a href="arcade.html">Arcade</a>
+      <a href="contact.html">Contact</a>
+      <a href="care.html">Care</a>
+    </nav>
+    <a href="cart.html" id="cartLink">Cart <span id="cartCount"></span></a>
+  </header>
+
+  <main class="product-page">
+    <div class="product-hero">
+      <img src="assets/Pusillanimous.png" alt="Pusillanimous Heels">
+    </div>
+    <div class="product-info">
+      <h1>Pusillanimous Heels</h1>
+      <p class="muted">[Add a tagline about boldness / statement piece]</p>
+
+      <ul>
+        <li>Origin: Le Marche, Italy (The Shoe Valley)</li>
+        <li>Upper: Italian leather / suede</li>
+        <li>Insole: Organic cotton + leather</li>
+        <li>Construction: Handcrafted; precision stitching</li>
+        <li>Sole: Technician-designed comfort sole</li>
+      </ul>
+
+      <div class="buy" style="margin-top:10px">
+        <span class="price">$500.00</span>
+        <button class="btn primary add-to-cart"
+                data-id="pusillanimous-heels"
+                data-name="Pusillanimous Heels"
+                data-price="500"
+                data-img="assets/Pusillanimous.png">
+          Add to Bag
+        </button>
+      </div>
+
+      <p class="muted" style="margin-top:18px">Care: [fill in care instructions]</p>
+      <p style="margin-top:16px"><a class="btn" href="shop.html">← Back to Shop</a></p>
+    </div>
+  </main>
+
+  <footer class="footer">© <span id="y"></span> Sins of the Past</footer>
+  <script>const y=document.getElementById('y');if(y)y.textContent=new Date().getFullYear();</script>
+</body>
+</html>

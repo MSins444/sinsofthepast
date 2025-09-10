@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>About — Sins of the Past</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Shared styles (has the cursor system & theme) -->
+  <link rel="stylesheet" href="css/base.css?v=1">
+
+  <!-- Optional: tiny style so the follower dot never blocks clicks -->
+  <style>
+    .cursor{
+      position:fixed; left:0; top:0; width:16px; height:16px;
+      border-radius:50%; outline:2px solid var(--acid, #00e0c6);
+      opacity:.5; transform:translate(-50%,-50%); z-index:9999;
+      pointer-events:none;
+    }
+  </style>
+</head>
+<body class="page-about">
+
+  <!-- Apply saved theme (optional) -->
+  <script>
+  (function(){
+    const acid = localStorage.getItem('stp_theme_acid');
+    const hot  = localStorage.getItem('stp_theme_hot');
+    if (acid) document.documentElement.style.setProperty('--acid', acid);
+    if (hot)  document.documentElement.style.setProperty('--hot',  hot);
+  })();
+  </script>
+
+  <header class="header">
+    <a class="brand" href="home.html">
+      <img src="assets/lgo.png" alt="" onerror="this.style.display='none'">
+      <span>Sins of the Past</span>
+    </a>
+    <nav class="nav">
+      <a href="home.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="about.html" class="active">About</a>
+      <a href="arcade.html">Arcade</a>
+      <a href="contact.html">Contact</a>
+      <a href="cart.html" id="cartLink">Cart <span id="cartCount" style="opacity:.8"></span></a>
+       <a href="care.html">Care</a>
+    </nav>
+  </header>
+
+  <section class="hero" style="min-height:48vh">
+    <div class="inner">
+      <h1>About the Label</h1>
+      <p class="muted">Small-batch apparel & handmade jewelry from the world of Sins of the Past.</p>
+      <a href="shop.html" class="btn">Shop the latest</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Origins</h2>
+    <p class="muted" style="max-width:900px;margin:8px auto 24px">
+      Born from late-night sketches and found textures, the label blends folk horror motifs with street silhouettes.
+      Each drop is produced in limited quantities—once it’s gone, it’s gone.
+    </p>
+
+    <div class="grid">
+      <article class="card">
+        <div class="img"></div>
+        <div class="meta">
+          <h3>Materials</h3>
+          <p class="muted">Heavyweight cotton, 925 silver, and hardware tested for real wear.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="img"></div>
+        <div class="meta">
+          <h3>Process</h3>
+          <p class="muted">Illustrations → screens → fabric → finishing. Small-batch, never mass.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="img"></div>
+        <div class="meta">
+          <h3>Values</h3>
+          <p class="muted">Quality over quantity. Story over hype. Community over clout.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Collaborations</h2>
+    <p class="muted" style="max-width:900px;margin:8px auto 0">
+      Open to capsule collabs, custom jewelry, and gallery activations.
+      Email <a href="mailto:sinsofthepast444@gmail.com">sinsofthepast444@gmail.com</a>.
+    </p>
+  </section>
+
+  <footer class="footer">© <span id="y"></span> Sins of the Past</footer>
+
+  <!-- Your site JS (include only once) -->
+  <script src="app.js"></script>
+
+  <!-- Optional follower dot -->
+  <div class="cursor"></div>
+  <script>
+    const cursor = document.querySelector('.cursor');
+    document.addEventListener('mousemove', e => {
+      if (!cursor) return;
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+  </script>
+
+  <!-- Moved the tagline INSIDE the body (valid HTML) -->
+  <p class="muted" style="text-align:center;margin:6px 0 16px">
+    Footwear handcrafted in Le Marche, Italy — The Shoe Valley (since 1901).
+  </p>
+</body>
+</html>

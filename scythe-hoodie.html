@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Scythe Hoodie — Sins of the Past</title>
+  <link rel="stylesheet" href="css/base.css?v=2">
+  <style>
+    .product-page{display:grid;gap:24px;grid-template-columns:1.1fr .9fr;padding:24px}
+    .product-hero img{width:100%;height:auto;border-radius:18px;display:block}
+    .product-info h1{margin:0 0 .25rem}
+    .product-info .price{font-weight:800;font-size:1.25rem}
+    @media(max-width:900px){.product-page{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="home.html"><span>Sins of the Past</span></a>
+    <nav class="nav">
+      <a href="shop.html">Shop</a><a href="about.html">About</a><a href="arcade.html">Arcade</a><a href="contact.html">Contact</a>
+    </nav>
+    <a href="cart.html" id="cartLink">Cart <span id="cartCount" style="opacity:.8"></span></a>
+  </header>
+
+  <main class="product-page">
+    <div class="product-hero">
+      <img src="assets/scythehoodie.png" alt="Scythe Hoodie — heavyweight 500gsm fleece">
+    </div>
+    <div class="product-info">
+      <h1>Scythe Hoodie</h1>
+      <p class="muted">Ultra-heavy 500gsm fleece with embroidered scythe mark. Built for longevity.</p>
+      <ul>
+        <li>500gsm brushed fleece, cotton-rich</li>
+        <li>Embroidery + reinforced seams</li>
+        <li>Kangaroo pocket with chain-ready loop</li>
+        <li>Unisex fit — true to size</li>
+      </ul>
+      <div class="buy" style="margin-top:10px">
+        <span class="price">$85</span>
+        <button class="btn primary" style="margin-left:12px">Add to Bag</button>
+      </div>
+      <p class="muted" style="margin-top:18px">Care: wash cold, gentle cycle. Hang dry.</p>
+      <p style="margin-top:16px"><a class="btn" href="home.html">← Back to Home</a></p>
+    </div>
+  </main>
+
+  <footer class="footer">© <span id="y"></span> Sins of the Past</footer>
+  <script>const y=document.getElementById('y');if(y)y.textContent=new Date().getFullYear();</script>
+</body>
+</html>

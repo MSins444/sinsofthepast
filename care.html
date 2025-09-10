@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Care & Craftsmanship — Sins of the Past</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- Apply saved theme -->
+<script>
+(function(){
+  const acid = localStorage.getItem('stp_theme_acid');
+  const hot  = localStorage.getItem('stp_theme_hot');
+  if (acid) document.documentElement.style.setProperty('--acid', acid);
+  if (hot)  document.documentElement.style.setProperty('--hot',  hot);
+})();
+</script>
+
+<header class="header">
+  <a class="brand" href="index.html">
+    <img src="assets/lgo.png" alt="" onerror="this.style.display='none'">
+    <span>Sins of the Past</span>
+  </a>
+  <nav class="nav">
+    <a href="home.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html">About</a>
+    <a href="arcade.html">Arcade</a>
+    <a href="care.html" class="active">Care</a>
+    <a href="contact.html">Contact</a>
+    
+  </nav>
+</header>
+
+ <a href="cart.html" id="cartLink">Cart <span id="cartCount" style="opacity:.8"></span></a>
+  </header>
+
+<section class="hero" style="min-height:40vh">
+  <div class="inner">
+    <h1>Care & Craftsmanship</h1>
+    <p class="muted">Luxury is in the details. Each piece is designed, crafted, and finished with intention.</p>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Materials</h2>
+  <p class="muted" style="max-width:850px;margin:8px auto 24px">
+    We source only premium textiles, metals, and stones. From heavyweight cottons and
+    tailored cuts to VVS1 diamonds and 925 sterling silver, every choice reflects our
+    commitment to luxury that lasts.
+  </p>
+</section>
+
+<section class="section">
+  <h2>Craft</h2>
+  <div class="grid">
+    <article class="card">
+      <div class="img"></div>
+      <div class="meta">
+        <h3>Hand Finishing</h3>
+        <p class="muted">Each garment undergoes manual inspection and finishing, ensuring precision down to every stitch.</p>
+      </div>
+    </article>
+    <article class="card">
+      <div class="img"></div>
+      <div class="meta">
+        <h3>Jewelry Detailing</h3>
+        <p class="muted">Our pendants, rings, and accents are built like heirlooms, with metals and stones meant to last generations.</p>
+      </div>
+    </article>
+    <article class="card">
+      <div class="img"></div>
+      <div class="meta">
+        <h3>Limited Runs</h3>
+        <p class="muted">We release in small batches to preserve exclusivity. When it’s gone, it’s gone — no restocks.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Care Instructions</h2>
+  <ul class="muted" style="max-width:850px;margin:8px auto 24px;line-height:1.8">
+    <li>Hand wash or cold machine wash garments inside out. Hang dry only.</li>
+    <li>Keep jewelry away from harsh chemicals; polish with a soft cloth.</li>
+    <li>Store pieces in dust bags or cases to protect finishes.</li>
+  </ul>
+</section>
+
+<section class="section">
+  <h2>Our Promise</h2>
+  <p class="muted" style="max-width:850px;margin:8px auto 24px">
+    Every piece of <b>Sins of the Past</b> carries our signature — quality, meaning, and story.
+    This is not fast fashion. This is legacy wear.
+  </p>
+</section>
+
+<footer class="footer">© <span id="y"></span> Sins of the Past</footer>
+<script src="app.js"></script>
+<div class="cursor"></div>
+<script>
+  const cursor = document.querySelector('.cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+</script>
+</body>
+</html>
+
+<p class="muted" style="text-align:center;margin:6px 0 16px">
+

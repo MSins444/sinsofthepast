@@ -1,0 +1,3 @@
+/* Shop cursor (rose) */
+html, body, * { cursor: url('/assets/flower.png') 12 12, auto !important; }
+input, textarea { cursor: text !important; }

@@ -1,0 +1,3 @@
+/* Contact cursor (flame) */
+html, body, * { cursor: url('/assets/bag.png') 12 12, auto !important; }
+input, textarea { cursor: text !important; }

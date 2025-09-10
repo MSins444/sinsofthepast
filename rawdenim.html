@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sins of the Past — Raw Selvedge Denim</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- Same stylesheets as the rest of your site -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/cursor-shop.css">
+  <style>
+    /* Page-specific layout (matches onlythefree.html) */
+    .product-hero {
+      display: grid;
+      gap: 32px;
+      grid-template-columns: 1fr 1fr;
+      align-items: flex-start;
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 16px;
+    }
+    .product-hero img {
+      width: 100%;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 4px 14px rgba(0,0,0,.25);
+    }
+    .product-info h1 { font-size: 2rem; margin-bottom: 8px; }
+    .product-info .price { font-weight: 600; font-size: 1.4rem; margin: 12px 0; }
+    .product-info ul { margin: 12px 0 20px 18px; list-style: disc; }
+  </style>
+</head>
+<body class="page-product">
+
+<header class="header">
+  <a class="brand" href="home.html" aria-label="Go to Home">
+    <img src="assets/lgo.png" alt="Sins of the Past" onerror="this.style.display='none'">
+    <span>Sins of the Past</span>
+  </a>
+  <nav class="nav">
+    <a href="home.html">Home</a>
+    <a href="shop.html" class="active">Shop</a>
+    <a href="about.html">About</a>
+    <a href="arcade.html">Arcade</a>
+    <a href="contact.html">Contact</a>
+    <a href="care.html">Care</a>
+  </nav>
+  <a href="cart.html" id="cartLink">Cart <span id="cartCount" style="opacity:.8"></span></a>
+</header>
+
+<main id="main" tabindex="-1">
+  <section class="product-hero">
+    <!-- Left: product image -->
+    <div class="product-media">
+      <img src="assets/rawdenim.png" alt="Raw Selvedge Denim — Sins of the Past">
+    </div>
+
+    <!-- Right: product info -->
+    <div class="product-info">
+      <h1>Raw Selvedge Denim</h1>
+      <p class="muted">13.5oz Japanese selvedge — slim/straight</p>
+      <p class="price">$280.00</p>
+
+      <p>
+        Purpose-built raw denim with heritage construction and modern lines.
+        Break them in and let the fades tell your story.
+      </p>
+
+      <ul>
+        <li>Mill: Kaihara / Nihon Menpu</li>
+        <li>Weave: Right-hand twill, red ID selvedge</li>
+        <li>Hardware: Custom buttons & rivets</li>
+        <li>Details: Chain-stitched hems, leather back patch</li>
+      </ul>
+
+      <button
+        class="btn add-to-cart"
+        data-id="raw-selvedge-denim"
+        data-name="Raw Selvedge Denim"
+        data-price="280.00"
+        data-img="assets/rawdenim.png">
+        Add to Bag
+      </button>
+
+      <p style="margin-top:16px">
+        <a href="shop.html" class="muted">&larr; Back to Shop</a>
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">© <span id="y"></span> Sins of the Past</footer>
+
+<script src="app.js" defer></script>
+<script>
+  (function(){
+    var y = document.getElementById('y');
+    if (y) y.textContent = new Date().getFullYear();
+  })();
+</script>
+
+</body>
+</html>

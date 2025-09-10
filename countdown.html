@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Sins of the Past — Drop Countdown</title>
+
+  <!-- Brand font (optional) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- If you already have these, keep them; if not, the page works without -->
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/cursor.css">
+
+  <meta name="description" content="Sins of the Past — upcoming drop. Get first access."/>
+  <meta property="og:title" content="Sins of the Past — Drop Countdown"/>
+  <meta property="og:description" content="The first look lands when the timer hits zero."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="/assets/og/cover.jpg"/>
+
+  <style>
+    :root{
+      --bg:#0b0d11; --ink:#f2f2f2; --muted:#a7a7a7; --acid:#00e0c6; --glass:rgba(255,255,255,.06);
+    }
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--ink); background:var(--bg); overflow:hidden;
+    }
+
+    /* ===== Cinematic teaser background (goes behind foreground content) ===== */
+    .teaser-bg{ position:fixed; inset:0; z-index:0; overflow:hidden; background:#000; }
+    .teaser-poster{
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.75;
+      transition:opacity 600ms ease; filter:contrast(1.05) saturate(1.05) brightness(.9);
+    }
+    .teaser-video{
+      position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.75;
+      transition:opacity 600ms ease; filter:contrast(1.05) saturate(1.05) brightness(.9);
+    }
+    .teaser-vignette{ position:absolute; inset:0; pointer-events:none;
+      background: radial-gradient(120% 80% at 50% 60%, rgba(0,0,0,.08) 0%, rgba(0,0,0,.62) 100%);
+    }
+    .teaser-controls{ position:absolute; right:16px; bottom:16px; z-index:2; display:flex; gap:8px; }
+    .teaser-btn{
+      padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.25);
+      background:rgba(0,0,0,.35); color:#f2f2f2; font-weight:600; cursor:pointer;
+      backdrop-filter:saturate(120%) blur(2px);
+    }
+    .teaser-btn[aria-pressed="true"]{ outline:2px solid rgba(255,255,255,.35); }
+    @media (prefers-reduced-motion: reduce){ .teaser-video{ display:none !important } .teaser-poster{ opacity:.95; filter:none } }
+
+    /* ===== Foreground layout ===== */
+    .wrap{ position:relative; z-index:1; min-height:100dvh; display:grid;
+      grid-template-rows:auto 1fr auto; gap:24px; padding:40px 20px; }
+
+    header{ display:flex; align-items:center; justify-content:space-between; gap:16px; max-width:1200px; margin:0 auto; width:100%; }
+    .brand{ display:flex; align-items:center; gap:14px; text-decoration:none; color:var(--ink); }
+    .brand img{ width:40px; height:40px; object-fit:contain; filter:drop-shadow(0 0 6px rgba(0,0,0,.4)) }
+    .brand .name{ font-weight:800; letter-spacing:.06em; text-transform:uppercase }
+
+    .cta{ display:flex; gap:12px; align-items:center; }
+    .cta a{ color:var(--ink); text-decoration:none; font-size:.95rem; opacity:.85 }
+    .cta a:hover{ opacity:1 }
+
+    main{ display:grid; place-items:center; padding:10px 20px 30px }
+
+    .panel{ width:min(980px, 100%); margin-inline:auto;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.12); border-radius:20px; padding:28px;
+      box-shadow:0 20px 60px rgba(0,0,0,.45); backdrop-filter: blur(6px) saturate(120%);
+    }
+    .title{ font-size:clamp(28px, 5vw, 48px); line-height:1.05; font-weight:800; text-align:center; letter-spacing:.02em; margin:4px 0 8px; }
+    .tagline{ text-align:center; color:var(--muted); font-size:clamp(14px, 2.4vw, 16px); margin:0 0 22px; }
+
+    /* Countdown */
+    .count{ display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin:10px 0 24px; }
+    .unit{ width:min(160px, 44vw); padding:18px 12px; text-align:center; background:var(--glass); border:1px solid rgba(255,255,255,.14); border-radius:16px; }
+    .unit .num{ font-size:clamp(28px, 9vw, 54px); font-weight:800; line-height:1 }
+    .unit .lab{ font-size:.8rem; color:var(--muted); margin-top:6px; letter-spacing:.14em; text-transform:uppercase }
+
+    /* Email sign-up */
+    .signup{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin:6px 0 4px }
+    .signup input{ width:min(360px, 80vw); padding:14px 16px; border-radius:14px; background:#10131a; border:1px solid rgba(255,255,255,.16); color:var(--ink); outline:none; font-size:16px }
+    .signup button{ padding:14px 18px; border-radius:14px; border:1px solid rgba(255,255,255,.2); background:linear-gradient(180deg, #121923, #0f141c); color:var(--ink); font-weight:700; letter-spacing:.02em; cursor:pointer }
+    .signup button:hover{ transform:translateY(-1px) }
+    .small{ text-align:center; color:var(--muted); font-size:.85rem; margin-top:8px }
+
+    /* Optional: Early Demo buttons */
+    .actions{ display:flex; justify-content:center; gap:12px; margin:18px 0 0 }
+    .btn{ display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:14px; text-decoration:none; color:var(--ink); border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05); font-weight:600 }
+    .btn:hover{ transform:translateY(-1px) }
+
+    footer{ max-width:1200px; margin:0 auto 6px; width:100%; display:flex; justify-content:space-between; align-items:center; gap:16px; color:var(--muted); font-size:.92rem }
+    .social{ display:flex; gap:14px }
+    .social a{ color:var(--muted); text-decoration:none }
+    .social a:hover{ color:var(--ink) }
+
+    @media (max-width:480px){ .panel{ padding:20px } .unit{ padding:16px 10px } }
+  </style>
+</head>
+<body>
+  <!-- ===== Background teaser video (place your assets in /assets/countdown) ===== -->
+  <div class="teaser-bg" aria-hidden="true">
+    <!-- Fallback poster shows instantly while video buffers -->
+    <img class="teaser-poster" src="/assets/countdown/poster.jpg" alt="">
+
+    <!-- Optimized teaser in multiple formats for best autoplay support -->
+    <video id="teaserVideo" class="teaser-video" playsinline muted loop autoplay preload="auto" poster="/assets/countdown/poster.jpg">
+      <source src="/assets/countdown/teaser.webm" type="video/webm">
+      <source src="/assets/countdown/teaser.mp4"  type="video/mp4">
+    </video>
+
+    <!-- Controls (sound toggle) -->
+    <div class="teaser-controls">
+      <button id="soundToggle" class="teaser-btn" type="button" aria-pressed="false" aria-label="Toggle sound">🔈 Sound</button>
+    </div>
+
+    <!-- Subtle darkness for contrast -->
+    <div class="teaser-vignette"></div>
+  </div>
+
+  <!-- ===== Foreground content (logo, timer, signup) ===== -->
+  <div class="wrap">
+    <header>
+      <a class="brand" href="/" aria-label="Sins of the Past">
+        <img src="/assets/logo/reaper-mark.svg" alt="Sins of the Past">
+        <span class="name">Sins of the Past</span>
+      </a>
+      <nav class="cta">
+        <a href="/lookbook">Lookbook</a>
+        <a href="/arcade">Arcade</a>
+        <a href="/shop">Shop</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="panel" role="region" aria-label="Drop countdown">
+        <h1 class="title">Drop incoming.</h1>
+        <p class="tagline">First access unlocks when the timer hits zero.</p>
+
+        <div class="count" id="countdown" aria-live="polite">
+          <div class="unit"><div class="num" id="d">–</div><div class="lab">Days</div></div>
+          <div class="unit"><div class="num" id="h">–</div><div class="lab">Hours</div></div>
+          <div class="unit"><div class="num" id="m">–</div><div class="lab">Minutes</div></div>
+          <div class="unit"><div class="num" id="s">–</div><div class="lab">Seconds</div></div>
+        </div>
+
+        <!-- Email capture: wire this to Mailchimp/Klaviyo/Brevo/Formspree endpoint -->
+        <form class="signup" method="post" action="https://YOUR_EMAIL_PROVIDER_ENDPOINT">
+          <input type="email" name="email" placeholder="Enter email for first access" required>
+          <button type="submit">Notify Me</button>
+        </form>
+        <p class="small">We’ll only email you about the drop. No spam.</p>
+
+        <div class="actions">
+          <a class="btn" href="/arcade?mode=demo">Play the demo</a>
+          <a class="btn" href="https://instagram.com/sinsofthepast444" target="_blank" rel="noreferrer">Follow the story</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>© <span id="yr"></span> Sins of the Past. All rights reserved.</div>
+      <div class="social">
+        <a href="https://instagram.com/yourhandle" target="_blank" rel="noreferrer">Instagram</a>
+        <a href="https://tiktok.com/@yourhandle" target="_blank" rel="noreferrer">TikTok</a>
+        <a href="mailto:hello@sinsofthepast.com">Contact</a>
+      </div>
+    </footer>
+  </div>
+
+  <noscript>
+    <div style="position:fixed;inset:0;display:grid;place-items:center;background:#000;color:#fff">
+      Enable JavaScript to see the countdown.
+    </div>
+  </noscript>
+
+  <script>
+    // ======== TODO: set your launch date/time (YYYY-MM-DDTHH:mm:ss) in your local time ========
+    const LAUNCH_AT = new Date("2025-10-31T18:00:00"); // e.g., Oct 31, 6:00 PM
+    // ======== TODO: set where to go when timer hits zero ========
+    const REDIRECT_TO = "/shop"; // or "/arcade" or a specific product path
+
+    // ===== Background video behavior =====
+    (function(){
+      const video = document.getElementById('teaserVideo');
+      const poster = document.querySelector('.teaser-poster');
+      const btn = document.getElementById('soundToggle');
+      const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reducedMotion) return; // keep poster only
+
+      const tryPlay = () => {
+        if (!video) return;
+        video.muted = true; // required for autoplay on mobile
+        video.play().then(()=>{
+          video.addEventListener('playing', ()=> { poster.style.opacity = '0'; }, { once:true });
+        }).catch((err)=>{ console.warn('Teaser autoplay blocked:', err); });
+      };
+      if (document.readyState === 'complete') tryPlay(); else window.addEventListener('load', tryPlay);
+
+      btn && btn.addEventListener('click', async ()=>{
+        const willUnmute = btn.getAttribute('aria-pressed') !== 'true';
+        try{
+          if (willUnmute){ video.muted = false; await video.play(); } else { video.muted = true; }
+          btn.setAttribute('aria-pressed', String(willUnmute));
+          btn.textContent = willUnmute ? '🔊 Sound On' : '🔈 Sound';
+        }catch(e){ console.warn('Audio toggle issue:', e); }
+      });
+    })();
+
+    // ===== Countdown logic =====
+    const elD = document.getElementById('d');
+    const elH = document.getElementById('h');
+    const elM = document.getElementById('m');
+    const elS = document.getElementById('s');
+    const pad = n => String(n).padStart(2,'0');
+
+    function tick(){
+      const now = new Date();
+      const diff = LAUNCH_AT - now;
+      if (diff <= 0){
+        // Optional: briefly show zeros, then redirect
+        elD.textContent = '00'; elH.textContent = '00'; elM.textContent = '00'; elS.textContent = '00';
+        setTimeout(()=>{ location.href = REDIRECT_TO; }, 900);
+        return;
+      }
+      const s = Math.floor(diff/1000);
+      const days = Math.floor(s / 86400);
+      const hours = Math.floor((s % 86400) / 3600);
+      const mins = Math.floor((s % 3600) / 60);
+      const secs = s % 60;
+      elD.textContent = pad(days);
+      elH.textContent = pad(hours);
+      elM.textContent = pad(mins);
+      elS.textContent = pad(secs);
+    }
+    setInterval(tick, 1000); tick();
+
+    // Footer year
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

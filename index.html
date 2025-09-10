@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sins of the Past — Intro</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;height:100%;background:#000;color:#fff;font-family:'Press Start 2P',monospace;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column}
+#grid{position:absolute;inset:0;background:
+  linear-gradient(#111 1px,transparent 1px),
+  linear-gradient(90deg,#111 1px,transparent 1px);
+background-size:40px 40px;opacity:.35;transform:perspective(900px) rotateX(60deg)}
+#logo{max-width:min(420px,70vw);margin:0 16px 18px;z-index:1;animation:glow 2s ease-in-out infinite alternate}
+@keyframes glow{from{text-shadow:0 0 8px #ff5a5a,0 0 16px #00e0c6}to{text-shadow:0 0 20px #ff5a5a,0 0 40px #00e0c6}}
+#press{font-size:14px;letter-spacing:2px;margin-top:16px;display:none;z-index:1;animation:blink 1s steps(2,start) infinite}
+@keyframes blink{to{visibility:hidden}}
+.fade{animation:fadeout .8s forwards}
+@keyframes fadeout{to{opacity:0;visibility:hidden}}
+
+.card{z-index:2;width:min(480px,92vw);background:rgba(14,14,20,.9);border:2px solid #00e0c6;border-radius:12px;padding:16px}
+.card p{font-size:11px;line-height:1.6;margin:0 0 8px}
+label{display:block;font-size:11px;margin:8px 0 4px;opacity:.9}
+input[type=text]{width:100%;padding:8px;border-radius:8px;border:1px solid #444;background:#0b0c13;color:#fff;font-family:inherit;font-size:12px}
+.btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{padding:8px 12px;border-radius:8px;border:1px solid #444;background:#0b0c13;color:#fff;cursor:pointer}
+.btn.primary{border-color:transparent;background:#ff5a5a;color:#111;font-weight:bold}
+.msg{display:none;font-size:10px;color:#aaa;margin-top:6px}
+
+.score{display:flex;justify-content:space-between;align-items:center;border:1px solid #333;border-radius:10px;padding:10px 12px;margin:8px 0 12px}
+.score b{font-size:12px}
+.badge{display:inline-block;padding:4px 8px;border-radius:8px;border:1px solid #444;font-size:10px}
+.util{position:fixed;bottom:10px;left:10px;z-index:3;font-size:10px;opacity:.7}
+.util a{color:#9cf;text-decoration:underline;cursor:pointer}
+.footer-hint{position:fixed;bottom:10px;right:10px;z-index:3;font-size:10px;opacity:.6}
+
+/* cover-page cursor (paths here are relative to THIS html file) */
+:root{ --cursor: url('assets/indexgrim.png') 12 12, auto; }
+
+/* apply everywhere except typing fields */
+:where(html, body, *):not(input, textarea, [contenteditable="true"]) {
+  cursor: var(--cursor) !important;
+}
+input, textarea, [contenteditable="true"] { cursor: text !important; }
+
+/* if you keep the visual follower .cursor, make sure it can't block clicks */
+.cursor { pointer-events:none; }
+
+</style>
+</head>
+<body>
+<div id="grid" aria-hidden="true"></div>
+
+<!-- Tip: avoid spaces in filenames on some hosts -->
+<img id="logo" src="assets/SinsF.png" alt="Sins of the Past" onerror="this.style.display='none'">
+
+<!-- First-time question -->
+<div id="sinCard" class="card" role="dialog" aria-labelledby="sinLabel" aria-modal="true">
+  <p id="sinLabel">Before you enter… tell us your <b>last sin</b> </p>
+
+  <label for="sinInput">Type your answer:</label>
+  <input id="sinInput" type="text" placeholder="ex: pride, greed, or your own…" autocomplete="off" autocapitalize="none">
+
+  <div class="btns">
+    <button id="saveBtn" class="btn primary">Save</button>
+    <button id="skipBtn" class="btn">Skip</button>
+  </div>
+
+  <div id="msg" class="msg"></div>
+</div>
+
+<!-- Mini-game (hidden until Skip is clicked) -->
+<div id="rpsGame" class="card" style="display:none;margin-top:20px">
+  <div class="score">
+    <div><b>Best 2 of 3</b> <span id="round" class="badge">Round 1</span></div>
+    <div><span class="badge">You: <b id="pScore">0</b></span> <span class="badge">Reaper: <b id="rScore">0</b></span></div>
+  </div>
+  <p>Refuse to confess? Face the Reaper in <b>Rock · Paper · Scythe</b>!</p>
+  <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+    <button class="btn choice" data-move="rock">🪨 Rock</button>
+    <button class="btn choice" data-move="paper">📜 Paper</button>
+    <button class="btn choice" data-move="scythe">⚔️ Scythe</button>
+  </div>
+  <div id="rpsResult" class="msg" style="margin-top:10px"></div>
+</div>
+
+<div id="press" aria-hidden="true">PRESS START</div>
+
+<div class="util">Not you? <a id="resetLink">reset intro</a></div>
+<div class="footer-hint">Click or press any key to enter.</div>
+
+<script>
+/* ---------- Intro + Mini-game (Best 2 of 3) ---------- */
+const KEY='stp_sin';
+const params = new URLSearchParams(location.search);
+const forceReset = params.get('reset')==='1';
+
+const card  = document.getElementById('sinCard');
+const game  = document.getElementById('rpsGame');
+const press = document.getElementById('press');
+const msg   = document.getElementById('msg');
+const input = document.getElementById('sinInput');
+
+const pScoreEl = document.getElementById('pScore');
+const rScoreEl = document.getElementById('rScore');
+const roundEl  = document.getElementById('round');
+const resultEl = document.getElementById('rpsResult');
+
+let rpsResolved = false; // becomes true after match ends (someone hits 2)
+let pWins = 0, rWins = 0, round = 1;
+
+function showCard(){ card.style.display='block'; game.style.display='none'; press.style.display='none'; input.focus(); }
+function showGame(){ card.style.display='none'; game.style.display='block'; press.style.display='none'; }
+function showPress(){ card.style.display='none'; game.style.display='none'; press.style.display='block'; }
+
+function resetMatch(){
+  pWins = 0; rWins = 0; round = 1; rpsResolved = false;
+  pScoreEl.textContent = '0';
+  rScoreEl.textContent = '0';
+  roundEl.textContent  = 'Round 1';
+  resultEl.textContent = '';
+  resultEl.style.display = 'none';
+}
+
+// init
+const saved = localStorage.getItem(KEY);
+if (!saved || forceReset){ showCard(); } else { showPress(); }
+
+// save
+document.getElementById('saveBtn').onclick=()=>{
+  const val=input.value.trim();
+  if(!val){
+    msg.textContent="Please type something (or skip).";
+    msg.style.display='block';
+    return;
+  }
+  localStorage.setItem(KEY,val);
+  msg.textContent="Saved: "+val;
+  msg.style.display='block';
+  setTimeout(()=> showPress(), 700);
+};
+// skip → play mini-game
+document.getElementById('skipBtn').onclick=()=>{
+  localStorage.setItem(KEY,'none');
+  resetMatch();
+  showGame();
+};
+
+// ENTER SITE only when:
+// - press screen is visible, OR
+// - mini-game ended (rpsResolved = true)
+function enter(){
+  const onCard  = card.style.display!=='none';
+  const onGame  = game.style.display!=='none';
+  const onPress = press.style.display!=='none';
+
+  if (onCard) return;
+  if (onGame && !rpsResolved) return;
+
+  sessionStorage.setItem('stp_from_cover','1'); // for homepage music
+  document.body.classList.add('fade');
+  setTimeout(()=>window.location.href='index.html',700);
+}
+document.body.addEventListener('click',enter);
+document.body.addEventListener('keydown',enter);
+
+// reset helper
+document.getElementById('resetLink').onclick=(e)=>{
+  e.preventDefault();
+  localStorage.removeItem(KEY);
+  resetMatch();
+  showCard();
+};
+
+/* ----- Best-of-3 Mini-game ----- */
+const moves = ["rock","paper","scythe"];
+function resultFor(p,c){
+  if (p===c) return "draw";
+  if (p==="rock" && c==="scythe") return "win";
+  if (p==="scythe" && c==="paper") return "win";
+  if (p==="paper" && c==="rock") return "win";
+  return "lose";
+}
+
+function updateHUD(){
+  pScoreEl.textContent = String(pWins);
+  rScoreEl.textContent = String(rWins);
+  roundEl.textContent  = `Round ${round}`;
+}
+
+function resolveRound(player){
+  const comp = moves[Math.floor(Math.random()*moves.length)];
+  const res  = resultFor(player, comp);
+
+  resultEl.style.display = "block";
+  if (res === "draw"){
+    resultEl.innerHTML = `You chose <b>${player}</b>, Reaper chose <b>${comp}</b> — <b>Draw</b>. Play again.`;
+    return; // no score change, same round number
+  }
+
+  if (res === "win"){ pWins++; }
+  else { rWins++; }
+
+  resultEl.innerHTML = `You chose <b>${player}</b>, Reaper chose <b>${comp}</b> — ` +
+    (res==="win" ? "<b>You win the round.</b>" : "<b>Reaper wins the round.</b>");
+
+  // Match end?
+  if (pWins === 2 || rWins === 2){
+    rpsResolved = true;
+    const who = (pWins === 2) ? "🔥 You win — the Reaper grants you passage!" : "💀 The Reaper claims victory.";
+    resultEl.innerHTML += `<br>${who}`;
+    setTimeout(()=>enter(), 1100);
+    return;
+  }
+
+  // Next round
+  round++;
+  updateHUD();
+}
+
+document.querySelectorAll('.choice').forEach(btn=>{
+  btn.onclick=()=> resolveRound(btn.dataset.move);
+});
+
+// Initial HUD
+updateHUD();
+</script>
+
+<!-- Optional: only if you need global JS here -->
+<script src="app.js"></script>
+<div class="cursor"></div>
+<script>
+  const cursor = document.querySelector('.cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+</script>
+</body>
+</html>

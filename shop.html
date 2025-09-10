@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sins of the Past — Shop</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/cursor-shop.css"><!-- keep last if it overrides -->
+  <style>
+    /* Card image anchors */
+    .card .img{display:block;aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:#0f1117}
+    .card .img img{width:100%;height:100%;object-fit:cover;display:block}
+  </style>
+</head>
+<body class="page-shop">
+
+<header class="header" role="banner">
+  <a class="brand" href="home.html" aria-label="Go to Home">
+    <img src="assets/lgo.png" alt="Sins of the Past" onerror="this.style.display='none'">
+    <span>Sins of the Past</span>
+  </a>
+
+  <nav class="nav" aria-label="Primary">
+    <a href="home.html">Home</a>
+    <a href="shop.html" class="active" aria-current="page">Shop</a>
+    <a href="about.html">About</a>
+    <a href="arcade.html">Arcade</a>
+    <a href="contact.html">Contact</a>
+    <a href="care.html">Care</a>
+  </nav>
+
+  <a href="cart.html" id="cartLink" aria-label="View cart">
+    Cart <span id="cartCount" style="opacity:.8"></span>
+  </a>
+</header>
+
+<main id="main" tabindex="-1">
+  <section class="section">
+    <h1>Shop</h1>
+    <p class="muted" style="max-width:900px;margin:8px auto 22px">
+      Click any product image to see its detail page. Buttons can hook into your cart logic in <code>app.js</code>.
+    </p>
+
+    <div class="grid">
+
+      <!-- Product 1: Sloppiest Toppy (tee example) -->
+      <article class="card tilt">
+        <a href="sloppiest-toppy.html" class="img" aria-label="View Sloppiest Toppy"
+           style="background:url('assets/Sloppiesttopy.png') center/cover no-repeat"></a>
+        <div class="meta">
+          <h3>Sloppiest Toppy</h3>
+          <p class="muted">Oversized 240gsm cotton / boxy fit</p>
+          <div class="buy">
+            <span class="price">$500.00</span>
+            <button
+              class="btn small add-to-cart"
+              data-id="sloppiest-toppy-tee"
+              data-name="Sloppiest Toppy"
+              data-price="500.00"
+              data-img="assets/Sloppiesttopy.png">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Product 2: Black Diamond VVS Chain -->
+      <article class="card tilt">
+        <a href="black-diamond-vvs-chain.html" class="img" aria-label="View Black Diamond VVS Chain"
+           style="background:url('assets/BlackDiamond-VVS-999-sterling-silver.png') center/cover no-repeat"></a>
+        <div class="meta">
+          <h3>Black Diamond VVS Chain</h3>
+          <p class="muted">925 sterling silver — iced finish</p>
+          <div class="buy">
+            <span class="price">$1,200.00</span>
+            <button
+              class="btn small add-to-cart"
+              data-id="black-diamond-vvs-chain"
+              data-name="Black Diamond VVS Chain"
+              data-price="1200.00"
+              data-img="assets/BlackDiamond-VVS-999-sterling-silver.png">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Product 3: Pusillanimous heels -->
+      <article class="card tilt">
+        <a href="pusillanimous-heels.html" class="img" aria-label="View Pusillanimous Heels"
+           style="background:url('assets/Pusillanimous.png') center/cover no-repeat"></a>
+        <div class="meta">
+          <h3>Pusillanimous</h3>
+          <p class="muted">6&quot; stiletto — bold red leather with white platform</p>
+          <p>Dare to be unapologetic. Glossy finish with outsole kiss emboss and “Not Sorry.”</p>
+          <ul class="specs" style="margin:8px 0 12px 18px">
+            <li>Origin: Le Marche, Italy (The Shoe Valley)</li>
+            <li>Upper: Italian leather/suede</li>
+            <li>Insole: Organic cotton + leather</li>
+            <li>Construction: Handcrafted; precision stitching</li>
+            <li>Sole: Technician-designed comfort sole</li>
+          </ul>
+          <div class="buy">
+            <span class="price">$500.00</span>
+            <button
+              class="btn small add-to-cart"
+              data-id="pusillanimous-heels"
+              data-name="Pusillanimous"
+              data-price="500.00"
+              data-img="assets/Pusillanimous.png">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Product 4: We Are The Fallen Angels Poster -->
+<article class="card tilt">
+  <a href="onlythefreeposter.html" class="img" aria-label="View We Are The Fallen Angels Poster"
+     style="background:url('assets/onlythefree.JPG') center/cover no-repeat"></a>
+  <div class="meta">
+    <h3>We Are The Fallen Angels</h3>
+    <p class="muted">Archival poster — trippy visuals</p>
+    <ul class="specs" style="margin:8px 0 12px 18px">
+      <li>Archival print, acid-free paper</li>
+      <li>Matte or glossy finish</li>
+      <li>Precision color, high fidelity</li>
+    </ul>
+    <div class="buy">
+      <span class="price">$50.00</span>
+      <button
+        class="btn small add-to-cart"
+        data-id="only-the-free-poster"
+        data-name="We Are The Fallen Angels"
+        data-price="50.00"
+        data-img="assets/onlythefree.JPG">
+        Add to Bag
+      </button>
+    </div>
+  </div>
+</article>
+
+
+      <!-- Add more <article class="card tilt"> … </article> here as needed -->
+
+      <!-- Product: Raw Selvedge Denim -->
+<article class="card tilt">
+  <a href="rawdenim.html" class="img" aria-label="View Raw Selvedge Denim"
+     style="background:url('assets/rawdenim.png') center/cover no-repeat"></a>
+  <div class="meta">
+    <h3><a href="rawdenim.html" class="link-plain">Raw Selvedge Denim pants</a></h3>
+    <p class="muted">13.5oz Japanese selvedge — slim/straight</p>
+    <div class="buy">
+      <span class="price">$380.00</span>
+      <button
+        class="btn small add-to-cart"
+        data-id="raw-selvedge-denim"
+        data-name="Raw Selvedge Denim"
+        data-price="280.00"
+        data-img="assets/raw-selvedge-denim.jpg">
+        Add to Bag
+      </button>
+    </div>
+  </div>
+</article>
+
+    </div>
+  </section>
+</main>
+
+<footer class="footer">© <span id="y"></span> Sins of the Past</footer>
+
+<script src="app.js" defer></script>
+<script>
+  // Footer year
+  (function(){
+    var y = document.getElementById('y');
+    if (y) y.textContent = new Date().getFullYear();
+  })();
+</script>
+
+<p class="muted" style="text-align:center;margin-top:6px">
+  Footwear handcrafted in Le Marche, Italy — The Shoe Valley (since 1901).
+</p>
+
+</body>
+</html>
