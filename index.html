@@ -159,10 +159,9 @@ function enter(){
 
   sessionStorage.setItem('stp_from_cover','1'); // for homepage music
   document.body.classList.add('fade');
-  setTimeout(()=>window.location.href='index.html',700);
+  setTimeout(()=>window.location.replace('./home.html'),700); // ✅ redirect to home.html
 }
-document.body.addEventListener('click',enter);
-document.body.addEventListener('keydown',enter);
+
 
 // reset helper
 document.getElementById('resetLink').onclick=(e)=>{
