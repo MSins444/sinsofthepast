@@ -21,7 +21,7 @@ background-size:40px 40px;opacity:.35;transform:perspective(900px) rotateX(60deg
 .card{z-index:2;width:min(480px,92vw);background:rgba(14,14,20,.9);border:2px solid #00e0c6;border-radius:12px;padding:16px}
 .card p{font-size:11px;line-height:1.6;margin:0 0 8px}
 label{display:block;font-size:11px;margin:8px 0 4px;opacity:.9}
-input[type=text]{width:100%;padding:8px;border-radius:8px;border:1px solid #444;background:#0b0c13;color:#fff;font-family:inherit;font-size:12px}
+input[type=text],input[type=email]{width:100%;padding:8px;border-radius:8px;border:1px solid #444;background:#0b0c13;color:#fff;font-family:inherit;font-size:12px}
 .btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 .btn{padding:8px 12px;border-radius:8px;border:1px solid #444;background:#0b0c13;color:#fff;cursor:pointer}
 .btn.primary{border-color:transparent;background:#ff5a5a;color:#111;font-weight:bold}
@@ -30,15 +30,13 @@ input[type=text]{width:100%;padding:8px;border-radius:8px;border:1px solid #444;
 .score{display:flex;justify-content:space-between;align-items:center;border:1px solid #333;border-radius:10px;padding:10px 12px;margin:8px 0 12px}
 .score b{font-size:12px}
 .badge{display:inline-block;padding:4px 8px;border-radius:8px;border:1px solid #444;font-size:10px}
-.util{position:fixed;bottom:10px;left:10px;z-index:3;font-size:10px;opacity:.7}
+.util{position:fixed;bottom:10px;left:10px;z-index:3;font-size:10px;opacity:.8}
 .util a{color:#9cf;text-decoration:underline;cursor:pointer}
 .footer-hint{position:fixed;bottom:10px;right:10px;z-index:3;font-size:10px;opacity:.6}
 
 /* cover-page cursor */
 :root{ --cursor: url('assets/indexgrim.png') 12 12, auto; }
-:where(html, body, *):not(input, textarea, [contenteditable="true"]) {
-  cursor: var(--cursor) !important;
-}
+:where(html, body, *):not(input, textarea, [contenteditable="true"]) { cursor: var(--cursor) !important; }
 input, textarea, [contenteditable="true"] { cursor: text !important; }
 .cursor { pointer-events:none; }
 </style>
@@ -49,8 +47,25 @@ input, textarea, [contenteditable="true"] { cursor: text !important; }
 <!-- Rotating Logo -->
 <img id="logo" src="assets/SinsF.png" alt="Sins of the Past">
 
+<!-- Create Account (shown if no account found) -->
+<div id="acctCard" class="card" role="dialog" aria-labelledby="acctLabel" aria-modal="true" style="display:none">
+  <p id="acctLabel"><b>Create your account</b> to enter Sins of the Past.</p>
+
+  <label for="acctName">Display name</label>
+  <input id="acctName" type="text" placeholder="ex: Ari, Jah" autocomplete="name">
+
+  <label for="acctEmail">Email</label>
+  <input id="acctEmail" type="email" placeholder="you@example.com" autocomplete="email">
+
+  <div class="btns">
+    <button id="acctCreateBtn" class="btn primary">Create account</button>
+    <button id="acctSkipBtn" class="btn" title="Skip account on this device">Skip</button>
+  </div>
+  <div id="acctMsg" class="msg"></div>
+</div>
+
 <!-- First-time question -->
-<div id="sinCard" class="card" role="dialog" aria-labelledby="sinLabel" aria-modal="true">
+<div id="sinCard" class="card" role="dialog" aria-labelledby="sinLabel" aria-modal="true" style="display:none">
   <p id="sinLabel">Before you enter… tell us your <b>last sin</b> </p>
   <label for="sinInput">Type your answer:</label>
   <input id="sinInput" type="text" placeholder="ex: pride, greed, or your own…" autocomplete="off" autocapitalize="none">
@@ -79,58 +94,150 @@ input, textarea, [contenteditable="true"] { cursor: text !important; }
 <!-- Press start -->
 <div id="press" role="button" tabindex="0" aria-label="Press start to enter">PRESS START</div>
 
-<div class="util">Not you? <a id="resetLink">reset intro</a></div>
+<div class="util">
+  <span id="signedInAs" style="display:none">Signed in as <b id="who"></b> — <a id="switchLink">switch</a></span>
+  <div><a id="resetLink">reset intro</a></div>
+</div>
 <div class="footer-hint">Click or press any key to enter.</div>
 
 <script>
 /* ---------- Rotating Logo Images ---------- */
 const logoImages = [
   "assets/SinsF.png",
-  "assets/SinsFF.png"
+  "assets/SinsFF.png"  // add more later if you want
 ];
 const logoEl = document.getElementById("logo");
 let logoIndex = 0;
-function swapLogo(i){
-  logoEl.src = logoImages[i] + "?t=" + Date.now();
-}
-setInterval(()=>{
-  logoIndex = (logoIndex+1) % logoImages.length;
-  swapLogo(logoIndex);
-}, 3500);
+function swapLogo(i){ logoEl.src = logoImages[i] + "?t=" + Date.now(); }
+setInterval(()=>{ logoIndex = (logoIndex+1) % logoImages.length; swapLogo(logoIndex); }, 3500);
 
-/* ---------- Intro + Mini-game ---------- */
-const KEY='stp_sin';
+/* ---------- Keys ---------- */
+const ACCT_KEY='stp_user';   // {id,name,email,createdAt}
+const SIN_KEY='stp_sin';
+
+/* ---------- Elements ---------- */
+const acctCard=document.getElementById('acctCard');
+const acctName=document.getElementById('acctName');
+const acctEmail=document.getElementById('acctEmail');
+const acctCreateBtn=document.getElementById('acctCreateBtn');
+const acctSkipBtn=document.getElementById('acctSkipBtn');
+const acctMsg=document.getElementById('acctMsg');
+
+const card=document.getElementById('sinCard');
+const game=document.getElementById('rpsGame');
+const press=document.getElementById('press');
+const msg=document.getElementById('msg');
+const input=document.getElementById('sinInput');
+
+const pScoreEl=document.getElementById('pScore');
+const rScoreEl=document.getElementById('rScore');
+const roundEl=document.getElementById('round');
+const resultEl=document.getElementById('rpsResult');
+
+const signedInAs=document.getElementById('signedInAs');
+const whoEl=document.getElementById('who');
+const switchLink=document.getElementById('switchLink');
+
+/* ---------- Show/hide helpers ---------- */
+function show(el){ el.style.display='block'; }
+function hide(el){ el.style.display='none'; }
+
+function showAcct(){ show(acctCard); hide(card); hide(game); hide(press); acctName.focus(); }
+function showCard(){ hide(acctCard); show(card); hide(game); hide(press); input.focus(); }
+function showGame(){ hide(acctCard); hide(card); show(game); hide(press); }
+function showPress(){ hide(acctCard); hide(card); hide(game); show(press); }
+
+/* ---------- Account storage ---------- */
+function loadAcct(){
+  try{ return JSON.parse(localStorage.getItem(ACCT_KEY) || 'null'); }catch(e){ return null; }
+}
+function saveAcct(obj){
+  localStorage.setItem(ACCT_KEY, JSON.stringify(obj));
+  whoEl.textContent = obj.name || obj.email || 'Guest';
+  signedInAs.style.display = 'inline';
+}
+function clearAcct(){
+  localStorage.removeItem(ACCT_KEY);
+  signedInAs.style.display = 'none';
+  whoEl.textContent = '';
+}
+
+/* ---------- Init routing ---------- */
 const params = new URLSearchParams(location.search);
 const forceReset = params.get('reset')==='1';
-const card=document.getElementById('sinCard'), game=document.getElementById('rpsGame'),
-      press=document.getElementById('press'), msg=document.getElementById('msg'),
-      input=document.getElementById('sinInput'),
-      pScoreEl=document.getElementById('pScore'), rScoreEl=document.getElementById('rScore'),
-      roundEl=document.getElementById('round'), resultEl=document.getElementById('rpsResult');
 
+(function init(){
+  const acct = loadAcct();
+  if (!acct || forceReset){
+    showAcct();
+  } else {
+    whoEl.textContent = acct.name || acct.email || 'Guest';
+    signedInAs.style.display = 'inline';
+    const savedSin = localStorage.getItem(SIN_KEY);
+    if (savedSin && !forceReset) showPress(); else showCard();
+  }
+})();
+
+/* ---------- Create account ---------- */
+acctCreateBtn.onclick = ()=>{
+  const name = (acctName.value || '').trim();
+  const email = (acctEmail.value || '').trim();
+  if (!name || !email){
+    acctMsg.textContent = "Please enter both a display name and email.";
+    acctMsg.style.display = 'block';
+    return;
+  }
+  const acctObj = {
+    id: 'stp_'+Math.random().toString(36).slice(2),
+    name, email, createdAt: new Date().toISOString()
+  };
+  saveAcct(acctObj);
+  acctMsg.textContent = "Account created.";
+  acctMsg.style.display = 'block';
+  setTimeout(()=> showCard(), 500);
+};
+// Skip account (not remembered)
+acctSkipBtn.onclick = ()=>{ clearAcct(); showCard(); };
+// Switch account
+switchLink.onclick = (e)=>{ e.preventDefault(); clearAcct(); localStorage.removeItem(SIN_KEY); showAcct(); };
+
+/* ---------- Sin save/skip ---------- */
+document.getElementById('saveBtn').onclick=()=>{
+  const val=input.value.trim();
+  if(!val){
+    msg.textContent="Please type something (or skip).";
+    msg.style.display='block';
+    return;
+  }
+  localStorage.setItem(SIN_KEY,val);
+  msg.textContent="Saved: "+val;
+  msg.style.display='block';
+  setTimeout(()=> showPress(), 700);
+};
+document.getElementById('skipBtn').onclick=()=>{
+  localStorage.setItem(SIN_KEY,'none');
+  resetMatch();
+  showGame();
+};
+
+/* ---------- Mini-game ---------- */
 let rpsResolved=false,pWins=0,rWins=0,round=1;
-function showCard(){card.style.display='block';game.style.display='none';press.style.display='none';input.focus();}
-function showGame(){card.style.display='none';game.style.display='block';press.style.display='none';}
-function showPress(){card.style.display='none';game.style.display='none';press.style.display='block';}
-function resetMatch(){pWins=0;rWins=0;round=1;rpsResolved=false;
-  pScoreEl.textContent='0';rScoreEl.textContent='0';roundEl.textContent='Round 1';resultEl.textContent='';resultEl.style.display='none';}
-const saved=localStorage.getItem(KEY);
-if(!saved||forceReset){showCard();}else{showPress();}
-document.getElementById('saveBtn').onclick=()=>{const val=input.value.trim();
-  if(!val){msg.textContent="Please type something (or skip).";msg.style.display='block';return;}
-  localStorage.setItem(KEY,val);msg.textContent="Saved: "+val;msg.style.display='block';setTimeout(()=>showPress(),700);};
-document.getElementById('skipBtn').onclick=()=>{localStorage.setItem(KEY,'none');resetMatch();showGame();};
-function enter(){
-  if(card.style.display!=='none')return;
-  if(game.style.display!=='none'&&!rpsResolved)return;
-  sessionStorage.setItem('stp_from_cover','1');
-  document.body.classList.add('fade');
-  setTimeout(()=>window.location.replace('./home.html'),700);
+function updateHUD(){
+  if (!pScoreEl) return;
+  pScoreEl.textContent=String(pWins);
+  rScoreEl.textContent=String(rWins);
+  roundEl.textContent=`Round ${round}`;
 }
-document.getElementById('resetLink').onclick=(e)=>{e.preventDefault();localStorage.removeItem(KEY);resetMatch();showCard();};
+function resetMatch(){
+  pWins=0;rWins=0;round=1;rpsResolved=false;
+  if (pScoreEl){
+    pScoreEl.textContent='0'; rScoreEl.textContent='0';
+    roundEl.textContent='Round 1';
+    resultEl.textContent=''; resultEl.style.display='none';
+  }
+}
 const moves=["rock","paper","scythe"];
 function resultFor(p,c){if(p===c)return"draw";if(p==="rock"&&c==="scythe")return"win";if(p==="scythe"&&c==="paper")return"win";if(p==="paper"&&c==="rock")return"win";return"lose";}
-function updateHUD(){pScoreEl.textContent=String(pWins);rScoreEl.textContent=String(rWins);roundEl.textContent=`Round ${round}`;}
 function resolveRound(player){
   const comp=moves[Math.floor(Math.random()*moves.length)],res=resultFor(player,comp);
   resultEl.style.display="block";
@@ -143,6 +250,17 @@ function resolveRound(player){
 document.querySelectorAll('.choice').forEach(btn=>btn.onclick=()=>resolveRound(btn.dataset.move));
 updateHUD();
 
+/* ---------- Enter site (gated by account/sin/game) ---------- */
+function enter(){
+  if (!loadAcct()){ showAcct(); return; }       // must have/skip account
+  if (acctCard.style.display!=='none') return;  // still on account screen
+  if (card.style.display!=='none') return;      // still on sin screen
+  if (game.style.display!=='none' && !rpsResolved) return; // finish game
+  sessionStorage.setItem('stp_from_cover','1');
+  document.body.classList.add('fade');
+  setTimeout(()=>window.location.replace('./home.html'),700);
+}
+
 /* ---------- Seamless PRESS START Entry ---------- */
 ['click','touchstart'].forEach(evt=>{
   document.addEventListener(evt,()=>enter(),{passive:true});
@@ -154,6 +272,20 @@ document.addEventListener('keydown',(e)=>{
 });
 press.addEventListener('click',enter);
 press.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' ')enter();});
+
+/* ---------- Reset intro (clear sin; keep account) ---------- */
+document.getElementById('resetLink').onclick=(e)=>{
+  e.preventDefault();
+  localStorage.removeItem(SIN_KEY);
+  resetMatch();
+  loadAcct() ? showCard() : showAcct();
+};
+
+/* ---------- Initial route if direct loaded ---------- */
+(function routeOnLoad(){
+  const acct = loadAcct();
+  if (!acct) showAcct();
+})();
 </script>
 
 <script src="app.js"></script>
