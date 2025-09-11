@@ -275,24 +275,36 @@
       if (y) y.textContent = new Date().getFullYear();
     })();
 
-    // ===== Rotate hero art per-visit (sets CSS var; avoids double background)
-    (function rotateHero(){
+        // ===== Rotate hero art slideshow =====
+    (function rotateHeroSlideshow(){
       const hero = document.querySelector('.hero');
       if (!hero) return;
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
       const picks = ['assets/Sinsbg.png','assets/sinsbgg.png','assets/mngs.png'];
-      const src = picks[Math.floor(Math.random()*picks.length)];
+      let idx = 0;
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      const apply = () => {
-        hero.style.setProperty('--hero-url', `url("${src}")`);
-      };
+      function showNext(){
+        const src = picks[idx % picks.length];
+        idx++;
 
-      if (reduced) { apply(); return; }
+        const apply = () => {
+          hero.style.setProperty('--hero-url', `url("${src}")`);
+        };
 
-      // Preload for smooth swap
-      const img = new Image();
-      img.onload = apply;
-      img.src = src;
+        if (reduced){ apply(); return; }
+
+        // Preload before applying
+        const img = new Image();
+        img.onload = apply;
+        img.src = src;
+      }
+
+      // Show first image immediately
+      showNext();
+
+      // Then cycle every 6 seconds
+      setInterval(showNext, 6000);
     })();
 
     // ===== Reveal on scroll (cards/banner/hero inner)
