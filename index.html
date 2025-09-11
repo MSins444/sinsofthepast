@@ -45,14 +45,13 @@ input, textarea, [contenteditable="true"] { cursor: text !important; }
 
 /* if you keep the visual follower .cursor, make sure it can't block clicks */
 .cursor { pointer-events:none; }
-
 </style>
 </head>
 <body>
 <div id="grid" aria-hidden="true"></div>
 
 <!-- Rotating Logo -->
-<img id="logo" src="assets/SinsF.png" alt="Sins of the Past" onerror="this.style.display='none'">
+<img id="logo" src="assets/SinsF.png" alt="Sins of the Past">
 
 <!-- First-time question -->
 <div id="sinCard" class="card" role="dialog" aria-labelledby="sinLabel" aria-modal="true">
@@ -90,18 +89,35 @@ input, textarea, [contenteditable="true"] { cursor: text !important; }
 <div class="footer-hint">Click or press any key to enter.</div>
 
 <script>
-/* ---------- Rotating Logo Images ---------- */
+/* ---------- Rotating Logo Images (preload + error-skip + cache-bust) ---------- */
 const logoImages = [
   "assets/SinsF.png",
-  "assets/SinsFF.png"   // replace/add more logos here
+  "assets/SinsFF.png" // make sure this file exists exactly at /assets/
 ];
-let logoIndex = 0;
 const logoEl = document.getElementById("logo");
+let logoIndex = 0;
+const intervalMs = 3500;
 
+function swapTo(index){
+  const raw = logoImages[index];
+  const url = raw + "?t=" + Date.now(); // cache-buster so you always see updates
+  const img = new Image();
+  img.onload = () => { logoEl.style.display = ""; logoEl.src = url; };
+  img.onerror = () => {
+    console.warn("Image failed to load:", raw);
+    // skip the broken one and try the next after a short pause
+    logoIndex = (index + 1) % logoImages.length;
+    setTimeout(() => swapTo(logoIndex), 250);
+  };
+  img.src = url;
+}
+
+// start rotation
+swapTo(logoIndex);
 setInterval(() => {
   logoIndex = (logoIndex + 1) % logoImages.length;
-  logoEl.src = logoImages[logoIndex];
-}, 3500);
+  swapTo(logoIndex);
+}, intervalMs);
 
 /* ---------- Intro + Mini-game (Best 2 of 3) ---------- */
 const KEY='stp_sin';
