@@ -173,10 +173,41 @@ updateHUD();
 
 /* ---------- Enter ---------- */
 function enter(){ if(!loadAcct()){ showAcct(); return; } if(acctCard.style.display!=='none')return; if(card.style.display!=='none')return; if(game.style.display!=='none'&&!rpsResolved)return; sessionStorage.setItem('stp_from_cover','1'); document.body.classList.add('fade'); setTimeout(()=>window.location.replace('./home.html'),700); }
-['click','touchstart'].forEach(evt=>{ document.addEventListener(evt,()=>enter(),{passive:true}); });
-document.addEventListener('keydown',(e)=>{ const ignore=['Shift','Alt','Control','Meta','CapsLock','Tab']; if(ignore.includes(e.key))return; enter(); });
-press.addEventListener('click',enter); press.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' ')enter();});
-document.getElementById('resetLink').onclick=(e)=>{ e.preventDefault(); localStorage.removeItem(SIN_KEY); resetMatch(); loadAcct()?showCard():showAcct(); };
+
+/* ---------- Seamless PRESS START Entry (guarded so inputs work) ---------- */
+function isTypingTarget(el){
+  return el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
+}
+function isInteractive(el){
+  if (!el) return false;
+  const tag = el.tagName;
+  return ['INPUT','TEXTAREA','BUTTON','A','SELECT','LABEL'].includes(tag) || el.isContentEditable;
+}
+// Click/tap anywhere EXCEPT on interactive elements
+['click','touchstart'].forEach(evt=>{
+  document.addEventListener(evt,(e)=>{
+    if (isInteractive(e.target)) return;
+    enter();
+  },{passive:true});
+});
+// Keys: ignore when typing in fields
+document.addEventListener('keydown',(e)=>{
+  if (isTypingTarget(e.target)) return;
+  const ignore=['Shift','Alt','Control','Meta','CapsLock','Tab'];
+  if (ignore.includes(e.key)) return;
+  enter();
+});
+// PRESS START explicit
+press.addEventListener('click',enter);
+press.addEventListener('keydown',(e)=>{ if(e.key==='Enter'||e.key===' ') enter(); });
+
+/* ---------- Reset intro ---------- */
+document.getElementById('resetLink').onclick=(e)=>{
+  e.preventDefault();
+  localStorage.removeItem(SIN_KEY);
+  resetMatch();
+  loadAcct()?showCard():showAcct();
+};
 </script>
 
 <script src="app.js"></script>
