@@ -107,6 +107,94 @@
     /* Tiny bump on cart count update */
     #cartCount.bump{ animation:bump .35s ease; }
     @keyframes bump{ 0%{transform:scale(1)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
+
+    /* ===== MOBILE FIX PATCH ===== */
+@media (max-width: 640px){
+
+  /* Use dynamic viewport units so the iOS URL bar doesn’t crush the hero */
+  .hero{
+    min-height: 68dvh;          /* better than 68vh on mobile Safari */
+    padding: 5rem 1rem;         /* less padding on small screens */
+    background-position: center top; /* keeps focus higher for tall images */
+  }
+
+  /* Safer heading scale if base.css is aggressive */
+  .hero h1{
+    font-size: clamp(28px, 8vw, 40px);
+    line-height: 1.05;
+    letter-spacing: .2px;
+    margin-bottom: .5rem;
+  }
+  .hero p.muted{ font-size: 14px; }
+
+  /* Stack the hero buttons instead of side-by-side overflow */
+  .hero .inner{
+    display: grid;
+    gap: 10px;
+    justify-items: center;
+  }
+  .hero .btn{
+    width: 100%;
+    max-width: 340px;
+    text-align: center;
+    margin: 0 !important;   /* kill inline left margin on 2nd button */
+  }
+
+  /* Header: allow wrapping and keep things tappable */
+  .header{
+    gap: 8px;
+    padding-inline: 12px;
+    flex-wrap: wrap;
+  }
+  .header .brand span{ font-size: 16px; }
+  .header .nav{
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;        /* horizontal scroll if it doesn’t fit */
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .header .nav a{
+    flex: 0 0 auto;
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+  #cartLink{ margin-left: auto; }
+
+  /* Campaign banner: avoid weird aspect squish */
+  .banner{ margin: 28px 0; }
+  .banner img{
+    height: auto;            /* let it size by width */
+    max-height: none;        /* remove the desktop cap */
+  }
+
+  /* Product grid → 1 column on phones */
+  .grid{
+    display: grid;           /* in case base.css sets it differently */
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+  .card .img{ aspect-ratio: 3/4; } /* a bit taller on phones */
+
+  /* Kill hover tilt on touch (prevents “jitter”) */
+  @media (pointer: coarse){
+    .card.tilt:hover{ transform:none; box-shadow:none; }
+  }
+
+  /* Marquee: keep in-bounds on small screens */
+  .marquee{ overflow:hidden; }
+  .marquee .track{ white-space: nowrap; }
+
+  /* Footer spacing and tiny text tweaks */
+  .footer{ padding: 20px 12px; font-size: 14px; }
+}
+
+/* Extra-tall phones (foldables/Plus/Max) – nudge hero a bit taller */
+@media (max-width: 640px) and (min-height: 800px){
+  .hero{ min-height: 72dvh; }
+}
+
   </style>
 </head>
 
