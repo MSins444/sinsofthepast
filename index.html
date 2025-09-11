@@ -51,7 +51,7 @@ input, textarea, [contenteditable="true"] { cursor: text !important; }
 <body>
 <div id="grid" aria-hidden="true"></div>
 
-<!-- Tip: avoid spaces in filenames on some hosts -->
+<!-- Rotating Logo -->
 <img id="logo" src="assets/SinsF.png" alt="Sins of the Past" onerror="this.style.display='none'">
 
 <!-- First-time question -->
@@ -90,6 +90,19 @@ input, textarea, [contenteditable="true"] { cursor: text !important; }
 <div class="footer-hint">Click or press any key to enter.</div>
 
 <script>
+/* ---------- Rotating Logo Images ---------- */
+const logoImages = [
+  "assets/SinsF.png",
+  "assets/SinsAlt.png"   // replace/add more logos here
+];
+let logoIndex = 0;
+const logoEl = document.getElementById("logo");
+
+setInterval(() => {
+  logoIndex = (logoIndex + 1) % logoImages.length;
+  logoEl.src = logoImages[logoIndex];
+}, 3500);
+
 /* ---------- Intro + Mini-game (Best 2 of 3) ---------- */
 const KEY='stp_sin';
 const params = new URLSearchParams(location.search);
@@ -106,7 +119,7 @@ const rScoreEl = document.getElementById('rScore');
 const roundEl  = document.getElementById('round');
 const resultEl = document.getElementById('rpsResult');
 
-let rpsResolved = false; // becomes true after match ends (someone hits 2)
+let rpsResolved = false;
 let pWins = 0, rWins = 0, round = 1;
 
 function showCard(){ card.style.display='block'; game.style.display='none'; press.style.display='none'; input.focus(); }
@@ -146,9 +159,6 @@ document.getElementById('skipBtn').onclick=()=>{
   showGame();
 };
 
-// ENTER SITE only when:
-// - press screen is visible, OR
-// - mini-game ended (rpsResolved = true)
 function enter(){
   const onCard  = card.style.display!=='none';
   const onGame  = game.style.display!=='none';
@@ -157,13 +167,11 @@ function enter(){
   if (onCard) return;
   if (onGame && !rpsResolved) return;
 
-  sessionStorage.setItem('stp_from_cover','1'); // for homepage music
+  sessionStorage.setItem('stp_from_cover','1');
   document.body.classList.add('fade');
-  setTimeout(()=>window.location.replace('./home.html'),700); // ✅ redirect to home.html
+  setTimeout(()=>window.location.replace('./home.html'),700);
 }
 
-
-// reset helper
 document.getElementById('resetLink').onclick=(e)=>{
   e.preventDefault();
   localStorage.removeItem(KEY);
@@ -171,7 +179,6 @@ document.getElementById('resetLink').onclick=(e)=>{
   showCard();
 };
 
-/* ----- Best-of-3 Mini-game ----- */
 const moves = ["rock","paper","scythe"];
 function resultFor(p,c){
   if (p===c) return "draw";
@@ -194,7 +201,7 @@ function resolveRound(player){
   resultEl.style.display = "block";
   if (res === "draw"){
     resultEl.innerHTML = `You chose <b>${player}</b>, Reaper chose <b>${comp}</b> — <b>Draw</b>. Play again.`;
-    return; // no score change, same round number
+    return;
   }
 
   if (res === "win"){ pWins++; }
@@ -203,7 +210,6 @@ function resolveRound(player){
   resultEl.innerHTML = `You chose <b>${player}</b>, Reaper chose <b>${comp}</b> — ` +
     (res==="win" ? "<b>You win the round.</b>" : "<b>Reaper wins the round.</b>");
 
-  // Match end?
   if (pWins === 2 || rWins === 2){
     rpsResolved = true;
     const who = (pWins === 2) ? "🔥 You win — the Reaper grants you passage!" : "💀 The Reaper claims victory.";
@@ -212,7 +218,6 @@ function resolveRound(player){
     return;
   }
 
-  // Next round
   round++;
   updateHUD();
 }
@@ -221,11 +226,9 @@ document.querySelectorAll('.choice').forEach(btn=>{
   btn.onclick=()=> resolveRound(btn.dataset.move);
 });
 
-// Initial HUD
 updateHUD();
 </script>
 
-<!-- Optional: only if you need global JS here -->
 <script src="app.js"></script>
 <div class="cursor"></div>
 <script>
