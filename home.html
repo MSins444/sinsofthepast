@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="assets/Sinsbg.png">
+  <link rel="preload" as="image" href="assets/sinsbgg.png">
+  <link rel="preload" as="image" href="assets/mngs.png">
 
   <!-- Shared site styles -->
   <link rel="stylesheet" href="css/base.css?v=2">
@@ -22,15 +24,14 @@
       opacity:.5; transform:translate(-50%,-50%); z-index:9999; pointer-events:none;
     }
 
-    /* ===== Page background subtle texture ===== */
+    /* ===== Page background subtle texture ONLY (no photo here) ===== */
     body.page-home{
       background:
         radial-gradient(1200px 600px at 50% -200px, rgba(255,255,255,.04), transparent 60%),
-        url('assets/Sinsbg.jpg') center/auto repeat,
         var(--bg);
     }
 
-    /* ===== HERO ===== */
+    /* ===== HERO (image provided by JS via CSS var) ===== */
     .hero{
       position: relative;
       min-height: 68vh;
@@ -39,10 +40,17 @@
       text-align: center;
       padding: 8rem 1.25rem;
       color: var(--ink);
-      background:
+
+      /* Layer 1: gradient, Layer 2: image from JS */
+      background-image:
         linear-gradient(to bottom, rgba(10,11,15,.35), rgba(10,11,15,.75)),
-        url('assets/Sinsbg.png') center/cover no-repeat;
-      transition: background-image .6s ease; /* smooth swap when we rotate */
+        var(--hero-url, none);
+      background-size: auto, cover;
+      background-repeat: no-repeat, no-repeat;
+      background-position: center, center;
+
+      /* Smooth swap when we rotate */
+      transition: background-image .6s ease;
     }
     .hero .inner{ max-width: 820px }
 
@@ -267,22 +275,23 @@
       if (y) y.textContent = new Date().getFullYear();
     })();
 
-    // ===== Rotate hero art per-visit (smooth; respects reduced motion)
+    // ===== Rotate hero art per-visit (sets CSS var; avoids double background)
     (function rotateHero(){
       const hero = document.querySelector('.hero');
       if (!hero) return;
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const picks = ['assets/Sinsbg.png','assets/sinsbgg.png','assets/mngs.png'];
       const src = picks[Math.floor(Math.random()*picks.length)];
-      if (reduced) {
-        hero.style.background = `linear-gradient(to bottom, rgba(10,11,15,.35), rgba(10,11,15,.75)), url('${src}') center/cover no-repeat`;
-        return;
-      }
-      // pre-swap for smooth transition
-      const img = new Image();
-      img.onload = () => {
-        hero.style.background = `linear-gradient(to bottom, rgba(10,11,15,.35), rgba(10,11,15,.75)), url('${src}') center/cover no-repeat`;
+
+      const apply = () => {
+        hero.style.setProperty('--hero-url', `url("${src}")`);
       };
+
+      if (reduced) { apply(); return; }
+
+      // Preload for smooth swap
+      const img = new Image();
+      img.onload = apply;
       img.src = src;
     })();
 
