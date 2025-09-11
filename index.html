@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sins of the Past — Intro</title>
+<link rel="preload" as="image" href="assets/SinsF.png"><!-- Preload first logo -->
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
 html,body{margin:0;height:100%;background:#000;color:#fff;font-family:'Press Start 2P',monospace;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column}
@@ -21,8 +22,8 @@ background-size:40px 40px;opacity:.35;transform:perspective(900px) rotateX(60deg
   transition:opacity .7s ease; opacity:0; pointer-events:none;
   image-rendering:auto;
 }
-/* start layer visible */
 .logoLayer.visible{ opacity:1; }
+
 /* neon glow */
 #logoWrap .logoLayer{ animation:glow 2s ease-in-out infinite alternate; }
 @keyframes glow{from{text-shadow:0 0 8px #ff5a5a,0 0 16px #00e0c6}to{text-shadow:0 0 20px #ff5a5a,0 0 40px #00e0c6}}
@@ -71,6 +72,13 @@ input, textarea, [contenteditable="true"] { cursor: text !important; }
 /* little stack for Press actions */
 #pressActions{display:none; margin-top:8px; z-index:2; text-align:center}
 #pressActions .who{opacity:.8; font-size:12px; display:block; margin-bottom:6px}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .logoLayer { transition:none; animation:none; }
+  #press { animation:none; }
+  .fade { animation:none; }
+}
 </style>
 </head>
 <body>
@@ -145,20 +153,25 @@ input, textarea, [contenteditable="true"] { cursor: text !important; }
 
 <script>
 /* ================== Config ================== */
-const ROTATE_MS = 3500;            // time each image shows
-const FADE_MS = 700;               // crossfade duration (must match CSS)
-const REQUIRE_SIN = true;          // set to false if sin is optional to reach PRESS
-const AUTO_ENTER_MS = 1500;        // auto-enter after PRESS shows (cancel on interaction)
+const ROTATE_MS = 3500;
+const REQUIRE_SIN = true;         // require a sin to proceed to PRESS
+const AUTO_ENTER_MS = 1500;       // auto-enter after PRESS shows
+
+/* Reduced motion (no auto-enter if user prefers reduced motion) */
+let REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+try {
+  window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', e => {
+    REDUCED_MOTION = e.matches;
+    if (REDUCED_MOTION) cancelAutoEnter();
+  });
+} catch(_) { /* older browsers */ }
 
 /* ================== Rotating Logo (crossfade + gif support) ================== */
 const logoImages = [
   "assets/SinsF.png",
-  "assets/SinsFF.png",
-  // add more (supports .png .jpg .gif)
-  // "assets/SinsFFF.gif",
-  // "assets/SinsFFFF.png"
+  "assets/SinsFF.png"
+  // add more, incl. GIFs if you want
 ];
-
 const logoA = document.getElementById('logoA');
 const logoB = document.getElementById('logoB');
 let currentLayer = 'A';
@@ -166,47 +179,22 @@ let logoIndex = 0;
 let rotateTimer = null;
 
 function cacheBust(url){ const hasQ = url.includes('?'); return url + (hasQ ? '&' : '?') + 'cb=' + Date.now(); }
-
-// Preload helper
-function preload(url){
-  return new Promise((resolve,reject)=>{
-    const img = new Image();
-    img.onload = ()=> resolve(url);
-    img.onerror = ()=> reject(url);
-    img.src = cacheBust(url); // ensures GIFs restart and caches update
-  });
-}
-
+function preload(url){ return new Promise((res,rej)=>{ const img=new Image(); img.onload=()=>res(url); img.onerror=()=>rej(url); img.src=cacheBust(url); }); }
 function setLayerSrc(layer, url){ (layer==='A'?logoA:logoB).src = cacheBust(url); }
-
 function crossfadeTo(url){
   const front = (currentLayer==='A'?logoA:logoB);
   const back  = (currentLayer==='A'?logoB:logoA);
-
   back.src = cacheBust(url);
-  // bring back to front
   back.classList.add('visible');
-  // fade out previous
   front.classList.remove('visible');
-  // swap pointer
   currentLayer = (currentLayer==='A'?'B':'A');
 }
-
-// Start rotation loop (preload next, skip on error)
 async function rotateNext(){
   const next = (logoIndex + 1) % logoImages.length;
-  try{
-    const okUrl = await preload(logoImages[next]);
-    crossfadeTo(okUrl);
-    logoIndex = next;
-  }catch(bad){
-    console.warn('Skip missing logo:', bad);
-    logoIndex = next; // advance anyway to avoid loop
-  }
+  try{ const ok = await preload(logoImages[next]); crossfadeTo(ok); logoIndex = next; }
+  catch(bad){ console.warn('Skip missing logo:', bad); logoIndex = next; }
 }
-
 function startLogoRotation(){
-  // ensure first is visible (already in DOM)
   if (logoImages.length>0) setLayerSrc(currentLayer, logoImages[0]);
   rotateTimer = setInterval(rotateNext, ROTATE_MS);
 }
@@ -236,7 +224,6 @@ const signedInAs=document.getElementById('signedInAs');
 const whoEl=document.getElementById('who');
 const switchLink=document.getElementById('switchLink');
 
-/* show/hide helpers */
 function show(el){ el.style.display='block'; }
 function hide(el){ el.style.display='none'; }
 
@@ -247,7 +234,6 @@ let autoEnterT=null;
 function cancelAutoEnter(){ if (autoEnterT){ clearTimeout(autoEnterT); autoEnterT=null; } }
 function showPress(){
   hide(acctCard); hide(sinCard); hide(game); show(press); show(pressActions);
-  // if account exists, show Continue button and who text
   const acct = loadAcct();
   if (acct){
     pressWho.textContent = `Signed in as ${acct.name || acct.email}`;
@@ -258,9 +244,8 @@ function showPress(){
     switchLink.style.display = 'none';
     continueBtn.style.display = 'none';
   }
-  // auto-enter after a moment (cancel on any interaction)
   cancelAutoEnter();
-  autoEnterT = setTimeout(()=> enter(), AUTO_ENTER_MS);
+  if (!REDUCED_MOTION) autoEnterT = setTimeout(()=> enter(), AUTO_ENTER_MS);
 }
 
 /* storage */
@@ -270,7 +255,6 @@ function clearAcct(){ localStorage.removeItem(ACCT_KEY); signedInAs.style.displa
 
 /* init route */
 (function init(){
-  // set initial visible logo
   logoA.classList.add('visible'); logoB.classList.remove('visible');
   startLogoRotation();
 
@@ -281,44 +265,30 @@ function clearAcct(){ localStorage.removeItem(ACCT_KEY); signedInAs.style.displa
     whoEl.textContent=acct.name||acct.email||'Guest'; signedInAs.style.display='inline';
     const savedSin = localStorage.getItem(SIN_KEY);
     if (REQUIRE_SIN){
-      // if we require sin but none saved or it's 'none', ask again
       if (savedSin && savedSin !== 'none') showPress(); else showSin();
     } else {
-      // optional sin -> go straight to press if account exists
       showPress();
     }
   }
 })();
 
 /* email validation */
-function emailValid(v){
-  // simple but effective pattern; HTML5 type="email" also helps
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-}
+function emailValid(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
 /* create/skip account */
 acctCreateBtn.onclick=()=>{
   acctErr.style.display='none';
   const name=(acctName.value||'').trim();
   const email=(acctEmail.value||'').trim();
-  if(!name || !email){
-    acctErr.textContent = "Please enter both a display name and an email.";
-    acctErr.style.display='block'; return;
-  }
-  if(!emailValid(email)){
-    acctErr.textContent = "That email doesn't look valid. Try again.";
-    acctErr.style.display='block'; return;
-  }
+  if(!name || !email){ acctErr.textContent = "Please enter both a display name and an email."; acctErr.style.display='block'; return; }
+  if(!emailValid(email)){ acctErr.textContent = "That email doesn't look valid. Try again."; acctErr.style.display='block'; return; }
   const acctObj = { id:'stp_'+Math.random().toString(36).slice(2), name, email, createdAt:new Date().toISOString() };
   saveAcct(acctObj);
   acctMsg.textContent = "Account created.";
   acctMsg.style.display = 'block';
   setTimeout(()=> showSin(), 500);
 };
-acctSkipBtn.onclick=()=>{ clearAcct(); // no account saved
-  // If sin is required, still ask it; otherwise we can go to press
-  REQUIRE_SIN ? showSin() : showPress();
-};
+acctSkipBtn.onclick=()=>{ clearAcct(); REQUIRE_SIN ? showSin() : showPress(); };
 
 /* switch account from press screen */
 switchLink.onclick=(e)=>{ e.preventDefault(); clearAcct(); localStorage.removeItem(SIN_KEY); showAcct(); cancelAutoEnter(); };
@@ -327,11 +297,7 @@ switchLink.onclick=(e)=>{ e.preventDefault(); clearAcct(); localStorage.removeIt
 document.getElementById('saveBtn').onclick=()=>{
   sinErr.style.display='none';
   const val=sinInput.value.trim();
-  if(!val){
-    sinErr.textContent="Please type something (or skip).";
-    sinErr.style.display='block';
-    return;
-  }
+  if(!val){ sinErr.textContent="Please type something (or skip)."; sinErr.style.display='block'; return; }
   localStorage.setItem(SIN_KEY,val);
   document.getElementById('msg').textContent="Saved: "+val;
   document.getElementById('msg').style.display='block';
@@ -339,7 +305,6 @@ document.getElementById('saveBtn').onclick=()=>{
 };
 document.getElementById('skipBtn').onclick=()=>{
   localStorage.setItem(SIN_KEY,'none');
-  // if sin is required, they must defeat the Reaper
   REQUIRE_SIN ? (resetMatch(), showGame()) : showPress();
 };
 
@@ -374,11 +339,9 @@ updateHUD();
 
 /* ================== Enter logic ================== */
 function enter(){
-  const acct = loadAcct(); // may be null if skipped
-  // must satisfy gating: account (created or skipped), sin (if required), and game (if required)
   if (acctCard.style.display!=='none') return;            // still on account screen
   if (REQUIRE_SIN){
-    const sin = localStorage.getItem(SIN_KEY);
+    const sin = localStorage.getItem('stp_sin');
     if (sinCard.style.display!=='none') return;           // still on sin screen
     if (sin === 'none' && game.style.display!=='none' && !rpsResolved) return; // must beat game
   }
@@ -388,32 +351,28 @@ function enter(){
 }
 continueBtn.addEventListener('click', enter);
 
-/* ================== Seamless PRESS START Entry (guarded so inputs work) ================== */
+/* ================== Seamless PRESS START Entry (guarded) ================== */
 function isTypingTarget(el){ return el && (el.tagName==='INPUT' || el.tagName==='TEXTAREA' || el.isContentEditable); }
 function isInteractive(el){
   if (!el) return false;
   const tag=el.tagName;
   return ['INPUT','TEXTAREA','BUTTON','A','SELECT','LABEL'].includes(tag) || el.isContentEditable;
 }
-// Cancel auto-enter on any interaction
 ['mousemove','keydown','touchstart','click'].forEach(evt=>{
   document.addEventListener(evt, ()=> cancelAutoEnter(), {passive:true});
 });
-// Click/tap anywhere EXCEPT interactive elements to enter from PRESS
 ['click','touchstart'].forEach(evt=>{
   document.addEventListener(evt,(e)=>{
-    if (isInteractive(e.target)) return; // let forms/buttons work
+    if (isInteractive(e.target)) return;
     if (press.style.display!=='none') enter();
   },{passive:true});
 });
-// Keys: ignore when typing in fields
 document.addEventListener('keydown',(e)=>{
   if (isTypingTarget(e.target)) return;
   const ignore=['Shift','Alt','Control','Meta','CapsLock','Tab'];
   if (ignore.includes(e.key)) return;
   if (press.style.display!=='none') enter();
 });
-// PRESS element explicit
 press.addEventListener('click',()=> enter());
 press.addEventListener('keydown',(e)=>{ if(e.key==='Enter'||e.key===' ') enter(); });
 
