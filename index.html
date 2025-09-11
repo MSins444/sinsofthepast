@@ -7,43 +7,54 @@
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
 html,body{margin:0;height:100%;background:#000;color:#fff;font-family:'Press Start 2P',monospace;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column}
+
+/* retro grid */
 #grid{position:absolute;inset:0;background:
   linear-gradient(#111 1px,transparent 1px),
   linear-gradient(90deg,#111 1px,transparent 1px);
 background-size:40px 40px;opacity:.35;transform:perspective(900px) rotateX(60deg)}
-#logo{max-width:min(420px,70vw);margin:0 16px 18px;z-index:1;animation:glow 2s ease-in-out infinite alternate}
+
+/* Crossfading logo stack */
+#logoWrap{position:relative; width:min(420px,70vw); aspect-ratio:2.6/1; margin:0 16px 18px; z-index:1}
+.logoLayer{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
+  transition:opacity .7s ease; opacity:0; pointer-events:none;
+  image-rendering:auto;
+}
+/* start layer visible */
+.logoLayer.visible{ opacity:1; }
+/* neon glow */
+#logoWrap .logoLayer{ animation:glow 2s ease-in-out infinite alternate; }
 @keyframes glow{from{text-shadow:0 0 8px #ff5a5a,0 0 16px #00e0c6}to{text-shadow:0 0 20px #ff5a5a,0 0 40px #00e0c6}}
+
 #press{font-size:14px;letter-spacing:2px;margin-top:16px;display:none;z-index:1;animation:blink 1s steps(2,start) infinite;cursor:pointer}
 @keyframes blink{to{visibility:hidden}}
 .fade{animation:fadeout .8s forwards}
 @keyframes fadeout{to{opacity:0;visibility:hidden}}
 
+/* cards */
 .card{z-index:2;width:min(480px,92vw);background:rgba(14,14,20,.9);border:2px solid #00e0c6;border-radius:12px;padding:16px}
-
-/* 🔥 Fix for labels + inputs */
-.card label {
-  display: block;
-  margin-top: 10px;
-  font-size: 11px;
-  cursor: pointer;
-}
-.card input[type=text],
-.card input[type=email] {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  margin-top: 4px;
-}
-
 .card p{font-size:11px;line-height:1.6;margin:0 0 8px}
+
+/* 🔥 form usability */
+.card label{display:block;margin-top:10px;font-size:11px;cursor:pointer}
+.card input[type=text],
+.card input[type=email]{display:block;width:100%;box-sizing:border-box;margin-top:4px;padding:8px;border-radius:8px;border:1px solid #444;background:#0b0c13;color:#fff;font-family:inherit;font-size:12px}
+.card input:focus-visible{outline:2px solid #00e0c6;outline-offset:2px}
+.error{color:#ff8080;font-size:10px;margin-top:6px;display:none}
+.msg{display:none;font-size:10px;color:#aaa;margin-top:6px}
+
+/* buttons */
 .btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 .btn{padding:8px 12px;border-radius:8px;border:1px solid #444;background:#0b0c13;color:#fff;cursor:pointer}
 .btn.primary{border-color:transparent;background:#ff5a5a;color:#111;font-weight:bold}
-.msg{display:none;font-size:10px;color:#aaa;margin-top:6px}
 
+/* mini-game hud */
 .score{display:flex;justify-content:space-between;align-items:center;border:1px solid #333;border-radius:10px;padding:10px 12px;margin:8px 0 12px}
 .score b{font-size:12px}
 .badge{display:inline-block;padding:4px 8px;border-radius:8px;border:1px solid #444;font-size:10px}
+
+/* footer bits */
 .util{position:fixed;bottom:10px;left:10px;z-index:3;font-size:10px;opacity:.8}
 .util a{color:#9cf;text-decoration:underline;cursor:pointer}
 .footer-hint{position:fixed;bottom:10px;right:10px;z-index:3;font-size:10px;opacity:.6}
@@ -53,13 +64,23 @@ background-size:40px 40px;opacity:.35;transform:perspective(900px) rotateX(60deg
 :where(html, body, *):not(input, textarea, [contenteditable="true"]) { cursor: var(--cursor) !important; }
 input, textarea, [contenteditable="true"] { cursor: text !important; }
 .cursor { pointer-events:none; }
+
+/* focus rings everywhere */
+:focus-visible{outline:2px solid #00e0c6; outline-offset:2px}
+
+/* little stack for Press actions */
+#pressActions{display:none; margin-top:8px; z-index:2; text-align:center}
+#pressActions .who{opacity:.8; font-size:12px; display:block; margin-bottom:6px}
 </style>
 </head>
 <body>
 <div id="grid" aria-hidden="true"></div>
 
-<!-- Rotating Logo -->
-<img id="logo" src="assets/SinsF.png" alt="Sins of the Past">
+<!-- Crossfading Rotating Logo -->
+<div id="logoWrap" aria-hidden="true">
+  <img id="logoA" class="logoLayer visible" src="assets/SinsF.png" alt="">
+  <img id="logoB" class="logoLayer" src="" alt="">
+</div>
 
 <!-- Create Account -->
 <div id="acctCard" class="card" role="dialog" aria-labelledby="acctLabel" aria-modal="true" style="display:none">
@@ -69,25 +90,28 @@ input, textarea, [contenteditable="true"] { cursor: text !important; }
   <input id="acctName" type="text" placeholder="ex: Muva, Unca" autocomplete="name">
 
   <label for="acctEmail">Email</label>
-  <input id="acctEmail" type="email" placeholder="you@example.com" autocomplete="email">
+  <input id="acctEmail" type="email" placeholder="you@example.com" autocomplete="email" inputmode="email">
+  <div id="acctErr" class="error" role="alert"></div>
 
   <div class="btns">
     <button id="acctCreateBtn" class="btn primary">Create account</button>
     <button id="acctSkipBtn" class="btn" title="Skip account on this device">Skip</button>
   </div>
-  <div id="acctMsg" class="msg"></div>
+  <div id="acctMsg" class="msg" aria-live="polite"></div>
 </div>
 
-<!-- First-time question -->
+<!-- Sin question -->
 <div id="sinCard" class="card" role="dialog" aria-labelledby="sinLabel" aria-modal="true" style="display:none">
-  <p id="sinLabel">Before you enter… tell us your <b>last sin</b> </p>
+  <p id="sinLabel">Before you enter… tell us your <b>last sin</b></p>
   <label for="sinInput">Type your answer:</label>
-  <input id="sinInput" type="text" placeholder="ex: pride, greed, or your own…" autocomplete="off" autocapitalize="none">
+  <input id="sinInput" type="text" placeholder="ex: pride, greed, or your own…" autocomplete="off" autocapitalize="none" aria-describedby="sinHelp">
+  <div id="sinHelp" class="msg" style="display:block;opacity:.7">Tip: you can skip, but then you must beat the Reaper.</div>
+  <div id="sinErr" class="error" role="alert"></div>
   <div class="btns">
     <button id="saveBtn" class="btn primary">Save</button>
     <button id="skipBtn" class="btn">Skip</button>
   </div>
-  <div id="msg" class="msg"></div>
+  <div id="msg" class="msg" aria-live="polite"></div>
 </div>
 
 <!-- Mini-game -->
@@ -102,92 +126,284 @@ input, textarea, [contenteditable="true"] { cursor: text !important; }
     <button class="btn choice" data-move="paper">📜 Paper</button>
     <button class="btn choice" data-move="scythe">⚔️ Scythe</button>
   </div>
-  <div id="rpsResult" class="msg" style="margin-top:10px"></div>
+  <div id="rpsResult" class="msg" style="margin-top:10px" role="status" aria-live="polite"></div>
 </div>
 
 <!-- Press start -->
-<div id="press" role="button" tabindex="0" aria-label="Press start to enter">PRESS START</div>
+<div id="press" role="button" tabindex="0" aria-label="Press start to enter" aria-describedby="pressHint">PRESS START</div>
+<div id="pressActions">
+  <span id="pressWho" class="who"></span>
+  <button id="continueBtn" class="btn primary" type="button" style="display:none">Continue</button>
+  <div><a id="switchLink" href="#" style="display:none">switch</a></div>
+</div>
+<div id="pressHint" class="footer-hint">Click or press any key to enter.</div>
 
 <div class="util">
-  <span id="signedInAs" style="display:none">Signed in as <b id="who"></b> — <a id="switchLink">switch</a></span>
-  <div><a id="resetLink">reset intro</a></div>
+  <span id="signedInAs" style="display:none">Signed in as <b id="who"></b></span>
+  · <a id="resetLink">reset intro</a>
 </div>
-<div class="footer-hint">Click or press any key to enter.</div>
 
 <script>
-/* ---------- Rotating Logo Images ---------- */
+/* ================== Config ================== */
+const ROTATE_MS = 3500;            // time each image shows
+const FADE_MS = 700;               // crossfade duration (must match CSS)
+const REQUIRE_SIN = true;          // set to false if sin is optional to reach PRESS
+const AUTO_ENTER_MS = 1500;        // auto-enter after PRESS shows (cancel on interaction)
+
+/* ================== Rotating Logo (crossfade + gif support) ================== */
 const logoImages = [
   "assets/SinsF.png",
-  "assets/SinsFF.png"
+  "assets/SinsFF.png",
+  // add more (supports .png .jpg .gif)
+  // "assets/SinsFFF.gif",
+  // "assets/SinsFFFF.png"
 ];
-const logoEl = document.getElementById("logo");
+
+const logoA = document.getElementById('logoA');
+const logoB = document.getElementById('logoB');
+let currentLayer = 'A';
 let logoIndex = 0;
-function swapLogo(i){ logoEl.src = logoImages[i] + "?t=" + Date.now(); }
-setInterval(()=>{ logoIndex = (logoIndex+1) % logoImages.length; swapLogo(logoIndex); }, 3500);
+let rotateTimer = null;
 
-/* ---------- Keys ---------- */
-const ACCT_KEY='stp_user'; const SIN_KEY='stp_sin';
+function cacheBust(url){ const hasQ = url.includes('?'); return url + (hasQ ? '&' : '?') + 'cb=' + Date.now(); }
 
-/* ---------- Elements ---------- */
-const acctCard=document.getElementById('acctCard'), acctName=document.getElementById('acctName'),
-      acctEmail=document.getElementById('acctEmail'), acctCreateBtn=document.getElementById('acctCreateBtn'),
-      acctSkipBtn=document.getElementById('acctSkipBtn'), acctMsg=document.getElementById('acctMsg');
-const card=document.getElementById('sinCard'), game=document.getElementById('rpsGame'), press=document.getElementById('press'),
-      msg=document.getElementById('msg'), input=document.getElementById('sinInput'),
-      pScoreEl=document.getElementById('pScore'), rScoreEl=document.getElementById('rScore'),
-      roundEl=document.getElementById('round'), resultEl=document.getElementById('rpsResult');
-const signedInAs=document.getElementById('signedInAs'), whoEl=document.getElementById('who'), switchLink=document.getElementById('switchLink');
+// Preload helper
+function preload(url){
+  return new Promise((resolve,reject)=>{
+    const img = new Image();
+    img.onload = ()=> resolve(url);
+    img.onerror = ()=> reject(url);
+    img.src = cacheBust(url); // ensures GIFs restart and caches update
+  });
+}
 
-/* ---------- Helpers ---------- */
-function show(el){ el.style.display='block'; } function hide(el){ el.style.display='none'; }
-function showAcct(){ show(acctCard); hide(card); hide(game); hide(press); acctName.focus(); }
-function showCard(){ hide(acctCard); show(card); hide(game); hide(press); input.focus(); }
-function showGame(){ hide(acctCard); hide(card); show(game); hide(press); }
-function showPress(){ hide(acctCard); hide(card); hide(game); show(press); }
+function setLayerSrc(layer, url){ (layer==='A'?logoA:logoB).src = cacheBust(url); }
 
-/* ---------- Account ---------- */
+function crossfadeTo(url){
+  const front = (currentLayer==='A'?logoA:logoB);
+  const back  = (currentLayer==='A'?logoB:logoA);
+
+  back.src = cacheBust(url);
+  // bring back to front
+  back.classList.add('visible');
+  // fade out previous
+  front.classList.remove('visible');
+  // swap pointer
+  currentLayer = (currentLayer==='A'?'B':'A');
+}
+
+// Start rotation loop (preload next, skip on error)
+async function rotateNext(){
+  const next = (logoIndex + 1) % logoImages.length;
+  try{
+    const okUrl = await preload(logoImages[next]);
+    crossfadeTo(okUrl);
+    logoIndex = next;
+  }catch(bad){
+    console.warn('Skip missing logo:', bad);
+    logoIndex = next; // advance anyway to avoid loop
+  }
+}
+
+function startLogoRotation(){
+  // ensure first is visible (already in DOM)
+  if (logoImages.length>0) setLayerSrc(currentLayer, logoImages[0]);
+  rotateTimer = setInterval(rotateNext, ROTATE_MS);
+}
+
+/* ================== Account + Sin + Flow ================== */
+const ACCT_KEY='stp_user'; // {id,name,email,createdAt}
+const SIN_KEY='stp_sin';
+
+const acctCard=document.getElementById('acctCard');
+const acctName=document.getElementById('acctName');
+const acctEmail=document.getElementById('acctEmail');
+const acctCreateBtn=document.getElementById('acctCreateBtn');
+const acctSkipBtn=document.getElementById('acctSkipBtn');
+const acctMsg=document.getElementById('acctMsg');
+const acctErr=document.getElementById('acctErr');
+
+const sinCard=document.getElementById('sinCard');
+const sinInput=document.getElementById('sinInput');
+const sinErr=document.getElementById('sinErr');
+
+const game=document.getElementById('rpsGame');
+const press=document.getElementById('press');
+const pressActions=document.getElementById('pressActions');
+const continueBtn=document.getElementById('continueBtn');
+const pressWho=document.getElementById('pressWho');
+const signedInAs=document.getElementById('signedInAs');
+const whoEl=document.getElementById('who');
+const switchLink=document.getElementById('switchLink');
+
+/* show/hide helpers */
+function show(el){ el.style.display='block'; }
+function hide(el){ el.style.display='none'; }
+
+function showAcct(){ show(acctCard); hide(sinCard); hide(game); hide(press); hide(pressActions); acctName.focus(); }
+function showSin(){ hide(acctCard); show(sinCard); hide(game); hide(press); hide(pressActions); sinInput.focus(); }
+function showGame(){ hide(acctCard); hide(sinCard); show(game); hide(press); hide(pressActions); }
+let autoEnterT=null;
+function cancelAutoEnter(){ if (autoEnterT){ clearTimeout(autoEnterT); autoEnterT=null; } }
+function showPress(){
+  hide(acctCard); hide(sinCard); hide(game); show(press); show(pressActions);
+  // if account exists, show Continue button and who text
+  const acct = loadAcct();
+  if (acct){
+    pressWho.textContent = `Signed in as ${acct.name || acct.email}`;
+    switchLink.style.display = 'inline';
+    continueBtn.style.display = 'inline-block';
+  } else {
+    pressWho.textContent = '';
+    switchLink.style.display = 'none';
+    continueBtn.style.display = 'none';
+  }
+  // auto-enter after a moment (cancel on any interaction)
+  cancelAutoEnter();
+  autoEnterT = setTimeout(()=> enter(), AUTO_ENTER_MS);
+}
+
+/* storage */
 function loadAcct(){ try{ return JSON.parse(localStorage.getItem(ACCT_KEY) || 'null'); }catch(e){ return null; } }
 function saveAcct(obj){ localStorage.setItem(ACCT_KEY, JSON.stringify(obj)); whoEl.textContent=obj.name||obj.email||'Guest'; signedInAs.style.display='inline'; }
 function clearAcct(){ localStorage.removeItem(ACCT_KEY); signedInAs.style.display='none'; whoEl.textContent=''; }
 
+/* init route */
 (function init(){
-  const acct=loadAcct(); if(!acct){ showAcct(); } else { whoEl.textContent=acct.name||acct.email||'Guest'; signedInAs.style.display='inline'; const savedSin=localStorage.getItem(SIN_KEY); if(savedSin){ showPress(); } else { showCard(); } }
+  // set initial visible logo
+  logoA.classList.add('visible'); logoB.classList.remove('visible');
+  startLogoRotation();
+
+  const acct=loadAcct();
+  if (!acct){
+    showAcct();
+  } else {
+    whoEl.textContent=acct.name||acct.email||'Guest'; signedInAs.style.display='inline';
+    const savedSin = localStorage.getItem(SIN_KEY);
+    if (REQUIRE_SIN){
+      // if we require sin but none saved or it's 'none', ask again
+      if (savedSin && savedSin !== 'none') showPress(); else showSin();
+    } else {
+      // optional sin -> go straight to press if account exists
+      showPress();
+    }
+  }
 })();
-acctCreateBtn.onclick=()=>{ const name=acctName.value.trim(), email=acctEmail.value.trim(); if(!name||!email){ acctMsg.textContent="Please enter both name and email."; acctMsg.style.display='block'; return; } saveAcct({id:'stp_'+Math.random().toString(36).slice(2), name,email, createdAt:new Date().toISOString()}); acctMsg.textContent="Account created."; acctMsg.style.display='block'; setTimeout(()=>showCard(),500); };
-acctSkipBtn.onclick=()=>{ clearAcct(); showCard(); };
-switchLink.onclick=(e)=>{ e.preventDefault(); clearAcct(); localStorage.removeItem(SIN_KEY); showAcct(); };
 
-/* ---------- Sin ---------- */
-document.getElementById('saveBtn').onclick=()=>{ const val=input.value.trim(); if(!val){ msg.textContent="Please type something (or skip)."; msg.style.display='block'; return; } localStorage.setItem(SIN_KEY,val); msg.textContent="Saved: "+val; msg.style.display='block'; setTimeout(()=>showPress(),700); };
-document.getElementById('skipBtn').onclick=()=>{ localStorage.setItem(SIN_KEY,'none'); resetMatch(); showGame(); };
+/* email validation */
+function emailValid(v){
+  // simple but effective pattern; HTML5 type="email" also helps
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+}
 
-/* ---------- Mini-game ---------- */
+/* create/skip account */
+acctCreateBtn.onclick=()=>{
+  acctErr.style.display='none';
+  const name=(acctName.value||'').trim();
+  const email=(acctEmail.value||'').trim();
+  if(!name || !email){
+    acctErr.textContent = "Please enter both a display name and an email.";
+    acctErr.style.display='block'; return;
+  }
+  if(!emailValid(email)){
+    acctErr.textContent = "That email doesn't look valid. Try again.";
+    acctErr.style.display='block'; return;
+  }
+  const acctObj = { id:'stp_'+Math.random().toString(36).slice(2), name, email, createdAt:new Date().toISOString() };
+  saveAcct(acctObj);
+  acctMsg.textContent = "Account created.";
+  acctMsg.style.display = 'block';
+  setTimeout(()=> showSin(), 500);
+};
+acctSkipBtn.onclick=()=>{ clearAcct(); // no account saved
+  // If sin is required, still ask it; otherwise we can go to press
+  REQUIRE_SIN ? showSin() : showPress();
+};
+
+/* switch account from press screen */
+switchLink.onclick=(e)=>{ e.preventDefault(); clearAcct(); localStorage.removeItem(SIN_KEY); showAcct(); cancelAutoEnter(); };
+
+/* save/skip sin */
+document.getElementById('saveBtn').onclick=()=>{
+  sinErr.style.display='none';
+  const val=sinInput.value.trim();
+  if(!val){
+    sinErr.textContent="Please type something (or skip).";
+    sinErr.style.display='block';
+    return;
+  }
+  localStorage.setItem(SIN_KEY,val);
+  document.getElementById('msg').textContent="Saved: "+val;
+  document.getElementById('msg').style.display='block';
+  setTimeout(()=> showPress(), 700);
+};
+document.getElementById('skipBtn').onclick=()=>{
+  localStorage.setItem(SIN_KEY,'none');
+  // if sin is required, they must defeat the Reaper
+  REQUIRE_SIN ? (resetMatch(), showGame()) : showPress();
+};
+
+/* ================== Mini-game ================== */
 let rpsResolved=false,pWins=0,rWins=0,round=1;
+const pScoreEl=document.getElementById('pScore');
+const rScoreEl=document.getElementById('rScore');
+const roundEl=document.getElementById('round');
+const resultEl=document.getElementById('rpsResult');
+
 function updateHUD(){ if(!pScoreEl)return; pScoreEl.textContent=String(pWins); rScoreEl.textContent=String(rWins); roundEl.textContent=`Round ${round}`; }
 function resetMatch(){ pWins=0;rWins=0;round=1;rpsResolved=false; if(pScoreEl){ pScoreEl.textContent='0'; rScoreEl.textContent='0'; roundEl.textContent='Round 1'; resultEl.textContent=''; resultEl.style.display='none'; } }
 const moves=["rock","paper","scythe"];
-function resultFor(p,c){if(p===c)return"draw";if(p==="rock"&&c==="scythe")return"win";if(p==="scythe"&&c==="paper")return"win";if(p==="paper"&&c==="rock")return"win";return"lose";}
-function resolveRound(player){ const comp=moves[Math.floor(Math.random()*moves.length)],res=resultFor(player,comp); resultEl.style.display="block"; if(res==="draw"){ resultEl.innerHTML=`You chose <b>${player}</b>, Reaper chose <b>${comp}</b> — <b>Draw</b>. Play again.`; return; } if(res==="win"){pWins++;}else{rWins++;} resultEl.innerHTML=`You chose <b>${player}</b>, Reaper chose <b>${comp}</b> — `+(res==="win"?"<b>You win the round.</b>":"<b>Reaper wins the round.</b>"); if(pWins===2||rWins===2){rpsResolved=true;const who=(pWins===2)?"🔥 You win — the Reaper grants you passage!":"💀 The Reaper claims victory."; resultEl.innerHTML+=`<br>${who}`; setTimeout(()=>enter(),1100); return;} round++; updateHUD(); }
-document.querySelectorAll('.choice').forEach(btn=>btn.onclick=()=>resolveRound(btn.dataset.move));
+function resultFor(p,c){ if(p===c)return"draw"; if(p==="rock"&&c==="scythe")return"win"; if(p==="scythe"&&c==="paper")return"win"; if(p==="paper"&&c==="rock")return"win"; return"lose"; }
+function resolveRound(player){
+  const comp=moves[Math.floor(Math.random()*moves.length)],res=resultFor(player,comp);
+  resultEl.style.display="block";
+  if(res==="draw"){resultEl.innerHTML=`You chose <b>${player}</b>, Reaper chose <b>${comp}</b> — <b>Draw</b>. Play again.`;return;}
+  if(res==="win"){pWins++;}else{rWins++;}
+  resultEl.innerHTML=`You chose <b>${player}</b>, Reaper chose <b>${comp}</b> — `+(res==="win"?"<b>You win the round.</b>":"<b>Reaper wins the round.</b>");
+  if (pWins===2 || rWins===2){
+    rpsResolved = true;
+    const who=(pWins===2)?"🔥 You win — the Reaper grants you passage!":"💀 The Reaper claims victory.";
+    resultEl.innerHTML += `<br>${who}`;
+    setTimeout(()=>enter(), 1100);
+    return;
+  }
+  round++; updateHUD();
+}
+document.querySelectorAll('.choice').forEach(btn=> btn.onclick=()=> resolveRound(btn.dataset.move));
 updateHUD();
 
-/* ---------- Enter ---------- */
-function enter(){ if(!loadAcct()){ showAcct(); return; } if(acctCard.style.display!=='none')return; if(card.style.display!=='none')return; if(game.style.display!=='none'&&!rpsResolved)return; sessionStorage.setItem('stp_from_cover','1'); document.body.classList.add('fade'); setTimeout(()=>window.location.replace('./home.html'),700); }
-
-/* ---------- Seamless PRESS START Entry (guarded so inputs work) ---------- */
-function isTypingTarget(el){
-  return el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
+/* ================== Enter logic ================== */
+function enter(){
+  const acct = loadAcct(); // may be null if skipped
+  // must satisfy gating: account (created or skipped), sin (if required), and game (if required)
+  if (acctCard.style.display!=='none') return;            // still on account screen
+  if (REQUIRE_SIN){
+    const sin = localStorage.getItem(SIN_KEY);
+    if (sinCard.style.display!=='none') return;           // still on sin screen
+    if (sin === 'none' && game.style.display!=='none' && !rpsResolved) return; // must beat game
+  }
+  sessionStorage.setItem('stp_from_cover','1');
+  document.body.classList.add('fade');
+  setTimeout(()=>window.location.replace('./home.html'),700);
 }
+continueBtn.addEventListener('click', enter);
+
+/* ================== Seamless PRESS START Entry (guarded so inputs work) ================== */
+function isTypingTarget(el){ return el && (el.tagName==='INPUT' || el.tagName==='TEXTAREA' || el.isContentEditable); }
 function isInteractive(el){
   if (!el) return false;
-  const tag = el.tagName;
+  const tag=el.tagName;
   return ['INPUT','TEXTAREA','BUTTON','A','SELECT','LABEL'].includes(tag) || el.isContentEditable;
 }
-// Click/tap anywhere EXCEPT on interactive elements
+// Cancel auto-enter on any interaction
+['mousemove','keydown','touchstart','click'].forEach(evt=>{
+  document.addEventListener(evt, ()=> cancelAutoEnter(), {passive:true});
+});
+// Click/tap anywhere EXCEPT interactive elements to enter from PRESS
 ['click','touchstart'].forEach(evt=>{
   document.addEventListener(evt,(e)=>{
-    if (isInteractive(e.target)) return;
-    enter();
+    if (isInteractive(e.target)) return; // let forms/buttons work
+    if (press.style.display!=='none') enter();
   },{passive:true});
 });
 // Keys: ignore when typing in fields
@@ -195,21 +411,23 @@ document.addEventListener('keydown',(e)=>{
   if (isTypingTarget(e.target)) return;
   const ignore=['Shift','Alt','Control','Meta','CapsLock','Tab'];
   if (ignore.includes(e.key)) return;
-  enter();
+  if (press.style.display!=='none') enter();
 });
-// PRESS START explicit
-press.addEventListener('click',enter);
+// PRESS element explicit
+press.addEventListener('click',()=> enter());
 press.addEventListener('keydown',(e)=>{ if(e.key==='Enter'||e.key===' ') enter(); });
 
-/* ---------- Reset intro ---------- */
+/* ================== Reset intro ================== */
 document.getElementById('resetLink').onclick=(e)=>{
   e.preventDefault();
   localStorage.removeItem(SIN_KEY);
   resetMatch();
-  loadAcct()?showCard():showAcct();
+  const acct = loadAcct();
+  acct ? showSin() : showAcct();
 };
 </script>
 
+<!-- Optional: only if you have global JS -->
 <script src="app.js"></script>
 <div class="cursor"></div>
 <script>
