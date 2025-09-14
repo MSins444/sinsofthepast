@@ -321,21 +321,29 @@
       }catch{}
     });
 
-    // Buy CTA (swap with your cart/checkout)
-    document.getElementById('buyBtn').addEventListener('click', ()=>{
-      const size = sizeSelect.value;
-      if(!size){ alert('Choose your size first.'); return; }
-      const params = new URLSearchParams({
-        id:'sloppiest-toppy',
-        model:'Sloppiest Toppy',
-        price:219,
-        size,
-        qty:document.getElementById('qty').value
-      });
-      // Replace with your cart logic if you have one:
-      window.location.href = '/checkout?'+params.toString();
-    });
-  </script>
+  // Buy CTA (with first-time 7% discount support)
+document.getElementById('buyBtn').addEventListener('click', ()=>{
+  const size = sizeSelect?.value;
+  if(!size){ alert('Choose your size first.'); return; }
+
+  const params = new URLSearchParams({
+    id: 'sloppiest-toppy',
+    model: 'Sloppiest Toppy',
+    price: 219,
+    size,
+    qty: document.getElementById('qty').value
+  });
+
+  // include promo if user pressed “Apply 7% now”
+  const applied = localStorage.getItem('stp_first7_applied');
+  if (applied) {
+    params.set('discount', applied);          // "SINSFIRST7"
+    params.set('discount_pct', '7');
+  }
+
+  window.location.href = '/checkout?' + params.toString();
+});
+</script
 
   <!-- Product structured data -->
   <script type="application/ld+json">
@@ -359,5 +367,121 @@
     }
   }
   </script>
+
+  <style>
+  /* ----- First-visit Offer Overlay ----- */
+  body.no-scroll { overflow: hidden; }
+  #offerOverlay {
+    position: fixed; inset: 0; z-index: 99999;
+    display: none; align-items: center; justify-content: center;
+    background: rgba(0,0,0,.75); backdrop-filter: blur(6px) saturate(120%);
+  }
+  #offerOverlay[data-open="true"] { display: flex; }
+
+  .offer-modal {
+    width: min(680px, 92vw);
+    background: var(--panel, rgba(255,255,255,.03));
+    border: 1px solid var(--stroke, rgba(255,255,255,.12));
+    border-radius: 20px;
+    box-shadow: 0 40px 120px rgba(0,0,0,.65);
+    color: var(--text, #e6e8ee);
+    overflow: hidden;
+  }
+  .offer-head {
+    padding: 18px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--stroke, rgba(255,255,255,.12));
+    background:
+      radial-gradient(800px 400px at 80% -10%, rgba(255,255,255,.05), transparent 60%),
+      linear-gradient(to right, rgba(255,255,255,.02), rgba(255,255,255,.0));
+  }
+  .offer-title {
+    margin: 0; font-family: "Playfair Display", serif;
+    font-size: clamp(1.1rem, 1.2rem + .6vw, 1.6rem);
+    letter-spacing: .5px;
+  }
+  .offer-close {
+    appearance: none; border: 1px solid var(--stroke, rgba(255,255,255,.12));
+    background: transparent; color: var(--text,#e6e8ee); border-radius: 999px;
+    width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer;
+  }
+  .offer-body {
+    padding: 22px 22px 18px;
+    display: grid; gap: 14px;
+    background:
+      radial-gradient(1000px 520px at 70% -10%, rgba(255,255,255,.06), transparent 60%),
+      linear-gradient(to bottom, rgba(12,35,64,.24), rgba(0,0,0,.0));
+  }
+  .offer-kicker {
+    text-transform: uppercase; letter-spacing: .2em; font-weight: 600; opacity: .8;
+    font-size: .8rem;
+  }
+  .offer-big {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(2.2rem, 3.5vw + 1rem, 3.2rem);
+    line-height: 1.05; margin: 2px 0 6px;
+  }
+  .offer-big .accent { color: var(--gold,#f5c614); }
+  .offer-copy { color: var(--muted,#9aa3b2); line-height: 1.7; }
+
+  .code-row { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+  .promo-chip {
+    display: inline-flex; align-items: center; gap: .5rem;
+    border: 1px dashed var(--soft, rgba(255,255,255,.06));
+    background: #0f1220; color: var(--text,#e6e8ee);
+    padding: .55rem .8rem; border-radius: 12px; font-weight: 700;
+    letter-spacing: .04em;
+  }
+  .copy-btn {
+    padding: .55rem .8rem; border-radius: 12px; cursor: pointer;
+    border: 1px solid var(--stroke, rgba(255,255,255,.12));
+    background: var(--panel, rgba(255,255,255,.03)); color: var(--text,#e6e8ee);
+  }
+  .apply-btn {
+    margin-top: .5rem; width: 100%;
+    padding: .9rem 1rem; border-radius: 14px; border: none; cursor: pointer;
+    font-weight: 800; letter-spacing: .02em;
+    background: var(--crimson,#be2036); color: #fff;
+  }
+  .apply-btn:hover { filter: brightness(1.06); }
+  .offer-foot {
+    padding: 12px 20px 18px; color: var(--muted,#9aa3b2); font-size: .85rem;
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  }
+  .tiny { opacity: .85; }
+  .linkish {
+    color: var(--gold,#f5c614); text-decoration: none; border-bottom: 1px dotted currentColor;
+    cursor: pointer;
+  }
+</style>
+
+<div id="offerOverlay" aria-hidden="true">
+  <div class="offer-modal" role="dialog" aria-modal="true" aria-labelledby="offerTitle" aria-describedby="offerDesc">
+    <div class="offer-head">
+      <h2 id="offerTitle" class="offer-title">Welcome to <strong>SINS</strong></h2>
+      <button class="offer-close" id="offerClose" aria-label="Close">✕</button>
+    </div>
+    <div class="offer-body">
+      <div class="offer-kicker">Limited welcome</div>
+      <div class="offer-big">Take <span class="accent">7% off</span> your first pair</div>
+      <p id="offerDesc" class="offer-copy">
+        A quiet thank-you for discovering the <em>Sloppiest Toppy</em>. Your code below
+        will auto-apply at checkout on this product.
+      </p>
+
+      <div class="code-row">
+        <span class="promo-chip" id="promoCode" aria-label="Promo code">SINSFIRST7</span>
+        <button class="copy-btn" id="copyPromo" aria-label="Copy promo code">Copy</button>
+      </div>
+
+      <button class="apply-btn" id="applyPromo" aria-label="Apply 7 percent discount now">Apply 7% now</button>
+    </div>
+    <div class="offer-foot">
+      <span class="tiny">First-time customers only • Limited drop</span>
+      <a class="linkish" id="noThanks">No thanks</a>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
