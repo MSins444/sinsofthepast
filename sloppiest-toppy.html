@@ -1,31 +1,35 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- Make relative URLs resolve from site root -->
+  <base href="/">
+
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Sloppiest Toppy™ — SINS of the Past</title>
   <meta name="description" content="Sloppiest Toppy™ — sporty low-top handcrafted in Italy. Limited drop. Free shipping & returns."/>
   <link rel="canonical" href="/sloppiest-toppy.html"/>
 
-  <!-- Fonts (remove if already in your base.css) -->
+  <!-- Fonts (remove if your base CSS already loads them) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
   <!-- Preload hero -->
-  <link rel="preload" as="image" href="assets/sloppiest/hero.jpg">
+  <link rel="preload" as="image" href="/assets/sloppiest/hero.jpg">
 
   <style>
     :root{
-      --ink:#0c2340;
-      --crimson:#be2036;
-      --gold:#f5c614;
-      --text:#e6e8ee;
-      --muted:#9aa3b2;
+      --ink:#0c2340;          /* deep navy */
+      --crimson:#be2036;      /* CTA accent */
+      --gold:#f5c614;         /* subtle highlight */
+      --text:#e6e8ee;         /* primary text on dark */
+      --muted:#9aa3b2;        /* secondary text on dark */
       --panel:rgba(255,255,255,0.03);
       --stroke:rgba(255,255,255,0.12);
       --soft:rgba(255,255,255,0.06);
     }
+
     *{box-sizing:border-box}
     html,body{margin:0}
     body{
@@ -124,7 +128,7 @@
 <body>
   <!-- HERO -->
   <header class="hero">
-    <img class="bg" src="assets/sloppiest/hero.jpg" alt="Sloppiest Toppy sneaker hero">
+    <img class="bg" src="/assets/sloppiest/hero.jpg" alt="Sloppiest Toppy sneaker hero">
     <div class="pitch container">
       <div class="kicker">SINS • Limited Drop</div>
       <h1 class="title">SLOPPIEST <span class="accent">TOPPY</span></h1>
@@ -142,18 +146,18 @@
       <!-- GALLERY -->
       <div class="gallery">
         <div class="viewer" id="viewer">
-          <img id="mainImg" src="assets/sloppiest/with_box.jpg" alt="Sloppiest Toppy with box">
+          <img id="mainImg" src="/assets/sloppiest/with_box.jpg" alt="Sloppiest Toppy with box">
         </div>
         <div class="thumbs" id="thumbs" aria-label="Gallery thumbnails">
-          <img src="assets/sloppiest/with_box.jpg" alt="With box" data-big="assets/sloppiest/with_box.jpg" aria-current="true" loading="lazy">
-          <img src="assets/sloppiest/over_box.jpg" alt="Over box" data-big="assets/sloppiest/over_box.jpg" loading="lazy">
-          <img src="assets/sloppiest/side.jpg" alt="Side" data-big="assets/sloppiest/side.jpg" loading="lazy">
-          <img src="assets/sloppiest/double_quarter.jpg" alt="Double" data-big="assets/sloppiest/double_quarter.jpg" loading="lazy">
-          <img src="assets/sloppiest/top_bottom.jpg" alt="Top & bottom" data-big="assets/sloppiest/top_bottom.jpg" loading="lazy">
-          <img src="assets/sloppiest/detail.jpg" alt="Detail" data-big="assets/sloppiest/detail.jpg" loading="lazy">
-          <img src="assets/sloppiest/tongue.jpg" alt="Tongue" data-big="assets/sloppiest/tongue.jpg" loading="lazy">
-          <img src="assets/sloppiest/box.jpg" alt="Box" data-big="assets/sloppiest/box.jpg" loading="lazy">
-          <img src="assets/sloppiest/addon.png" alt="Sketch" data-big="assets/sloppiest/addon.png" loading="lazy">
+          <img src="/assets/sloppiest/with_box.jpg" alt="With box" data-big="/assets/sloppiest/with_box.jpg" aria-current="true" loading="lazy">
+          <img src="/assets/sloppiest/over_box.jpg" alt="Over box" data-big="/assets/sloppiest/over_box.jpg" loading="lazy">
+          <img src="/assets/sloppiest/side.jpg" alt="Side" data-big="/assets/sloppiest/side.jpg" loading="lazy">
+          <img src="/assets/sloppiest/double_quarter.jpg" alt="Double" data-big="/assets/sloppiest/double_quarter.jpg" loading="lazy">
+          <img src="/assets/sloppiest/top_bottom.jpg" alt="Top & bottom" data-big="/assets/sloppiest/top_bottom.jpg" loading="lazy">
+          <img src="/assets/sloppiest/detail.jpg" alt="Detail" data-big="/assets/sloppiest/detail.jpg" loading="lazy">
+          <img src="/assets/sloppiest/tongue.jpg" alt="Tongue" data-big="/assets/sloppiest/tongue.jpg" loading="lazy">
+          <img src="/assets/sloppiest/box.jpg" alt="Box" data-big="/assets/sloppiest/box.jpg" loading="lazy">
+          <img src="/assets/sloppiest/sketch.jpg" alt="Sketch" data-big="/assets/sloppiest/sketch.jpg" loading="lazy">
         </div>
       </div>
 
@@ -167,8 +171,8 @@
           </div>
         </div>
 
-        <div class="price"><b>$219</b> <span class="chip">USD</span></div>
-        <div class="flags"><img src="assets/icons/made_in_italy.jpg" alt="Made in Italy"> Made in Italy</div>
+        <div class="price"><b>$500.00</b> <span class="chip">USD</span></div>
+        <div class="flags"><img src="/assets/icons/flag-it.svg" alt="Made in Italy"> Made in Italy</div>
 
         <div class="selector">
           <label class="small" for="sizeChart">Size system</label>
@@ -206,11 +210,11 @@
     <!-- Stripes -->
     <section class="stripe">
       <div class="row container">
-        <div><img class="layered" src="assets/sloppiest/crafting.jpg" alt="Handcrafted in Italy"></div>
+        <div><img class="layered" src="/assets/sloppiest/crafting.jpg" alt="Handcrafted in Italy"></div>
         <div>
           <h2>Handcrafted in Italy</h2>
           <p>Each pair is handmade by master Italian artisans using pristine leather. Tradition meets modern style for a product that’s unmistakably Italian.</p>
-          <div class="tech"><img src="assets/icons/hand.svg" alt="" width="22" height="22" aria-hidden="true"> Artisan made</div>
+          <div class="tech"><img src="/assets/icons/hand.svg" alt="" width="22" height="22" aria-hidden="true"> Artisan made</div>
         </div>
       </div>
     </section>
@@ -220,19 +224,19 @@
         <div>
           <h2>Cutting-Edge Design</h2>
           <p>Sculptural paneled upper, plush materials and a pumped rubber sole. Embossed tongue logo and extra padding in heel and ankle for comfort.</p>
-          <div class="tech"><img src="assets/icons/lowtop.svg" alt="" width="22" height="22" aria-hidden="true"> Sporty low-top</div>
+          <div class="tech"><img src="/assets/icons/lowtop.svg" alt="" width="22" height="22" aria-hidden="true"> Sporty low-top</div>
         </div>
-        <div><img class="layered" src="assets/sloppiest/top_bottom.jpg" alt="Top & bottom view"></div>
+        <div><img class="layered" src="/assets/sloppiest/top_bottom.jpg" alt="Top & bottom view"></div>
       </div>
     </section>
 
     <section class="stripe">
       <div class="row container">
-        <div><img class="layered" src="assets/sloppiest/sketch.jpg" alt="Limited edition sketch"></div>
+        <div><img class="layered" src="/assets/sloppiest/sketch.jpg" alt="Limited edition sketch"></div>
         <div>
           <h2>A Unique Limited Edition</h2>
           <p>Very limited quantities available exclusively here. Each pair ships with an official Limited Edition certificate (design code: <b>#NF2361</b>).</p>
-          <div class="tech"><img src="assets/icons/lock.svg" alt="" width="20" height="20" aria-hidden="true"> Exclusive drop</div>
+          <div class="tech"><img src="/assets/icons/lock.svg" alt="" width="20" height="20" aria-hidden="true"> Exclusive drop</div>
         </div>
       </div>
     </section>
@@ -242,9 +246,9 @@
         <div>
           <h2>Collector’s Edition Packaging</h2>
           <p>Custom box with high-fidelity print, Italian construction and a solid magnetic clip. Adds serious value to an already exclusive design.</p>
-          <div class="tech"><img src="assets/icons/box.svg" alt="" width="20" height="20" aria-hidden="true"> Premium box</div>
+          <div class="tech"><img src="/assets/icons/box.svg" alt="" width="20" height="20" aria-hidden="true"> Premium box</div>
         </div>
-        <div><img class="layered" src="assets/sloppiest/box.jpg" alt="Collector box"></div>
+        <div><img class="layered" src="/assets/sloppiest/box.jpg" alt="Collector box"></div>
       </div>
     </section>
 
@@ -277,179 +281,73 @@
     </footer>
   </main>
 
-  <!-- ==== First-visit Offer Overlay (HTML) ==== -->
-  <div id="offerOverlay" aria-hidden="true" style="display:none">
-    <div class="offer-modal" role="dialog" aria-modal="true" aria-labelledby="offerTitle" aria-describedby="offerDesc">
-      <div class="offer-head">
-        <h2 id="offerTitle" class="offer-title">Welcome to <strong>SINS</strong></h2>
-        <button class="offer-close" id="offerClose" aria-label="Close">✕</button>
-      </div>
-      <div class="offer-body">
-        <div class="offer-kicker">Limited welcome</div>
-        <div class="offer-big">Take <span class="accent">7% off</span> your first pair</div>
-        <p id="offerDesc" class="offer-copy">
-          A quiet thank-you for discovering the <em>Sloppiest Toppy</em>. Your code below
-          will auto-apply at checkout on this product.
-        </p>
-
-        <div class="code-row">
-          <span class="promo-chip" id="promoCode" aria-label="Promo code">SINSFIRST7</span>
-          <button class="copy-btn" id="copyPromo" aria-label="Copy promo code">Copy</button>
-        </div>
-
-        <button class="apply-btn" id="applyPromo" aria-label="Apply 7 percent discount now">Apply 7% now</button>
-      </div>
-      <div class="offer-foot">
-        <span class="tiny">First-time customers only • Limited drop</span>
-        <a class="linkish" id="noThanks">No thanks</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==== Scripts (all working, including popup logic) ==== -->
   <script>
-  // --- Gallery thumbs -> main image
-  const mainImg = document.getElementById('mainImg');
-  document.getElementById('thumbs').addEventListener('click', e=>{
-    const t = e.target.closest('img'); if(!t) return;
-    [...e.currentTarget.children].forEach(i=>i.removeAttribute('aria-current'));
-    t.setAttribute('aria-current','true');
-    mainImg.src = t.dataset.big; mainImg.alt = t.alt;
-  });
+    // Gallery thumbs -> viewer
+    const mainImg = document.getElementById('mainImg');
+    document.getElementById('thumbs').addEventListener('click', e=>{
+      const t = e.target.closest('img'); if(!t) return;
+      [...e.currentTarget.children].forEach(i=>i.removeAttribute('aria-current'));
+      t.setAttribute('aria-current','true');
+      mainImg.src = t.dataset.big; mainImg.alt = t.alt;
+    });
 
-  // --- Size charts (unisex)
-  const sizeSelect = document.getElementById('sizeSelect');
-  const sizeNote = document.getElementById('sizeNote');
-  const charts = {
-    US:["W 6","W 6.5","W 7","W 7.5","W 8","W 8.5","W 9","W 9.5","W 10","W 10.5","M 6","M 6.5","M 7","M 7.5","M 8","M 8.5","M 9","M 9.5","M 10"],
-    EU:["36","37","38","39","40","41","42","43","44"],
-    UK:["3.5","4","4.5","5","5.5","6","6.5","7","7.5","8","8.5","9"]
-  };
-  function fillSizes(scale){
-    sizeSelect.innerHTML = '<option value="">Choose your size ('+scale+')</option>' +
-      charts[scale].map(s=>`<option>${s} ${scale}</option>`).join('');
-    sizeNote.textContent = 'Tip: Men’s US 7 ≈ Women’s US 8.5 ≈ EU 40 ≈ UK 6.';
-  }
-  document.getElementById('sizeChart').addEventListener('change', e=> fillSizes(e.target.value));
-  fillSizes('US');
-
-  // --- Testimonials dots
-  const track = document.getElementById('tTrack');
-  const dots = [...document.querySelectorAll('.t-nav .dot')];
-  dots.forEach(d=> d.addEventListener('click', ()=>{
-    dots.forEach(x=>x.classList.remove('active')); d.classList.add('active');
-    const i = +d.dataset.i; track.style.transform = `translateX(-${i*100}%)`;
-  }));
-
-  // --- Copy link
-  document.getElementById('copyLink').addEventListener('click', async (e)=>{
-    e.preventDefault();
-    try{
-      await navigator.clipboard.writeText(location.href);
-      e.target.textContent='Copied!'; setTimeout(()=>e.target.textContent='Copy link',1500);
-    }catch{}
-  });
-
-  // --- First-visit Offer Overlay (logic)
-  (function(){
-    const KEY_SEEN = 'stp_first7_seen';
-    const KEY_APPLIED = 'stp_first7_applied';
-    const PROMO_CODE = 'SINSFIRST7';
-    const PROMO_PCT = 7;
-
-    const $overlay = document.getElementById('offerOverlay');
-    const $close = document.getElementById('offerClose');
-    const $apply = document.getElementById('applyPromo');
-    const $copy = document.getElementById('copyPromo');
-    const $code = document.getElementById('promoCode');
-    const $noThanks = document.getElementById('noThanks');
-
-    // Show overlay
-    function openOverlay(){
-      $overlay.style.display = 'flex';
-      $overlay.dataset.open = 'true';
-      $overlay.setAttribute('aria-hidden','false');
-      document.body.classList.add('no-scroll');
-      $close?.focus({preventScroll:true});
-      localStorage.setItem(KEY_SEEN, '1');
+    // Size charts (unisex)
+    const sizeSelect = document.getElementById('sizeSelect');
+    const sizeNote = document.getElementById('sizeNote');
+    const charts = {
+      US:["W 6","W 6.5","W 7","W 7.5","W 8","W 8.5","W 9","W 9.5","W 10","W 10.5","M 6","M 6.5","M 7","M 7.5","M 8","M 8.5","M 9","M 9.5","M 10"],
+      EU:["36","37","38","39","40","41","42","43","44"],
+      UK:["3.5","4","4.5","5","5.5","6","6.5","7","7.5","8","8.5","9"]
+    };
+    function fillSizes(scale){
+      sizeSelect.innerHTML = '<option value="">Choose your size ('+scale+')</option>' +
+        charts[scale].map(s=>`<option>${s} ${scale}</option>`).join('');
+      sizeNote.textContent = 'Tip: Men’s US 7 ≈ Women’s US 8.5 ≈ EU 40 ≈ UK 6.';
     }
-    function closeOverlay(){
-      $overlay.dataset.open = 'false';
-      $overlay.setAttribute('aria-hidden','true');
-      $overlay.style.display = 'none';
-      document.body.classList.remove('no-scroll');
-    }
+    document.getElementById('sizeChart').addEventListener('change', e=> fillSizes(e.target.value));
+    fillSizes('US');
 
-    $copy?.addEventListener('click', async ()=>{
+    // Testimonials dots
+    const track = document.getElementById('tTrack');
+    const dots = [...document.querySelectorAll('.t-nav .dot')];
+    dots.forEach(d=> d.addEventListener('click', ()=>{
+      dots.forEach(x=>x.classList.remove('active')); d.classList.add('active');
+      const i = +d.dataset.i; track.style.transform = `translateX(-${i*100}%)`;
+    }));
+
+    // Copy link
+    document.getElementById('copyLink').addEventListener('click', async (e)=>{
+      e.preventDefault();
       try{
-        await navigator.clipboard.writeText(($code?.textContent||'').trim());
-        $copy.textContent = 'Copied';
-        setTimeout(()=>{$copy.textContent='Copy';}, 1400);
+        await navigator.clipboard.writeText(location.href);
+        e.target.textContent='Copied!'; setTimeout(()=>e.target.textContent='Copy link',1500);
       }catch{}
     });
 
-    $apply?.addEventListener('click', ()=>{
-      localStorage.setItem(KEY_APPLIED, PROMO_CODE);
-      closeOverlay();
-      document.querySelector('.buy')?.scrollIntoView({behavior:'smooth', block:'start'});
-      const btn = document.getElementById('buyBtn');
-      if (btn){
-        btn.animate(
-          [
-            {boxShadow:'0 0 0 0 rgba(245,198,20,0)'},
-            {boxShadow:'0 0 0 6px rgba(245,198,20,0.35)'},
-            {boxShadow:'0 0 0 0 rgba(245,198,20,0)'}
-          ],
-          {duration:1000, easing:'ease'}
-        );
-      }
-    });
-
-    $close?.addEventListener('click', closeOverlay);
-    $noThanks?.addEventListener('click', closeOverlay);
-    $overlay?.addEventListener('click', (e)=>{ if(e.target === $overlay) closeOverlay(); });
-    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeOverlay(); });
-
-    // Show once per visitor
-    window.addEventListener('DOMContentLoaded', ()=>{
-      if (!localStorage.getItem(KEY_SEEN)) {
-        setTimeout(openOverlay, 400);
-      }
-    });
-
-    // --- Buy CTA (with promo support)
+    // Buy CTA (checkout)
     document.getElementById('buyBtn').addEventListener('click', ()=>{
-      const size = sizeSelect?.value;
+      const size = sizeSelect.value;
       if(!size){ alert('Choose your size first.'); return; }
-
       const params = new URLSearchParams({
-        id: 'sloppiest-toppy',
-        model: 'Sloppiest Toppy',
-        price: 219,
+        id:'sloppiest-toppy',
+        model:'Sloppiest Toppy',
+        price:500.00,
         size,
-        qty: document.getElementById('qty').value
+        qty:document.getElementById('qty').value
       });
-
-      const applied = localStorage.getItem(KEY_APPLIED);
-      if (applied) {
-        params.set('discount', applied);          // "SINSFIRST7"
-        params.set('discount_pct', String(PROMO_PCT));
-      }
-
-      window.location.href = '/checkout?' + params.toString();
+      window.location.href = '/checkout?'+params.toString();
     });
-  })();
   </script>
 
-  <!-- Product structured data -->
+  <!-- Product structured data (replace YOUR_DOMAIN with your real domain) -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org/",
     "@type":"Product",
     "name":"Sloppiest Toppy",
     "image":[
-      "https://sinsofthepast.store/assets/sloppiest/with_box.jpg",
-      "https://sinsofthepast.store/assets/sloppiest/side.jpg"
+      "https://YOUR_DOMAIN/assets/sloppiest/with_box.jpg",
+      "https://YOUR_DOMAIN/assets/sloppiest/side.jpg"
     ],
     "description":"Sporty low-top by SINS. Hand-crafted in Italy. Limited drop.",
     "brand":{"@type":"Brand","name":"SINS of the Past"},
@@ -457,75 +355,11 @@
     "offers":{
       "@type":"Offer",
       "priceCurrency":"USD",
-      "price":"219",
+      "price":"500.00",
       "availability":"https://schema.org/InStock",
-      "url":"https://sinsofthepast.store/sloppiest-toppy.html"
+      "url":"https://YOUR_DOMAIN/sloppiest-toppy.html"
     }
   }
   </script>
-
-  <!-- Popup styles (kept at end for clarity; uses existing tokens) -->
-  <style>
-    body.no-scroll { overflow:hidden; }
-    #offerOverlay {
-      position: fixed; inset: 0; z-index: 99999;
-      display: none; align-items: center; justify-content: center;
-      background: rgba(0,0,0,.75); backdrop-filter: blur(6px) saturate(120%);
-    }
-    #offerOverlay[data-open="true"] { display:flex; }
-    .offer-modal {
-      width: min(680px, 92vw);
-      background: var(--panel);
-      border: 1px solid var(--stroke);
-      border-radius: 20px;
-      box-shadow: 0 40px 120px rgba(0,0,0,.65);
-      color: var(--text);
-      overflow: hidden;
-    }
-    .offer-head {
-      padding: 18px 20px;
-      display: flex; align-items: center; justify-content: space-between;
-      border-bottom: 1px solid var(--stroke);
-      background:
-        radial-gradient(800px 400px at 80% -10%, rgba(255,255,255,.05), transparent 60%),
-        linear-gradient(to right, rgba(255,255,255,.02), rgba(255,255,255,.0));
-    }
-    .offer-title { margin:0; font-family:"Playfair Display",serif; font-size: clamp(1.1rem, 1.2rem + .6vw, 1.6rem); letter-spacing:.5px; }
-    .offer-close {
-      appearance:none; border:1px solid var(--stroke); background:transparent; color:var(--text);
-      border-radius:999px; width:34px; height:34px; display:grid; place-items:center; cursor:pointer;
-    }
-    .offer-body {
-      padding:22px 22px 18px; display:grid; gap:14px;
-      background:
-        radial-gradient(1000px 520px at 70% -10%, rgba(255,255,255,.06), transparent 60%),
-        linear-gradient(to bottom, rgba(12,35,64,.24), rgba(0,0,0,0));
-    }
-    .offer-kicker { text-transform:uppercase; letter-spacing:.2em; font-weight:600; opacity:.8; font-size:.8rem; }
-    .offer-big { font-family:"Playfair Display",serif; font-size:clamp(2.2rem, 3.5vw + 1rem, 3.2rem); line-height:1.05; margin:2px 0 6px; }
-    .offer-big .accent { color: var(--gold); }
-    .offer-copy { color: var(--muted); line-height:1.7; }
-    .code-row { display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; }
-    .promo-chip {
-      display:inline-flex; align-items:center; gap:.5rem;
-      border:1px dashed var(--soft); background:#0f1220; color:var(--text);
-      padding:.55rem .8rem; border-radius:12px; font-weight:700; letter-spacing:.04em;
-    }
-    .copy-btn {
-      padding:.55rem .8rem; border-radius:12px; cursor:pointer;
-      border:1px solid var(--stroke); background:var(--panel); color:var(--text);
-    }
-    .apply-btn {
-      margin-top:.5rem; width:100%; padding:.9rem 1rem; border-radius:14px; border:none; cursor:pointer;
-      font-weight:800; letter-spacing:.02em; background:var(--crimson); color:#fff;
-    }
-    .apply-btn:hover { filter:brightness(1.06); }
-    .offer-foot {
-      padding:12px 20px 18px; color:var(--muted); font-size:.85rem;
-      display:flex; justify-content:space-between; align-items:center; gap:10px;
-    }
-    .tiny{opacity:.85;}
-    .linkish{color:var(--gold); text-decoration:none; border-bottom:1px dotted currentColor; cursor:pointer;}
-  </style>
 </body>
 </html>
