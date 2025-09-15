@@ -1,25 +1,26 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <base href="/">
+  <!-- Make relative URLs resolve from site root -->
+  <base href="/">
+
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Sloppiest Toppy™ — SINS of the Past</title>
   <meta name="description" content="Sloppiest Toppy™ — sporty low-top handcrafted in Italy. Limited drop. Free shipping & returns."/>
-  <link rel="canonical" href="/sloppiest-toppy-product-page.html"/>
+  <link rel="canonical" href="/sloppiest-toppy.html"/>
 
-  <!-- If your base.css loads fonts, you can remove these -->
+  <!-- Fonts (remove if your base CSS already loads them) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 
-  <!-- Preload hero for faster paint -->
-  <link rel="preload" as="image" href="assets/sloppiest/hero.jpg">
+  <!-- Preload hero -->
+  <link rel="preload" as="image" href="/assets/sloppiest/hero.jpg">
 
   <style>
     :root{
       --ink:#0c2340;          /* deep navy */
-      --ink-2:#09162b;        /* deeper navy */
       --crimson:#be2036;      /* CTA accent */
       --gold:#f5c614;         /* subtle highlight */
       --text:#e6e8ee;         /* primary text on dark */
@@ -126,8 +127,8 @@
 </head>
 <body>
   <!-- HERO -->
-  <header class="hero" style="background:#0b1b31">
-    <img class="bg" src="assets/sloppiest/hero.jpg" alt="Sloppiest Toppy sneaker hero">
+  <header class="hero">
+    <img class="bg" src="/assets/sloppiest/hero.jpg" alt="Sloppiest Toppy sneaker hero">
     <div class="pitch container">
       <div class="kicker">SINS • Limited Drop</div>
       <h1 class="title">SLOPPIEST <span class="accent">TOPPY</span></h1>
@@ -145,18 +146,18 @@
       <!-- GALLERY -->
       <div class="gallery">
         <div class="viewer" id="viewer">
-          <img id="mainImg" src="assets/sloppiest/with_box.jpg" alt="Sloppiest Toppy with box">
+          <img id="mainImg" src="/assets/sloppiest/with_box.jpg" alt="Sloppiest Toppy with box">
         </div>
         <div class="thumbs" id="thumbs" aria-label="Gallery thumbnails">
-          <img src="assets/sloppiest/with_box.jpg" alt="With box" data-big="assets/sloppiest/with_box.jpg" aria-current="true" loading="lazy">
-          <img src="assets/sloppiest/over_box.jpg" alt="Over box" data-big="assets/sloppiest/over_box.jpg" loading="lazy">
-          <img src="assets/sloppiest/side.jpg" alt="Side" data-big="assets/sloppiest/side.jpg" loading="lazy">
-          <img src="assets/sloppiest/double_quarter.jpg" alt="Double" data-big="assets/sloppiest/double_quarter.jpg" loading="lazy">
-          <img src="assets/sloppiest/top_bottom.jpg" alt="Top & bottom" data-big="assets/sloppiest/top_bottom.jpg" loading="lazy">
-          <img src="assets/sloppiest/detail.jpg" alt="Detail" data-big="assets/sloppiest/detail.jpg" loading="lazy">
-          <img src="assets/sloppiest/tongue.jpg" alt="Tongue" data-big="assets/sloppiest/tongue.jpg" loading="lazy">
-          <img src="assets/sloppiest/box.jpg" alt="Box" data-big="assets/sloppiest/box.jpg" loading="lazy">
-          <img src="assets/sloppiest/sketch.jpg" alt="Sketch" data-big="assets/sloppiest/sketch.jpg" loading="lazy">
+          <img src="/assets/sloppiest/with_box.jpg" alt="With box" data-big="/assets/sloppiest/with_box.jpg" aria-current="true" loading="lazy">
+          <img src="/assets/sloppiest/over_box.jpg" alt="Over box" data-big="/assets/sloppiest/over_box.jpg" loading="lazy">
+          <img src="/assets/sloppiest/side.jpg" alt="Side" data-big="/assets/sloppiest/side.jpg" loading="lazy">
+          <img src="/assets/sloppiest/double_quarter.jpg" alt="Double" data-big="/assets/sloppiest/double_quarter.jpg" loading="lazy">
+          <img src="/assets/sloppiest/top_bottom.jpg" alt="Top & bottom" data-big="/assets/sloppiest/top_bottom.jpg" loading="lazy">
+          <img src="/assets/sloppiest/detail.jpg" alt="Detail" data-big="/assets/sloppiest/detail.jpg" loading="lazy">
+          <img src="/assets/sloppiest/tongue.jpg" alt="Tongue" data-big="/assets/sloppiest/tongue.jpg" loading="lazy">
+          <img src="/assets/sloppiest/box.jpg" alt="Box" data-big="/assets/sloppiest/box.jpg" loading="lazy">
+          <img src="/assets/sloppiest/sketch.jpg" alt="Sketch" data-big="/assets/sloppiest/sketch.jpg" loading="lazy">
         </div>
       </div>
 
@@ -170,8 +171,8 @@
           </div>
         </div>
 
-        <div class="price"><b>$500</b> <span class="chip">USD</span></div>
-        <div class="flags"><img src="assets/sloppiest/made-in-italy.jpg" alt="Made in Italy"> Made in Italy</div>
+        <div class="price"><b>$500.00</b> <span class="chip">USD</span></div>
+        <div class="flags"><img src="/assets/icons/flag-it.svg" alt="Made in Italy"> Made in Italy</div>
 
         <div class="selector">
           <label class="small" for="sizeChart">Size system</label>
@@ -209,11 +210,11 @@
     <!-- Stripes -->
     <section class="stripe">
       <div class="row container">
-        <div><img class="layered" src="assets/sloppiest/crafting-materials.png" alt="Handcrafted in Italy"></div>
+        <div><img class="layered" src="/assets/sloppiest/crafting.jpg" alt="Handcrafted in Italy"></div>
         <div>
           <h2>Handcrafted in Italy</h2>
           <p>Each pair is handmade by master Italian artisans using pristine leather. Tradition meets modern style for a product that’s unmistakably Italian.</p>
-          <div class="tech"><img src="assets/sloppiest/crafting-materials.jpg" alt="" width="22" height="22" aria-hidden="true"> Artisan made</div>
+          <div class="tech"><img src="/assets/icons/hand.svg" alt="" width="22" height="22" aria-hidden="true"> Artisan made</div>
         </div>
       </div>
     </section>
@@ -223,19 +224,19 @@
         <div>
           <h2>Cutting-Edge Design</h2>
           <p>Sculptural paneled upper, plush materials and a pumped rubber sole. Embossed tongue logo and extra padding in heel and ankle for comfort.</p>
-          <div class="tech"><img src="assets/sloppiest/lowtop.jpg" alt="" width="22" height="22" aria-hidden="true"> Sporty low-top</div>
+          <div class="tech"><img src="/assets/icons/lowtop.svg" alt="" width="22" height="22" aria-hidden="true"> Sporty low-top</div>
         </div>
-        <div><img class="layered" src="assets/sloppiest/top_bottom.jpg" alt="Top & bottom view"></div>
+        <div><img class="layered" src="/assets/sloppiest/top_bottom.jpg" alt="Top & bottom view"></div>
       </div>
     </section>
 
     <section class="stripe">
       <div class="row container">
-        <div><img class="layered" src="assets/sloppiest/sketch.jpg" alt="Limited edition sketch"></div>
+        <div><img class="layered" src="/assets/sloppiest/sketch.jpg" alt="Limited edition sketch"></div>
         <div>
           <h2>A Unique Limited Edition</h2>
           <p>Very limited quantities available exclusively here. Each pair ships with an official Limited Edition certificate (design code: <b>#NF2361</b>).</p>
-          <div class="tech"><img src="assets/icons/lock.svg" alt="" width="20" height="20" aria-hidden="true"> Exclusive drop</div>
+          <div class="tech"><img src="/assets/icons/lock.svg" alt="" width="20" height="20" aria-hidden="true"> Exclusive drop</div>
         </div>
       </div>
     </section>
@@ -245,9 +246,9 @@
         <div>
           <h2>Collector’s Edition Packaging</h2>
           <p>Custom box with high-fidelity print, Italian construction and a solid magnetic clip. Adds serious value to an already exclusive design.</p>
-          <div class="tech"><img src="assets/sloppiest/boxes.jpg" alt="" width="20" height="20" aria-hidden="true"> Premium box</div>
+          <div class="tech"><img src="/assets/icons/box.svg" alt="" width="20" height="20" aria-hidden="true"> Premium box</div>
         </div>
-        <div><img class="layered" src="assets/sloppiest/box.jpg" alt="Collector box"></div>
+        <div><img class="layered" src="/assets/sloppiest/box.jpg" alt="Collector box"></div>
       </div>
     </section>
 
@@ -281,7 +282,7 @@
   </main>
 
   <script>
-    // Thumbs -> viewer
+    // Gallery thumbs -> viewer
     const mainImg = document.getElementById('mainImg');
     document.getElementById('thumbs').addEventListener('click', e=>{
       const t = e.target.closest('img'); if(!t) return;
@@ -323,7 +324,7 @@
       }catch{}
     });
 
-    // Buy CTA (swap with your cart/checkout)
+    // Buy CTA (checkout)
     document.getElementById('buyBtn').addEventListener('click', ()=>{
       const size = sizeSelect.value;
       if(!size){ alert('Choose your size first.'); return; }
@@ -334,20 +335,19 @@
         size,
         qty:document.getElementById('qty').value
       });
-      // Replace with your cart logic if you have one:
       window.location.href = '/checkout?'+params.toString();
     });
   </script>
 
-  <!-- Product structured data -->
+  <!-- Product structured data (replace YOUR_DOMAIN with your real domain) -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org/",
     "@type":"Product",
     "name":"Sloppiest Toppy",
     "image":[
-      "https://sinsofthepast.store.com/assets/sloppiest/with_box.jpg",
-      "https://sinsofthepast.store.com/assets/sloppiest/side.jpg"
+      "https://YOUR_DOMAIN/assets/sloppiest/with_box.jpg",
+      "https://YOUR_DOMAIN/assets/sloppiest/side.jpg"
     ],
     "description":"Sporty low-top by SINS. Hand-crafted in Italy. Limited drop.",
     "brand":{"@type":"Brand","name":"SINS of the Past"},
@@ -357,7 +357,7 @@
       "priceCurrency":"USD",
       "price":"500.00",
       "availability":"https://schema.org/InStock",
-      "url":"https://sinsofthepast.store.com/sloppiest-toppy-product-page.html"
+      "url":"https://YOUR_DOMAIN/sloppiest-toppy.html"
     }
   }
   </script>
