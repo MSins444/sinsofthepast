@@ -8,8 +8,27 @@
   <link rel="stylesheet" href="css/cursor-shop.css"><!-- keep last if it overrides -->
   <style>
     /* Card image anchors */
-    .card .img{display:block;aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:#0f1117}
-    .card .img img{width:100%;height:100%;object-fit:cover;display:block}
+    .card .img {
+      display:block;
+      aspect-ratio:4/5;
+      border-radius:16px;
+      overflow:hidden;
+      background:#0f1117;
+    }
+    .card .img img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .tagline{
+      font-size:clamp(22px,5vw,44px);
+      letter-spacing:.02em;
+      line-height:1.2;
+      text-align:center;
+      margin:24px auto 12px;
+      max-width:22ch;
+    }
   </style>
 </head>
 <body class="page-shop">
@@ -37,144 +56,323 @@
 <main id="main" tabindex="-1">
   <section class="section">
     <h1>Shop</h1>
-    <p class="muted" style="max-width:900px;margin:8px auto 22px">
-     <style>
-.tagline{
-  font-size: clamp(22px, 5vw, 44px);
-  letter-spacing:.02em;
-  line-height:1.2;
-  text-align:center;
-  margin:24px auto 12px;
-  max-width:22ch;
-}
-</style>
-
+    <p class="tagline">
+      Luxury relics, bad decisions, and ethically sourced sins.
+    </p>
+    <p class="muted" style="max-width:900px;margin:8px auto 22px;text-align:center">
+      Season I: <strong>The Unrepentant Cuts</strong> — denim, fur, silver, and exotic skins for people who should know better.
     </p>
 
     <div class="grid">
 
-      <!-- Product 1: Sloppiest Toppy (tee example) -->
+      <!-- A1: The Bad Influence Jeans -->
       <article class="card tilt">
-        <a href="sloppiest-toppy.html" class="img" aria-label="View Sloppiest Toppy"
-           style="background:url('assets/shoes-over_box.jpg') center/cover no-repeat"></a>
+        <a href="bad-influence-jeans.html"
+           class="img"
+           aria-label="View The Bad Influence Jeans"
+           style="background:url('assets/bad-influence-jeans.jpg') center/cover no-repeat"></a>
         <div class="meta">
-          <h3>Sloppiest Toppy</h3>
-          <p class="muted">Plush Italian build with a pumped sole and a tongue that does the most. / Behaves badly, wears beautifully.</p>
-          <div class="buy">
-            <span class="price">$500.00</span>
-            <button
-              class="btn small add-to-cart"
-              data-id="sloppiest-toppy-tee"
-              data-name="Sloppiest Toppy"
-              data-price="500.00"
-              data-img="assets/Sloppiesttopy.png">
-              Add to Bag
-            </button>
-          </div>
-        </div>
-      </article>
-
-      <!-- Product 2: Black Diamond VVS Chain -->
-      <article class="card tilt">
-        <a href="flesh&fang.html" class="img" aria-label="View Flesh & Fang Chain wallet"
-           style="background:url('assets/BlackDiamond-VVS-999-sterling-silver.png') center/cover no-repeat"></a>
-        <div class="meta">
-          <h3>“Flesh & Fang” raw, primal, erotic edge.</h3>
-          <p class="muted">Where desire bites back.
-
-Flesh & Fang merges an authentic alligator head with caiman tail leather, reinforced with precious metal bite plates and a gemstone clasp. Branded with the Scythe Monogram, it’s a relic of lust and danger — a statement that can’t be ignored.</p>
+          <h3>The Bad Influence Jeans™</h3>
+          <p class="muted">Snakes and wolves on the same pair of legs. Snakes AND wolves? Pick a struggle.</p>
+          <ul class="specs" style="margin:8px 0 12px 18px">
+            <li>Raw Japanese denim base</li>
+            <li>Blue/red serpent appliqués</li>
+            <li>Blue/red wolf-head panels</li>
+            <li>Mink head cuff attachments</li>
+          </ul>
           <div class="buy">
             <span class="price">$1,200.00</span>
             <button
               class="btn small add-to-cart"
-              data-id="black-diamond-vvs-chain"
-              data-name="Black Diamond VVS Chain"
-              data-price="1400.00"
-              data-img="assets/BlackDiamond-VVS-999-sterling-silver.png">
+              data-id="bad-influence-jeans"
+              data-name="The Bad Influence Jeans"
+              data-price="1200.00"
+              data-img="assets/bad-influence-jeans.jpg">
               Add to Bag
             </button>
           </div>
         </div>
       </article>
 
-      <!-- Product 3: Pusillanimous heels -->
+      <!-- A2: The “This Seems Illegal” Denims -->
       <article class="card tilt">
-        <a href="pusillanimous-heels.html" class="img" aria-label="View Pusillanimous Heels"
-           style="background:url('assets/Pusillanimous.png') center/cover no-repeat"></a>
+        <a href="this-seems-illegal-denims.html"
+           class="img"
+           aria-label="View The “This Seems Illegal” Denims"
+           style="background:url('assets/this-seems-illegal-denims.jpg') center/cover no-repeat"></a>
         <div class="meta">
-          <h3>Pusillanimous</h3>
-          <p class="muted">6&quot; stiletto — bold red leather with white platform</p>
-          <p>Dare to be unapologetic. Glossy finish with outsole kiss emboss and “Not Sorry.”</p>
+          <h3>The “This Seems Illegal” Denims™</h3>
+          <p class="muted">One leg regrets, the other leg repeats. A sermon in gator and python.</p>
           <ul class="specs" style="margin:8px 0 12px 18px">
-            <li>Origin: Le Marche, Italy (The Shoe Valley)</li>
-            <li>Upper: Italian leather/suede</li>
-            <li>Insole: Organic cotton + leather</li>
-            <li>Construction: Handcrafted; precision stitching</li>
-            <li>Sole: Technician-designed comfort sole</li>
+            <li>Caiman/alligator tail down one leg</li>
+            <li>Python wrap on the opposite leg</li>
+            <li>Raw Japanese denim shell</li>
+            <li>Contrado satin interior details</li>
           </ul>
           <div class="buy">
-            <span class="price">$500.00</span>
+            <span class="price">$1,400.00</span>
             <button
               class="btn small add-to-cart"
-              data-id="pusillanimous-heels"
-              data-name="Pusillanimous"
-              data-price="500.00"
-              data-img="assets/Pusillanimous.png">
+              data-id="this-seems-illegal-denims"
+              data-name="The “This Seems Illegal” Denims"
+              data-price="1400.00"
+              data-img="assets/this-seems-illegal-denims.jpg">
               Add to Bag
             </button>
           </div>
         </div>
       </article>
 
-      <!-- Product 4: We Are The Fallen Angels Poster -->
-<article class="card tilt">
-  <a href="onlythefreeposter.html" class="img" aria-label="View We Are The Fallen Angels Poster"
-     style="background:url('assets/onlythefree.JPG') center/cover no-repeat"></a>
-  <div class="meta">
-    <h3>We Are The Fallen Angels</h3>
-    <p class="muted">Archival poster — trippy visuals</p>
-    <ul class="specs" style="margin:8px 0 12px 18px">
-      <li>Archival print, acid-free paper</li>
-      <li>Matte or glossy finish</li>
-      <li>Precision color, high fidelity</li>
-    </ul>
-    <div class="buy">
-      <span class="price">$50.00</span>
-      <button
-        class="btn small add-to-cart"
-        data-id="only-the-free-poster"
-        data-name="We Are The Fallen Angels"
-        data-price="50.00"
-        data-img="assets/onlythefree.JPG">
-        Add to Bag
-      </button>
-    </div>
-  </div>
-</article>
+      <!-- A3: The Pony Play Pants -->
+      <article class="card tilt">
+        <a href="pony-play-pants.html"
+           class="img"
+           aria-label="View The Pony Play Pants"
+           style="background:url('assets/pony-play-pants.jpg') center/cover no-repeat"></a>
+        <div class="meta">
+          <h3>The Pony Play Pants™</h3>
+          <p class="muted">Grow up? Absolutely not.</p>
+          <ul class="specs" style="margin:8px 0 12px 18px">
+            <li>Pony hair paneling</li>
+            <li>Raw Japanese indigo denim</li>
+            <li>Satin pocketing</li>
+          </ul>
+          <div class="buy">
+            <span class="price">$980.00</span>
+            <button
+              class="btn small add-to-cart"
+              data-id="pony-play-pants"
+              data-name="The Pony Play Pants"
+              data-price="980.00"
+              data-img="assets/pony-play-pants.jpg">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      </article>
 
+      <!-- A4: The Wrong Turn Trousers -->
+      <article class="card tilt">
+        <a href="wrong-turn-trousers.html"
+           class="img"
+           aria-label="View The Wrong Turn Trousers"
+           style="background:url('assets/wrong-turn-trousers.jpg') center/cover no-repeat"></a>
+        <div class="meta">
+          <h3>The Wrong Turn Trousers™</h3>
+          <p class="muted">Your ancestors warned you. You didn’t listen.</p>
+          <ul class="specs" style="margin:8px 0 12px 18px">
+            <li>Raw Japanese denim</li>
+            <li>Leather crossroads sigils</li>
+            <li>Built to match the Crossroads Jacket</li>
+          </ul>
+          <div class="buy">
+            <span class="price">$880.00</span>
+            <button
+              class="btn small add-to-cart"
+              data-id="wrong-turn-trousers"
+              data-name="The Wrong Turn Trousers"
+              data-price="880.00"
+              data-img="assets/wrong-turn-trousers.jpg">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      </article>
 
-      <!-- Add more <article class="card tilt"> … </article> here as needed -->
+      <!-- B1: The “Don’t Ask Me Where I Was” Jacket -->
+      <article class="card tilt">
+        <a href="dont-ask-me-where-i-was-jacket.html"
+           class="img"
+           aria-label="View The “Don’t Ask Me Where I Was” Jacket"
+           style="background:url('assets/dont-ask-me-where-i-was-jacket.jpg') center/cover no-repeat"></a>
+        <div class="meta">
+          <h3>The “Don’t Ask Me Where I Was” Jacket™</h3>
+          <p class="muted">Evidence? Never heard of her.</p>
+          <ul class="specs" style="margin:8px 0 12px 18px">
+            <li>Raw Japanese denim shell</li>
+            <li>Leather patchwork at the crossroads</li>
+            <li>Designed to pair with Wrong Turn Trousers</li>
+          </ul>
+          <div class="buy">
+            <span class="price">$1,600.00</span>
+            <button
+              class="btn small add-to-cart"
+              data-id="dont-ask-me-where-i-was-jacket"
+              data-name="The “Don’t Ask Me Where I Was” Jacket"
+              data-price="1600.00"
+              data-img="assets/dont-ask-me-where-i-was-jacket.jpg">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      </article>
 
-      <!-- Product: Raw Selvedge Denim -->
-<article class="card tilt">
-  <a href="rawdenim.html" class="img" aria-label="View Raw Selvedge Denim"
-     style="background:url('assets/rawdenim.png') center/cover no-repeat"></a>
-  <div class="meta">
-    <h3><a href="rawdenim.html" class="link-plain">Raw Selvedge Denim pants</a></h3>
-    <p class="muted">13.5oz Japanese selvedge — slim/straight</p>
-    <div class="buy">
-      <span class="price">$380.00</span>
-      <button
-        class="btn small add-to-cart"
-        data-id="raw-selvedge-denim"
-        data-name="Raw Selvedge Denim"
-        data-price="280.00"
-        data-img="assets/raw-selvedge-denim.jpg">
-        Add to Bag
-      </button>
-    </div>
-  </div>
-</article>
+      <!-- B2: The Back-From-The-Dead Fox Coat -->
+      <article class="card tilt">
+        <a href="back-from-the-dead-fox-coat.html"
+           class="img"
+           aria-label="View The Back-From-The-Dead Fox Coat"
+           style="background:url('assets/back-from-the-dead-fox-coat.jpg') center/cover no-repeat"></a>
+        <div class="meta">
+          <h3>The Back-From-The-Dead Fox Coat™</h3>
+          <p class="muted">It lived twice. You lived once — barely.</p>
+          <ul class="specs" style="margin:8px 0 12px 18px">
+            <li>Fox head-only pelt construction</li>
+            <li>Fully reversible to cow leather</li>
+            <li>Statement of reincarnation &amp; sin</li>
+          </ul>
+          <div class="buy">
+            <span class="price">$2,800.00</span>
+            <button
+              class="btn small add-to-cart"
+              data-id="back-from-the-dead-fox-coat"
+              data-name="The Back-From-The-Dead Fox Coat"
+              data-price="2800.00"
+              data-img="assets/back-from-the-dead-fox-coat.jpg">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- C1: The Bad Decision Aviator -->
+      <article class="card tilt">
+        <a href="bad-decision-aviator.html"
+           class="img"
+           aria-label="View The Bad Decision Aviator"
+           style="background:url('assets/bad-decision-aviator.jpg') center/cover no-repeat"></a>
+        <div class="meta">
+          <h3>The Bad Decision Aviator™</h3>
+          <p class="muted">Fly high, crash pretty.</p>
+          <ul class="specs" style="margin:8px 0 12px 18px">
+            <li>Full fox pelt aviator hat</li>
+            <li>Luxe interior lining</li>
+          </ul>
+          <div class="buy">
+            <span class="price">$780.00</span>
+            <button
+              class="btn small add-to-cart"
+              data-id="bad-decision-aviator"
+              data-name="The Bad Decision Aviator"
+              data-price="780.00"
+              data-img="assets/bad-decision-aviator.jpg">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- C2: The After-Hours Muff -->
+      <article class="card tilt">
+        <a href="after-hours-muff.html"
+           class="img"
+           aria-label="View The After-Hours Muff"
+           style="background:url('assets/after-hours-muff.jpg') center/cover no-repeat"></a>
+        <div class="meta">
+          <h3>The After-Hours Muff™</h3>
+          <p class="muted">Say what you want — it stays quiet.</p>
+          <ul class="specs" style="margin:8px 0 12px 18px">
+            <li>Mink fur exterior</li>
+            <li>Leather core structure</li>
+            <li>Cinematic, red-carpet energy</li>
+          </ul>
+          <div class="buy">
+            <span class="price">$1,100.00</span>
+            <button
+              class="btn small add-to-cart"
+              data-id="after-hours-muff"
+              data-name="The After-Hours Muff"
+              data-price="1100.00"
+              data-img="assets/after-hours-muff.jpg">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- D1: The “Don’t Check My Bank Account” Wallet -->
+      <article class="card tilt">
+        <a href="dont-check-my-bank-account-wallet.html"
+           class="img"
+           aria-label="View The “Don’t Check My Bank Account” Wallet"
+           style="background:url('assets/dont-check-my-bank-account-wallet.jpg') center/cover no-repeat"></a>
+        <div class="meta">
+          <h3>The “Don’t Check My Bank Account” Wallet™</h3>
+          <p class="muted">Deadly on the outside. Devastating inside.</p>
+          <ul class="specs" style="margin:8px 0 12px 18px">
+            <li>Cobra skin body</li>
+            <li>Cobra head centerpiece</li>
+            <li>Stepani-crafted construction</li>
+          </ul>
+          <div class="buy">
+            <span class="price">$1,300.00</span>
+            <button
+              class="btn small add-to-cart"
+              data-id="dont-check-my-bank-account-wallet"
+              data-name="The “Don’t Check My Bank Account” Wallet"
+              data-price="1300.00"
+              data-img="assets/dont-check-my-bank-account-wallet.jpg">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- E1: The Bad Habits Chain -->
+      <article class="card tilt">
+        <a href="bad-habits-chain.html"
+           class="img"
+           aria-label="View The Bad Habits Chain"
+           style="background:url('assets/bad-habits-chain.jpg') center/cover no-repeat"></a>
+        <div class="meta">
+          <h3>The Bad Habits Chain™</h3>
+          <p class="muted">Three charms, zero discipline.</p>
+          <ul class="specs" style="margin:8px 0 12px 18px">
+            <li>28g sterling silver Vice Link charms</li>
+            <li>3 charms, black diamond details</li>
+            <li>20&quot; Cuban chain, 5.3mm</li>
+          </ul>
+          <div class="buy">
+            <span class="price">$2,400.00</span>
+            <button
+              class="btn small add-to-cart"
+              data-id="bad-habits-chain"
+              data-name="The Bad Habits Chain"
+              data-price="2400.00"
+              data-img="assets/bad-habits-chain.jpg">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- E2: The “Do Not Open” Zipper Pulls -->
+      <article class="card tilt">
+        <a href="do-not-open-zipper-pulls.html"
+           class="img"
+           aria-label="View The “Do Not Open” Zipper Pulls"
+           style="background:url('assets/do-not-open-zipper-pulls.jpg') center/cover no-repeat"></a>
+        <div class="meta">
+          <h3>The “Do Not Open” Zipper Pulls™</h3>
+          <p class="muted">Your zipper’s got an attitude.</p>
+          <ul class="specs" style="margin:8px 0 12px 18px">
+            <li>Solid silver scythe hardware</li>
+            <li>Black diamond inlay option</li>
+            <li>For denim, bags, or relic wallets</li>
+          </ul>
+          <div class="buy">
+            <span class="price">$320.00</span>
+            <button
+              class="btn small add-to-cart"
+              data-id="do-not-open-zipper-pulls"
+              data-name="The “Do Not Open” Zipper Pulls"
+              data-price="320.00"
+              data-img="assets/do-not-open-zipper-pulls.jpg">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      </article>
 
     </div>
   </section>
@@ -192,7 +390,7 @@ Flesh & Fang merges an authentic alligator head with caiman tail leather, reinfo
 </script>
 
 <p class="muted" style="text-align:center;margin-top:6px">
-  Footwear handcrafted in Le Marche, Italy — The Shoe Valley (since 1901).
+  Natural, ethically sourced materials only — metals, stones, exotic skins, and furs for the unrepentant.
 </p>
 
 </body>
