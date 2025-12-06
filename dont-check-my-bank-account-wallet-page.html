@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>“Don’t Check My Bank Account” Wallet — Sins of the Past</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="css/base.css">
+  <style>
+    .product-page {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 40px;
+    }
+
+    /* HERO IMAGE */
+    .hero-image {
+      aspect-ratio: 3/4;
+      border-radius: 18px;
+      overflow:hidden;
+      background:#0f1117;
+      margin-bottom:18px;
+    }
+    .hero-image img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    /* GALLERY ROW */
+    .thumb-row {
+      display:flex;
+      gap:12px;
+      overflow-x:auto;
+      padding-bottom:10px;
+    }
+    .thumb-row img {
+      width:100px;
+      height:130px;
+      object-fit:cover;
+      border-radius:10px;
+      cursor:pointer;
+      transition:.2s;
+    }
+    .thumb-row img:hover {
+      opacity:.7;
+    }
+
+    /* TEXT BLOCK */
+    .product-info h1 {
+      font-size:clamp(26px, 3vw, 40px);
+      margin-bottom:8px;
+    }
+
+    .muted {
+      opacity:.7;
+    }
+
+    ul.specs {
+      margin-left:20px;
+      margin-top:10px;
+      line-height:1.5;
+    }
+
+    .price {
+      font-size:26px;
+      margin-top:20px;
+      display:block;
+    }
+
+    .btn {
+      margin-top:12px;
+    }
+  </style>
+
+  <script>
+    // Swap hero image when clicking thumbnails
+    function swapImage(src){
+      document.getElementById("heroImg").src = src;
+    }
+  </script>
+</head>
+
+<body class="page-product">
+
+<header class="header">
+  <a class="brand" href="home.html">
+    <span>Sins of the Past</span>
+  </a>
+  <nav class="nav">
+    <a href="home.html">Home</a>
+    <a href="shop.html" class="active">Shop</a>
+    <a href="about.html">About</a>
+    <a href="arcade.html">Arcade</a>
+    <a href="contact.html">Contact</a>
+    <a href="care.html">Care</a>
+  </nav>
+</header>
+
+
+<main>
+  <div class="product-page">
+
+    <!-- LEFT SIDE: IMAGES -->
+    <div class="product-images">
+
+      <!-- HERO IMAGE -->
+      <div class="hero-image">
+        <img id="heroImg" src="assets/dont-check-my-bank-account-wallet-cover.jpg" alt="Wallet Front">
+      </div>
+
+      <!-- THUMBNAIL IMAGE ROW -->
+      <div class="thumb-row">
+        <img src="assets/wallet-front.jpg" onclick="swapImage(this.src)">
+        <img src="assets/wallet-open.jpg" onclick="swapImage(this.src)">
+        <img src="assets/wallet-detail-chain.jpg" onclick="swapImage(this.src)">
+        <img src="assets/wallet-back.jpg" onclick="swapImage(this.src)">
+        <img src="assets/wallet-side.jpg" onclick="swapImage(this.src)">
+      </div>
+    </div>
+
+
+    <!-- RIGHT SIDE: DETAILS -->
+    <div class="product-info">
+      <h1>The “Don’t Check My Bank Account” Wallet™</h1>
+      <p class="muted">Deadly on the outside. Devastating inside.</p>
+
+      <ul class="specs">
+        <li>Cobra skin body</li>
+        <li>Cobra head centerpiece</li>
+        <li>Stepani-crafted construction</li>
+        <li>Luxury leather interior</li>
+        <li>Designed by Sins of the Past</li>
+        <li>Includes optional Vice Link chain connector</li>
+      </ul>
+
+      <span class="price">$2,500.00</span>
+
+      <button class="btn add-to-cart"
+        data-id="dont-check-my-bank-account-wallet"
+        data-name="The “Don’t Check My Bank Account” Wallet"
+        data-price="2500.00"
+        data-img="assets/wallet-front.jpg">
+        Add to Bag
+      </button>
+    </div>
+
+  </div>
+</main>
+
+
+<footer class="footer">© <span id="y"></span> Sins of the Past</footer>
+
+<script>
+  document.getElementById('y').textContent = new Date().getFullYear();
+</script>
+
+<script src="app.js" defer></script>
+
+</body>
+</html>
