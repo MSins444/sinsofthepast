@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>“Don’t Check My Bank Account” Wallet — Sins of the Past</title>
+  <title>"Don't Check My Bank Account" Wallet — Sins of the Past</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- Main styles -->
   <link rel="stylesheet" href="css/base.css">
+
   <style>
     .product-page {
       max-width: 1200px;
@@ -15,148 +18,167 @@
       gap: 40px;
     }
 
+    @media (max-width: 800px) {
+      .product-page {
+        grid-template-columns: 1fr;
+        margin: 30px auto;
+      }
+    }
+
     /* HERO IMAGE */
     .hero-image {
       aspect-ratio: 3/4;
       border-radius: 18px;
-      overflow:hidden;
-      background:#0f1117;
-      margin-bottom:18px;
+      overflow: hidden;
+      background: #0f1117;
+      margin-bottom: 18px;
     }
     .hero-image img {
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     /* GALLERY ROW */
     .thumb-row {
-      display:flex;
-      gap:12px;
-      overflow-x:auto;
-      padding-bottom:10px;
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 10px;
     }
     .thumb-row img {
-      width:100px;
-      height:130px;
-      object-fit:cover;
-      border-radius:10px;
-      cursor:pointer;
-      transition:.2s;
+      width: 100px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: .2s;
+      flex: 0 0 auto;
     }
     .thumb-row img:hover {
-      opacity:.7;
+      opacity: .7;
     }
 
     /* TEXT BLOCK */
     .product-info h1 {
-      font-size:clamp(26px, 3vw, 40px);
-      margin-bottom:8px;
+      font-size: clamp(26px, 3vw, 40px);
+      margin-bottom: 8px;
     }
 
-    .muted {
-      opacity:.7;
+    .product-info .muted {
+      opacity: .8;
     }
 
-    ul.specs {
-      margin-left:20px;
-      margin-top:10px;
-      line-height:1.5;
+    .product-info ul.specs {
+      margin-left: 20px;
+      margin-top: 10px;
+      line-height: 1.5;
     }
 
-    .price {
-      font-size:26px;
-      margin-top:20px;
-      display:block;
+    .product-info .price {
+      font-size: 26px;
+      margin-top: 20px;
+      display: block;
     }
 
-    .btn {
-      margin-top:12px;
+    .product-info .btn {
+      margin-top: 12px;
     }
   </style>
 
   <script>
     // Swap hero image when clicking thumbnails
-    function swapImage(src){
-      document.getElementById("heroImg").src = src;
+    function swapImage(src) {
+      var hero = document.getElementById("heroImg");
+      if (hero) hero.src = src;
     }
   </script>
 </head>
 
 <body class="page-product">
 
-<header class="header">
-  <a class="brand" href="home.html">
+<!-- HEADER (same style as shop.html) -->
+<header class="header" role="banner">
+  <a class="brand" href="home.html" aria-label="Go to Home">
+    <img src="assets/lgo.png" alt="Sins of the Past" onerror="this.style.display='none'">
     <span>Sins of the Past</span>
   </a>
-  <nav class="nav">
+
+  <nav class="nav" aria-label="Primary">
     <a href="home.html">Home</a>
-    <a href="shop.html" class="active">Shop</a>
+    <a href="shop.html" class="active" aria-current="page">Shop</a>
     <a href="about.html">About</a>
     <a href="arcade.html">Arcade</a>
     <a href="contact.html">Contact</a>
     <a href="care.html">Care</a>
   </nav>
+
+  <a href="cart.html" id="cartLink" aria-label="View cart">
+    Cart <span id="cartCount" style="opacity:.8"></span>
+  </a>
 </header>
 
+<main id="main" tabindex="-1">
+  <section class="section">
+    <div class="product-page">
 
-<main>
-  <div class="product-page">
+      <!-- LEFT SIDE: IMAGES -->
+      <div class="product-images">
 
-    <!-- LEFT SIDE: IMAGES -->
-    <div class="product-images">
+        <!-- HERO IMAGE -->
+        <div class="hero-image">
+          <img
+            id="heroImg"
+            src="assets/dont-check-my-bank-account-wallet-cover.jpg"
+            alt="Don't Check My Bank Account Wallet - front view">
+        </div>
 
-      <!-- HERO IMAGE -->
-      <div class="hero-image">
-        <img id="heroImg" src="assets/dont-check-my-bank-account-wallet-cover.jpg" alt="Wallet Front">
+        <!-- THUMBNAIL IMAGE ROW -->
+        <div class="thumb-row">
+          <img src="assets/dont-check-my-bank-account-wallet-cover.jpg" onclick="swapImage(this.src)" alt="Wallet cover">
+          <img src="assets/dont-check-my-bank-account-wallet9.jpg" onclick="swapImage(this.src)" alt="Wallet angle 1">
+          <img src="assets/dont-check-my-bank-account-wallet-open.jpg" onclick="swapImage(this.src)" alt="Wallet open">
+          <img src="assets/dont-check-my-bank-account-wallet.jpg" onclick="swapImage(this.src)" alt="Wallet detail">
+          <img src="assets/dont-check-my-bank-account-wallet1.jpg" onclick="swapImage(this.src)" alt="Wallet angle 2">
+          <img src="assets/dont-check-my-bank-account-wallet-side.jpg" onclick="swapImage(this.src)" alt="Wallet side view">
+        </div>
       </div>
 
-      <!-- THUMBNAIL IMAGE ROW -->
-      <div class="thumb-row">
-        <img src="assets/dont-check-my-bank-account-wallet9.jpg" onclick="swapImage(this.src)">
-        <img src="assets/dont-check-my-bank-account-wallet-open.jpg" onclick="swapImage(this.src)">
-        <img src="assets/dont-check-my-bank-account-wallet.jpg" onclick="swapImage(this.src)">
-        <img src="assets/dont-check-my-bank-account-wallet1.jpg" onclick="swapImage(this.src)">
-        <img src="assets/dont-check-my-bank-account-wallet-side.jpg" onclick="swapImage(this.src)">
+      <!-- RIGHT SIDE: DETAILS -->
+      <div class="product-info">
+        <h1>The "Don’t Check My Bank Account" Wallet™</h1>
+        <p class="muted">Deadly on the outside. Devastating inside.</p>
+
+        <ul class="specs">
+          <li>Cobra skin body</li>
+          <li>Cobra head centerpiece</li>
+          <li>Stepani-crafted construction</li>
+          <li>Luxury leather interior</li>
+          <li>Designed by Sins of the Past</li>
+          <li>Includes optional 24K gold Vice Link chain connector</li>
+        </ul>
+
+        <span class="price">$2,500.00</span>
+
+        <button class="btn small add-to-cart"
+          data-id="dont-check-my-bank-account-wallet"
+          data-name="The “Don’t Check My Bank Account” Wallet"
+          data-price="2500.00"
+          data-img="assets/dont-check-my-bank-account-wallet-cover.jpg">
+          Add to Bag
+        </button>
       </div>
+
     </div>
-
-
-
-    <!-- RIGHT SIDE: DETAILS -->
-    <div class="product-info">
-      <h1>The “Don’t Check My Bank Account” Wallet™</h1>
-      <p class="muted">Deadly on the outside. Devastating inside.</p>
-
-      <ul class="specs">
-        <li>Cobra skin body</li>
-        <li>Cobra head centerpiece</li>
-        <li>Stepani-crafted construction</li>
-        <li>Luxury leather interior</li>
-        <li>Designed by Sins of the Past</li>
-        <li>Includes optional 24K gold Vice Link chain connector</li>
-      </ul>
-
-      <span class="price">$2,500.00</span>
-
-      <button class="btn add-to-cart"
-        data-id="dont-check-my-bank-account-wallet"
-        data-name="The “Don’t Check My Bank Account” Wallet"
-        data-price="2500.00"
-        data-img="assets/wallet-front.jpg">
-        Add to Bag
-      </button>
-    </div>
-
-  </div>
+  </section>
 </main>
-
 
 <footer class="footer">© <span id="y"></span> Sins of the Past</footer>
 
 <script>
-  document.getElementById('y').textContent = new Date().getFullYear();
+  var y = document.getElementById('y');
+  if (y) y.textContent = new Date().getFullYear();
 </script>
 
 <script src="app.js" defer></script>
