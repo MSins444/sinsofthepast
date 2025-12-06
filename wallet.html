@@ -2,165 +2,186 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>The “Don’t Check My Bank Account” Wallet — Sins of the Past</title>
+  <title>"Don't Check My Bank Account" Wallet — Sins of the Past</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+
+  <!-- Main styles -->
+  <link rel="stylesheet" href="css/base.css">
+
+  <style>
+    .product-page {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 40px;
+    }
+
+    @media (max-width: 800px) {
+      .product-page {
+        grid-template-columns: 1fr;
+        margin: 30px auto;
+      }
+    }
+
+    /* HERO IMAGE */
+    .hero-image {
+      aspect-ratio: 3/4;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #0f1117;
+      margin-bottom: 18px;
+    }
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* GALLERY ROW */
+    .thumb-row {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+    .thumb-row img {
+      width: 100px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: .2s;
+      flex: 0 0 auto;
+    }
+    .thumb-row img:hover {
+      opacity: .7;
+    }
+
+    /* TEXT BLOCK */
+    .product-info h1 {
+      font-size: clamp(26px, 3vw, 40px);
+      margin-bottom: 8px;
+    }
+
+    .product-info .muted {
+      opacity: .8;
+    }
+
+    .product-info ul.specs {
+      margin-left: 20px;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    .product-info .price {
+      font-size: 26px;
+      margin-top: 20px;
+      display: block;
+    }
+
+    .product-info .btn {
+      margin-top: 12px;
+    }
+  </style>
+
+  <script>
+    // Swap hero image when clicking thumbnails
+    function swapImage(src) {
+      var hero = document.getElementById("heroImg");
+      if (hero) hero.src = src;
+    }
+  </script>
 </head>
+
 <body class="page-product">
 
-<!-- Apply saved theme -->
-<script>
-(function(){
-  const acid = localStorage.getItem('stp_theme_acid');
-  const hot  = localStorage.getItem('stp_theme_hot');
-  if (acid) document.documentElement.style.setProperty('--acid', acid);
-  if (hot)  document.documentElement.style.setProperty('--hot',  hot);
-})();
-</script>
-
-<header class="header">
-  <a class="brand" href="home.html">
+<!-- HEADER (same style as shop.html) -->
+<header class="header" role="banner">
+  <a class="brand" href="home.html" aria-label="Go to Home">
     <img src="assets/lgo.png" alt="Sins of the Past" onerror="this.style.display='none'">
     <span>Sins of the Past</span>
   </a>
 
-  <nav class="nav">
+  <nav class="nav" aria-label="Primary">
     <a href="home.html">Home</a>
-    <a href="shop.html" class="active">Shop</a>
+    <a href="shop.html" class="active" aria-current="page">Shop</a>
     <a href="about.html">About</a>
     <a href="arcade.html">Arcade</a>
-    <a href="care.html">Care</a>
     <a href="contact.html">Contact</a>
+    <a href="care.html">Care</a>
   </nav>
 
-  <a href="cart.html" id="cartLink">Cart <span id="cartCount" style="opacity:.8"></span></a>
+  <a href="cart.html" id="cartLink" aria-label="View cart">
+    Cart <span id="cartCount" style="opacity:.8"></span>
+  </a>
 </header>
 
-<main>
+<main id="main" tabindex="-1">
+  <section class="section">
+    <div class="product-page">
 
-  <!-- HERO BANNER (use your cleaned header image here) -->
-  <section class="hero hero-product">
-    <div class="hero-media">
-      <!-- wide header banner -->
-      <img src="assets/cobra-wallet-header.jpg"
-           alt="Sins of the Past — “Don’t Check My Bank Account” Cobra Wallet">
-    </div>
-    <div class="inner">
-      <h1>The “Don’t Check My Bank Account” Wallet™</h1>
-      <p class="muted">
-        King cobra, full body. Built like evidence from a life you probably shouldn’t have lived.
-      </p>
-      <div class="product-buy">
+      <!-- LEFT SIDE: IMAGES -->
+      <div class="product-images">
+
+        <!-- HERO IMAGE -->
+        <div class="hero-image">
+          <img
+            id="heroImg"
+            src="assets/dont-check-my-bank-account-wallet-cover.jpg"
+            alt="Don't Check My Bank Account Wallet - front view">
+        </div>
+
+        <!-- THUMBNAIL IMAGE ROW -->
+        <div class="thumb-row">
+          <img src="assets/dont-check-my-bank-account-wallet-cover.jpg" onclick="swapImage(this.src)" alt="Wallet cover">
+          <img src="assets/dont-check-my-bank-account-wallet3.jpg" onclick="swapImage(this.src)" alt="Wallet angle 1">
+          <img src="assets/dont-check-my-bank-account-wallet-open.jpg" onclick="swapImage(this.src)" alt="Wallet open">
+          <img src="assets/dont-check-my-bank-account-wallet.jpg" onclick="swapImage(this.src)" alt="Wallet detail">
+          <img src="assets/dont-check-my-bank-account-wallet1.jpg" onclick="swapImage(this.src)" alt="Wallet angle 2">
+          <img src="assets/dont-check-my-bank-account-wallet-side.jpg" onclick="swapImage(this.src)" alt="Wallet side view">
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE: DETAILS -->
+      <div class="product-info">
+        <h1>The "Don’t Check My Bank Account" Wallet™</h1>
+        <p class="muted">Deadly on the outside. Devastating inside.</p>
+
+        <ul class="specs">
+          <li>Cobra skin body</li>
+          <li>Cobra head centerpiece</li>
+          <li>Stepani-crafted construction</li>
+          <li>Luxury leather interior</li>
+          <li>Designed by Sins of the Past</li>
+          <li>Includes optional 24K gold Vice Link chain connector</li>
+        </ul>
+
         <span class="price">$2,500.00</span>
-        <button
-          class="btn add-to-cart"
+
+        <button class="btn small add-to-cart"
           data-id="dont-check-my-bank-account-wallet"
           data-name="The “Don’t Check My Bank Account” Wallet"
           data-price="2500.00"
-          data-img="assets/dont-check-my-bank-account-wallet.jpg">
+          data-img="assets/dont-check-my-bank-account-wallet-cover.jpg">
           Add to Bag
         </button>
       </div>
+
     </div>
   </section>
-
-  <!-- GALLERY + DETAILS -->
-  <section class="section product-layout">
-    <div class="product-gallery">
-      <!-- FRONT / COBRA HEAD -->
-      <figure class="card">
-        <img src="assets/cobra-wallet-front.jpg"
-             alt="Cobra head front view — Sins of the Past wallet">
-      </figure>
-
-      <!-- INTERIOR LAYOUT -->
-      <figure class="card">
-        <img src="assets/cobra-wallet-interior.jpg"
-             alt="Interior card layout — Sins of the Past wallet">
-      </figure>
-    </div>
-
-    <div class="product-details">
-      <h2>Relic Description</h2>
-      <p class="muted">
-        The <b>“Don’t Check My Bank Account” Wallet™</b> is a full–length relic wallet cut from
-        genuine cobra skin, with the head mounted dead–center on the front flap. Inside, a black
-        leather core hides a full financial confession: card slots, cash channels, and enough room
-        for passports and paperwork you probably don’t want anyone reading.
-      </p>
-
-      <p class="muted">
-        This is not a “good habits” accessory. It’s a statement piece for people who know exactly
-        what they’re doing — and do it anyway.
-      </p>
-
-      <h3>Specs</h3>
-      <ul class="muted" style="line-height:1.8">
-        <li><b>Exterior:</b> genuine cobra skin, head and body panel</li>
-        <li><b>Color:</b> electric blue &amp; charcoal scale pattern (natural variation per piece)</li>
-        <li><b>Interior:</b> smooth black leather with SOTP F&amp;F gold stamp</li>
-        <li><b>Hardware:</b> gold–tone zipper and snap closure</li>
-        <li><b>Layout:</b> multi–card slots, ID window, bill compartments, zip pocket</li>
-        <li><b>Construction:</b> handcrafted by Stepani, reinforced stitching at stress points</li>
-      </ul>
-
-      <h3>Fit &amp; Use</h3>
-      <ul class="muted" style="line-height:1.8">
-        <li>Designed as a long wallet / travel wallet — fits in coat pockets, bags, and hand–carry.</li>
-        <li>Cobra head is a raised sculptural element; treat it like jewelry, not a phone case.</li>
-        <li>Pairs with the <b>Bad Habits Chain™</b> and <b>“Do Not Open” Zipper Pulls™</b> for a full relic system.</li>
-      </ul>
-
-      <h3>Care Notes</h3>
-      <p class="muted">
-        Exotic leather ages best when you respect its nature. Keep the wallet dry, out of prolonged
-        sun and away from household cleaners. If it gets damp, blot (don’t rub) with a soft cloth and
-        let it air–dry away from heat. For deep conditioning, use a product formulated for reptile or
-        exotic leather only.
-      </p>
-      <p class="muted">
-        For more detail, see the <a href="care.html">Care &amp; Craftsmanship</a> page and
-        contact <a href="mailto:care@sinsofthepast.store">care@sinsofthepast.store</a> before attempting
-        any repair work.
-      </p>
-    </div>
-  </section>
-
-  <!-- FINE PRINT / ETHICS -->
-  <section class="section">
-    <h2>Ethics &amp; Variations</h2>
-    <p class="muted" style="max-width:900px;margin:8px auto 24px">
-      All exotic materials used by <b>Sins of the Past</b> are sourced through partners that follow
-      legal and ethical guidelines. Each cobra wallet will show unique scale patterns, color shifts,
-      and minor textural differences — that individuality is part of the relic. No two are identical,
-      and none are ever restocked in the exact same configuration.
-    </p>
-  </section>
-
-  <!-- LINK BACK TO SHOP -->
-  <section class="section" style="text-align:center">
-    <a href="shop.html" class="btn secondary">Back to Shop</a>
-  </section>
-
 </main>
 
 <footer class="footer">© <span id="y"></span> Sins of the Past</footer>
 
-<script src="app.js"></script>
-<div class="cursor"></div>
 <script>
-  const cursor = document.querySelector('.cursor');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top  = e.clientY + 'px';
-  });
-
-  // Footer year
-  (function(){
-    var y = document.getElementById('y');
-    if (y) y.textContent = new Date().getFullYear();
-  })();
+  var y = document.getElementById('y');
+  if (y) y.textContent = new Date().getFullYear();
 </script>
+
+<script src="app.js" defer></script>
+
 </body>
 </html>
