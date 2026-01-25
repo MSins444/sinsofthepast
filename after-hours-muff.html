@@ -5,7 +5,6 @@
   <title>"After Hours Muff Bag" — Sins of the Past</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <!-- Main styles -->
   <link rel="stylesheet" href="css/base.css">
 
   <style>
@@ -25,39 +24,62 @@
       }
     }
 
-    /* HERO IMAGE */
+    /* LEFT COLUMN WRAPPER */
+    .product-images {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HERO IMAGE — MATCH wallet.html */
     .hero-image {
-      aspect-ratio: 3/4;
+      aspect-ratio: 3 / 4;
       border-radius: 18px;
       overflow: hidden;
-      background: #0f1117;
+      background: #05060a;
       margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.55);
     }
+
     .hero-image img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain; /* luxury look: show the whole bag */
       display: block;
     }
 
-    /* GALLERY ROW */
+    /* GALLERY ROW — MATCH wallet.html */
     .thumb-row {
       display: flex;
       gap: 12px;
       overflow-x: auto;
       padding-bottom: 10px;
     }
+
     .thumb-row img {
       width: 100px;
-      height: 130px;
+      aspect-ratio: 3 / 4;
+      height: auto;
       object-fit: cover;
       border-radius: 10px;
       cursor: pointer;
-      transition: .2s;
+      transition: .18s ease;
       flex: 0 0 auto;
+      border: 1px solid rgba(255,255,255,0.08);
+      opacity: 0.8;
     }
+
     .thumb-row img:hover {
-      opacity: .7;
+      opacity: 1;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.5);
+    }
+
+    .thumb-row img.active {
+      opacity: 1;
+      border-color: rgba(255,255,255,0.4);
     }
 
     /* TEXT BLOCK */
@@ -68,6 +90,12 @@
 
     .product-info .muted {
       opacity: .8;
+    }
+
+    .product-info p {
+      line-height: 1.65;
+      margin: 10px 0;
+      max-width: 60ch;
     }
 
     .product-info ul.specs {
@@ -88,17 +116,23 @@
   </style>
 
   <script>
-    // Swap hero image when clicking thumbnails
-    function swapImage(src) {
+    function swapImage(el) {
       var hero = document.getElementById("heroImg");
-      if (hero) hero.src = src;
+      if (!hero) return;
+
+      const newSrc = el.dataset.large || el.src;
+      hero.src = newSrc;
+
+      document.querySelectorAll(".thumb-row img").forEach(function(img){
+        img.classList.remove("active");
+      });
+      el.classList.add("active");
     }
   </script>
 </head>
 
 <body class="page-product">
 
-<!-- HEADER (same style as shop.html) -->
 <header class="header" role="banner">
   <a class="brand" href="home.html" aria-label="Go to Home">
     <img src="assets/lgo.png" alt="Sins of the Past" onerror="this.style.display='none'">
@@ -123,51 +157,57 @@
   <section class="section">
     <div class="product-page">
 
-      <!-- LEFT SIDE: IMAGES -->
+      <!-- LEFT: IMAGES -->
       <div class="product-images">
 
-        <!-- HERO IMAGE -->
         <div class="hero-image">
           <img
             id="heroImg"
             src="assets/After hours muff bag 2.jpg"
-            alt="After Hours Muff Bag - front view">
+            alt="After Hours Muff Bag — Arctic Fox">
         </div>
 
-        <!-- THUMBNAIL IMAGE ROW -->
         <div class="thumb-row">
-          <img src="assets/After hours muff bag 2.jpg" onclick="swapImage(this.src)" alt="Muff Bag front">
-          <img src="assets/After hours muff bag 3.jpg" onclick="swapImage(this.src)" alt="Muff Bag side">
-          <img src="assets/After hours muff bag 4.jpg" onclick="swapImage(this.src)" alt="Muff Bag back">
-          <img src="assets/After hours muff bag 5.jpg" onclick="swapImage(this.src)" alt="Muff Bag interior">
-          <img src="assets/dont-check-my-bank-account-wallet3.jpg" onclick="swapImage(this.src)" alt="Wallet angle 1">
-          <img src="assets/dont-check-my-bank-account-wallet-open.jpg" onclick="swapImage(this.src)" alt="Wallet open">
-          <img src="assets/dont-check-my-bank-account-wallet.jpg" onclick="swapImage(this.src)" alt="Wallet detail">
-          <img src="assets/dont-check-my-bank-account-wallet1.jpg" onclick="swapImage(this.src)" alt="Wallet angle 2">
-          <img src="assets/dont-check-my-bank-account-wallet-side.jpg" onclick="swapImage(this.src)" alt="Wallet side view">
+          <img src="assets/After hours muff bag 2.jpg" class="active" onclick="swapImage(this)" alt="Muff Bag front">
+          <img src="assets/After hours muff bag 3.jpg" onclick="swapImage(this)" alt="Muff Bag side">
+          <img src="assets/After hours muff bag 4.jpg" onclick="swapImage(this)" alt="Muff Bag back">
+          <img src="assets/After hours muff bag 5.jpg" onclick="swapImage(this)" alt="Muff Bag interior">
         </div>
+
       </div>
 
-      <!-- RIGHT SIDE: DETAILS -->
+      <!-- RIGHT: DETAILS -->
       <div class="product-info">
-        <h1>The "After-Hours Muff Bag™ — Arctic Fox</h1>
+        <h1>The “After-Hours” Muff Bag™ — Arctic Fox</h1>
         <p class="muted">Say what you want — it stays quiet.</p>
 
+        <p>
+          Crafted from genuine arctic fox fur, this piece balances softness with structure.
+          Designed for nights that don’t ask permission, the After-Hours Muff Bag™ delivers warmth,
+          discretion, and presence in one understated silhouette.
+        </p>
+
+        <p>
+          A concealed interior pocket allows for quick, effortless access without interrupting the exterior form —
+          because luxury should never announce itself.
+        </p>
 
         <ul class="specs">
           <li>Genuine arctic fox fur exterior</li>
-          <li>Structured Nylon core</li>
+          <li>Structured nylon core</li>
           <li>Discreet interior pocket for essentials</li>
           <li>Hand-finished rope wrist strap</li>
           <li>Naturally patterned fur — no two pieces identical</li>
           <li>Cinematic, red-carpet energy</li>
         </ul>
 
+        <p class="muted">Made in limited quantities. No restocks.</p>
+
         <span class="price">$900.00</span>
 
         <button class="btn small add-to-cart"
-          data-id="after-hours-muff-bag"
-          data-name="The “After-Hours Muff Bag™ — Arctic Fox"
+          data-id="after-hours-muff"
+          data-name="The “After-Hours” Muff Bag™ — Arctic Fox"
           data-price="900.00"
           data-img="assets/After hours muff bag 2.jpg">
           Add to Bag
