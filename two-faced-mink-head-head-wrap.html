@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>The Two-Faced Mink Headband™ — Sins of the Past</title>
+
+  <link rel="stylesheet" href="css/base.css">
+
+  <style>
+    .product-page {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 40px;
+    }
+
+    @media (max-width: 800px) {
+      .product-page {
+        grid-template-columns: 1fr;
+        margin: 30px auto;
+      }
+    }
+
+    .product-images { display:flex; flex-direction:column; }
+
+    /* HERO — matches wallet page */
+    .hero-image {
+      aspect-ratio: 3 / 4;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #05060a;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+    }
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* THUMBS — matches wallet page */
+    .thumb-row {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+    .thumb-row img {
+      width: 100px;
+      aspect-ratio: 3 / 4;
+      height: auto;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: .18s ease;
+      flex: 0 0 auto;
+      border: 1px solid rgba(255,255,255,0.08);
+      opacity: 0.8;
+    }
+    .thumb-row img:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.5);
+    }
+    .thumb-row img.active {
+      opacity: 1;
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    .product-info h1 {
+      font-size: clamp(26px, 3vw, 40px);
+      margin-bottom: 8px;
+    }
+    .product-info .muted { opacity:.8; }
+    .product-info p { line-height: 1.65; max-width: 60ch; margin: 10px 0; }
+    .product-info ul.specs {
+      margin-left: 20px;
+      margin-top: 10px;
+      line-height: 1.55;
+    }
+    .buy {
+      display:flex;
+      align-items:center;
+      gap: 14px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .price {
+      font-size: 26px;
+      display: inline-block;
+    }
+  </style>
+
+  <script>
+    function swapImage(el) {
+      var hero = document.getElementById("heroImg");
+      if (!hero) return;
+
+      const newSrc = el.dataset.large || el.src;
+      hero.src = newSrc;
+
+      document.querySelectorAll(".thumb-row img").forEach(function(img){
+        img.classList.remove("active");
+      });
+      el.classList.add("active");
+    }
+  </script>
+</head>
+
+<body class="page-product">
+
+<header class="header" role="banner">
+  <a class="brand" href="home.html" aria-label="Go to Home">
+    <img src="assets/lgo.png" alt="Sins of the Past" onerror="this.style.display='none'">
+    <span>Sins of the Past</span>
+  </a>
+
+  <nav class="nav" aria-label="Primary">
+    <a href="home.html">Home</a>
+    <a href="shop.html" class="active" aria-current="page">Shop</a>
+    <a href="about.html">About</a>
+    <a href="arcade.html">Arcade</a>
+    <a href="contact.html">Contact</a>
+    <a href="care.html">Care</a>
+  </nav>
+
+  <a href="cart.html" id="cartLink" aria-label="View cart">
+    Cart <span id="cartCount" style="opacity:.8"></span>
+  </a>
+</header>
+
+<main id="main" tabindex="-1">
+  <section class="section">
+    <div class="product-page">
+
+      <!-- LEFT: IMAGES -->
+      <div class="product-images">
+        <div class="hero-image">
+          <img
+            id="heroImg"
+            src="assets/two-faced-mink-headband-hero.jpg"
+            alt="The Two-Faced Mink Headband — hero view">
+        </div>
+
+        <div class="thumb-row">
+          <img src="assets/two-faced-mink-headband-hero.jpg" class="active" onclick="swapImage(this)" alt="Headband hero">
+          <img src="assets/two-faced-mink-headband-1.jpg" onclick="swapImage(this)" alt="Fur side">
+          <img src="assets/two-faced-mink-headband-2.jpg" onclick="swapImage(this)" alt="Leather side">
+          <img src="assets/two-faced-mink-headband-3.jpg" onclick="swapImage(this)" alt="Detail">
+        </div>
+      </div>
+
+      <!-- RIGHT: DETAILS -->
+      <div class="product-info">
+        <h1>The Two-Faced Mink Headband™</h1>
+        <p class="muted">Same rules. Higher up.</p>
+
+        <p>
+          Built from the same mink head-only pelt construction as the Two-Faced Mink Belt™, this headband carries
+          identical duality — luxury on one side, restraint on the other.
+        </p>
+
+        <p>
+          Fully reversible, it allows you to switch between mink fur and tanned leather depending on mood, setting,
+          or intention. Designed to sit clean and structured around the head, it mirrors the belt’s architecture —
+          just elevated.
+        </p>
+
+        <p class="muted">
+          This is not an accessory add-on. It’s the upper half of a uniform.
+        </p>
+
+        <p class="muted">
+          Part of the Two-Faced system. Designed to be worn together or alone.
+        </p>
+
+        <h2 style="margin-top:16px">Details</h2>
+        <ul class="specs">
+          <li>Mink head-only pelt construction</li>
+          <li>Fully reversible — fur ↔ tanned leather</li>
+          <li>Structured leather interior for shape retention</li>
+          <li>Sculpted to sit securely without pressure points</li>
+          <li>Ethically sourced, handcrafted in California</li>
+        </ul>
+
+        <h2 style="margin-top:18px">Designed to Pair With</h2>
+        <p><strong>The Two-Faced Mink Belt™</strong></p>
+        <p>
+          Worn together, the belt and headband form a matched system — one grounding the body, the other framing the face.
+          Identical materials. Identical attitude. Different levels of disrespect.
+        </p>
+
+        <p class="muted">Sold separately. Best worn as a set.</p>
+
+        <div class="buy">
+          <span class="price">$750.00</span>
+          <button
+            class="btn small add-to-cart"
+            data-id="two-faced-mink-headband"
+            data-name="The Two-Faced Mink Headband"
+            data-price="750.00"
+            data-img="assets/two-faced-mink-headband-hero.jpg">
+            Add to Bag
+          </button>
+        </div>
+
+        <p style="margin-top:16px">
+          <a class="btn" href="shop.html">← Back to Shop</a>
+        </p>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="footer">© <span id="y"></span> Sins of the Past</footer>
+<script>
+  var y = document.getElementById('y');
+  if (y) y.textContent = new Date().getFullYear();
+</script>
+<script src="app.js" defer></script>
+
+</body>
+</html>
