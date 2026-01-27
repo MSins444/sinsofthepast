@@ -218,7 +218,9 @@
               data-sku="tee-maniac-smiler-sapphire"
               data-name="Maniac Smiler Sapphire Tee"
               data-price="250"
-              data-url="ManiacSmilerSapphiretee.html">Add to Bag</button>
+              data-url="ManiacSmilerSapphiretee.html"
+              data-img="assets/ManiacSmilerSapphiretee.png">Add to Bag</button>
+              
           </div>
         </div>
       </article>
@@ -238,7 +240,8 @@
               data-sku="chain-vice-link"
               data-name="Vice Link Charm Chain"
               data-price="120"
-              data-url="vice-link-chain.html">Add to Bag</button>
+              data-url="vice-link-chain.html"
+              data-img="assets/reaperscythe.png">Add to Bag</button>
           </div>
         </div>
       </article>
@@ -258,7 +261,8 @@
               data-sku="hoodie-scythe"
               data-name="Scythe Hoodie"
               data-price="85"
-              data-url="scythe-hoodie.html">Add to Bag</button>
+              data-url="scythe-hoodie.html"
+               data-img="assets/scythehoodie.png">Add to Bag</button>
           </div>
         </div>
       </article>
@@ -342,47 +346,35 @@
       }, {threshold: .1, rootMargin: '100px'});
       els.forEach(el=> io.observe(el));
     })();
-
-    // ===== Minimal cart logic
-    (function cart(){
-      const CART_KEY = 'stp_cart';
-      const countEl = document.getElementById('cartCount');
-
-      function load(){ try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch { return []; } }
-      function save(items){ localStorage.setItem(CART_KEY, JSON.stringify(items)); }
-      function updateCount(){
-        const n = load().reduce((sum,i)=> sum + (i.qty||1), 0);
-        if (countEl){
-          countEl.textContent = n ? `(${n})` : '';
-          countEl.classList.remove('bump');
-          void countEl.offsetWidth; countEl.classList.add('bump');
-        }
-      }
-      function addItem({sku,name,price,url}){
-        const items = load();
-        const found = items.find(i=> i.sku===sku);
-        if (found) found.qty = (found.qty||1)+1;
-        else items.push({sku,name,price:Number(price),url,qty:1, addedAt:Date.now()});
-        save(items); updateCount();
-      }
-
-      document.querySelectorAll('.add-to-bag').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          addItem({
-            sku: btn.dataset.sku,
-            name: btn.dataset.name,
-            price: btn.dataset.price,
-            url: btn.dataset.url
-          });
-        });
-      });
-
-      updateCount();
-    })();
   </script>
 
-  <p class="muted" style="text-align:center;margin:6px 0 16px">
-    Footwear handcrafted in Le Marche, Italy — The Shoe Valley (since 1901).
-  </p>
+  <script src="cart-mini.js"></script>
+
+
+  <!-- Mini-Cart Drawer -->
+<div class="mcart-overlay" id="mcartOverlay" hidden></div>
+<aside class="mcart" id="mcart" aria-labelledby="mcartTitle" aria-modal="true" role="dialog" hidden>
+  <header>
+    <h3 id="mcartTitle">Your Bag</h3>
+    <button class="close" id="mcartClose" aria-label="Close cart">✕</button>
+  </header>
+
+  <div class="body" id="mcartBody">
+    <div class="empty" id="mcartEmpty">Your bag is empty.</div>
+    <!-- items render here -->
+  </div>
+
+  <div class="footer">
+    <div class="row">
+      <span class="muted">Subtotal</span>
+      <span class="subtotal" id="mcartSubtotal">$0</span>
+    </div>
+    <div class="checkout">
+      <a href="cart.html" class="btn">View Cart</a>
+      <button class="btn primary" id="mcartCheckout">Checkout</button>
+    </div>
+  </div>
+</aside>
+
 </body>
 </html>
