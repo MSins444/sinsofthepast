@@ -539,5 +539,29 @@
 <p class="muted" style="text-align:center;margin-top:6px">
   Natural, ethically sourced materials only — metals, stones, exotic skins, and furs for the unrepentant.
 </p>
+ <!-- Mini-Cart Drawer -->
+<div class="mcart-overlay" id="mcartOverlay" hidden></div>
+<aside class="mcart" id="mcart" aria-labelledby="mcartTitle" aria-modal="true" role="dialog" hidden>
+  <header>
+    <h3 id="mcartTitle">Your Bag</h3>
+    <button class="close" id="mcartClose" aria-label="Close cart">✕</button>
+  </header>
+
+  <div class="body" id="mcartBody">
+    <div class="empty" id="mcartEmpty">Your bag is empty.</div>
+    <!-- items render here -->
+  </div>
+
+  <div class="footer">
+    <div class="row">
+      <span class="muted">Subtotal</span>
+      <span class="subtotal" id="mcartSubtotal">$0</span>
+    </div>
+    <div class="checkout">
+      <a href="cart.html" class="btn">View Cart</a>
+      <button class="btn primary" id="mcartCheckout">Checkout</button>
+    </div>
+  </div>
+</aside>
 </body>
 </html>
