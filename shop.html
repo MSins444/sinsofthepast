@@ -50,6 +50,120 @@
     }
     .section-hero h2{ font-size:clamp(28px,5vw,52px); margin:0; letter-spacing:.02em; }
     .section-hero .price{ font-size:20px; }
+    /* =========================
+   MINI CART DRAWER (SHOP)
+   ========================= */
+.mcart{
+  position:fixed;
+  top:0;
+  right:0;
+  height:100dvh;
+  width:380px;
+  max-width:92vw;
+  background:#0e101b;
+  border-left:1px solid var(--line);
+  transform:translateX(100%);
+  transition:transform .25s ease;
+  z-index:10002;
+  display:flex;
+  flex-direction:column;
+}
+.mcart.open{ transform:translateX(0); }
+
+.mcart-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.5);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease;
+  z-index:10001;
+}
+.mcart-overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.mcart-head, .mcart-foot{
+  padding:14px;
+  border-bottom:1px solid var(--line);
+}
+.mcart-foot{ border-bottom:none; border-top:1px solid var(--line); }
+
+.mcart-close{
+  margin-left:auto;
+  border:1px solid var(--line);
+  background:#111424;
+  color:var(--ink);
+  border-radius:10px;
+  padding:8px 10px;
+  cursor:pointer;
+}
+.mcart-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.mcart-body{
+  padding:12px 14px;
+  overflow:auto;
+  flex:1 1 auto;
+}
+
+.mc-items{
+  list-style:none;
+  padding:0;
+  margin:0;
+  display:grid;
+  gap:10px;
+}
+
+.mc-item{
+  display:grid;
+  grid-template-columns:56px 1fr auto;
+  gap:10px;
+  align-items:center;
+  border:1px solid var(--line);
+  background:#0c0f19;
+  border-radius:14px;
+  padding:10px;
+}
+.mc-item img{
+  width:56px;
+  height:56px;
+  object-fit:cover;
+  border-radius:10px;
+  background:#0f1117;
+}
+.mc-meta b{ display:block; font-size:14px; }
+.mc-qty{ display:block; font-size:12px; color:var(--mute); margin-top:2px; }
+.mc-price{ font-weight:800; }
+
+.mc-empty{
+  color:var(--mute);
+  border:1px dashed var(--line);
+  padding:14px;
+  border-radius:14px;
+  text-align:center;
+}
+
+.mcart-foot .row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.mcart-foot .checkout{
+  display:flex;
+  gap:10px;
+}
+.mcart-foot .checkout .btn{
+  flex:1 1 auto;
+  text-align:center;
+}
+
   </style>
 </head>
 
@@ -490,29 +604,32 @@
 
 <!-- Mini-Cart Drawer -->
 <div class="mcart-overlay" id="mcartOverlay" hidden></div>
+
 <aside class="mcart" id="mcart" aria-labelledby="mcartTitle" aria-modal="true" role="dialog" hidden>
-  <header>
+  <header class="mcart-head">
     <h3 id="mcartTitle">Your Bag</h3>
-    <button class="close" id="mcartClose" aria-label="Close cart">✕</button>
+    <button class="mcart-close" id="mcartClose" type="button" aria-label="Close cart">✕</button>
   </header>
 
-  <div class="body" id="mcartBody">
+  <div class="mcart-body" id="mcartBody">
     <ul class="mc-items" id="mcartList">
       <li class="mc-empty">Your bag is empty.</li>
     </ul>
   </div>
 
-  <div class="footer">
+  <div class="mcart-foot">
     <div class="row">
       <span class="muted">Subtotal</span>
-      <span class="subtotal" id="mcartTotal">$0</span>
+      <span class="subtotal" id="mcartTotal">$0.00</span>
     </div>
+
     <div class="checkout">
       <a href="cart.html" class="btn">View Cart</a>
-      <button class="btn primary" id="mcartCheckout">Checkout</button>
+      <button class="btn primary" id="mcartCheckout" type="button">Checkout</button>
     </div>
   </div>
 </aside>
+
 
 <script>
 (function(){
@@ -615,6 +732,9 @@
   });
 })();
 </script>
+
+<script src="js/cart-mini.js" defer></script>
+
 
 </body>
 </html>
