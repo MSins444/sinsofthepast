@@ -564,6 +564,7 @@
   </div>
 </aside>
 <script>
+  
 (function(){
   // If your app.js exposes these helpers, great; otherwise we re-implement minimal ones:
   const CART_KEY = 'stp_cart';
@@ -631,6 +632,211 @@
   });
 })();
 </script>
+<script>
+(function(){
+  // If your app.js exposes these helpers, great; otherwise we re-implement minimal ones:
+  const CART_KEY = 'stp_cart';
+  function load(){ try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch { return []; } }
+  function save(items){ localStorage.setItem(CART_KEY, JSON.stringify(items)); }
+  function updateCount(){
+    const n = load().reduce((s,i)=> s + (i.qty||1), 0);
+    const el = document.getElementById('cartCount');
+    if (el){
+      el.textContent = n ? `(${n})` : '';
+      el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump');
+    }
+  }
+  function addItem({sku,name,price,url,img}){
+    const items = load();
+    const found = items.find(i=> i.sku===sku);
+    if (found) found.qty = (found.qty||1)+1;
+    else items.push({sku,name,price:Number(price),url: url||location.pathname, img, qty:1, addedAt: Date.now()});
+    save(items); updateCount(); renderMiniCart(); openMiniCart();
+  }
+
+  // Mini-cart hooks (no-op if you didn’t include the drawer markup on this page)
+  function qs(s){ return document.querySelector(s); }
+  function renderMiniCart(){
+    const list = qs('#mcartList');
+    const totalEl = qs('#mcartTotal');
+    if (!list) return;
+    const items = load();
+    list.innerHTML = items.map(i => `
+      <li class="mc-item">
+        <img src="${i.img||''}" alt="" onerror="this.style.display='none'">
+        <div class="mc-meta">
+          <b>${i.name}</b>
+          <span class="mc-sku">${i.sku}</span>
+          <span class="mc-qty">Qty ${i.qty||1}</span>
+        </div>
+        <div class="mc-price">$${(i.price*(i.qty||1)).toFixed(2)}</div>
+      </li>
+    `).join('') || `<li class="mc-empty">Your bag is empty.</li>`;
+    if (totalEl){
+      const total = items.reduce((s,i)=> s + (i.price*(i.qty||1)), 0);
+      totalEl.textContent = `$${total.toFixed(2)}`;
+    }
+  }
+  function openMiniCart(){ const a=qs('#mcart'), o=qs('#mcartOverlay'); if(a) a.classList.add('open'); if(o) o.classList.add('show'); }
+  function closeMiniCart(){ const a=qs('#mcart'), o=qs('#mcartOverlay'); if(a) a.classList.remove('open'); if(o) o.classList.remove('show'); }
+  ['click','touchstart'].forEach(evt=>{
+    document.addEventListener(evt, e=>{
+      if (e.target.matches('#mcartClose') || e.target.matches('#mcartOverlay')) closeMiniCart();
+    }, {passive:true});
+  });
+  // Render once on load
+  renderMiniCart(); updateCount();
+
+  // Attach to BOTH styles: .add-to-bag and .add-to-cart
+  document.querySelectorAll('.add-to-bag, .add-to-cart').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const sku = btn.dataset.sku || btn.dataset.id || btn.getAttribute('data-product') || 'unknown';
+      const name = btn.dataset.name || btn.getAttribute('aria-label') || 'Product';
+      const price = btn.dataset.price || '0';
+      const url = btn.dataset.url || btn.closest('a')?.href || location.pathname;
+      const img = btn.dataset.img || btn.closest('.card')?.querySelector('img')?.src || '';
+      addItem({sku, name, price, url, img});
+    });
+  });
+})();
+</script>
+<script>
+(function(){
+  // If your app.js exposes these helpers, great; otherwise we re-implement minimal ones:
+  const CART_KEY = 'stp_cart';
+  function load(){ try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch { return []; } }
+  function save(items){ localStorage.setItem(CART_KEY, JSON.stringify(items)); }
+  function updateCount(){
+    const n = load().reduce((s,i)=> s + (i.qty||1), 0);
+    const el = document.getElementById('cartCount');
+    if (el){
+      el.textContent = n ? `(${n})` : '';
+      el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump');
+    }
+  }
+  function addItem({sku,name,price,url,img}){
+    const items = load();
+    const found = items.find(i=> i.sku===sku);
+    if (found) found.qty = (found.qty||1)+1;
+    else items.push({sku,name,price:Number(price),url: url||location.pathname, img, qty:1, addedAt: Date.now()});
+    save(items); updateCount(); renderMiniCart(); openMiniCart();
+  }
+
+  // Mini-cart hooks (no-op if you didn’t include the drawer markup on this page)
+  function qs(s){ return document.querySelector(s); }
+  function renderMiniCart(){
+    const list = qs('#mcartList');
+    const totalEl = qs('#mcartTotal');
+    if (!list) return;
+    const items = load();
+    list.innerHTML = items.map(i => `
+      <li class="mc-item">
+        <img src="${i.img||''}" alt="" onerror="this.style.display='none'">
+        <div class="mc-meta">
+          <b>${i.name}</b>
+          <span class="mc-sku">${i.sku}</span>
+          <span class="mc-qty">Qty ${i.qty||1}</span>
+        </div>
+        <div class="mc-price">$${(i.price*(i.qty||1)).toFixed(2)}</div>
+      </li>
+    `).join('') || `<li class="mc-empty">Your bag is empty.</li>`;
+    if (totalEl){
+      const total = items.reduce((s,i)=> s + (i.price*(i.qty||1)), 0);
+      totalEl.textContent = `$${total.toFixed(2)}`;
+    }
+  }
+  function openMiniCart(){ const a=qs('#mcart'), o=qs('#mcartOverlay'); if(a) a.classList.add('open'); if(o) o.classList.add('show'); }
+  function closeMiniCart(){ const a=qs('#mcart'), o=qs('#mcartOverlay'); if(a) a.classList.remove('open'); if(o) o.classList.remove('show'); }
+  ['click','touchstart'].forEach(evt=>{
+    document.addEventListener(evt, e=>{
+      if (e.target.matches('#mcartClose') || e.target.matches('#mcartOverlay')) closeMiniCart();
+    }, {passive:true});
+  });
+  // Render once on load
+  renderMiniCart(); updateCount();
+
+  // Attach to BOTH styles: .add-to-bag and .add-to-cart
+  document.querySelectorAll('.add-to-bag, .add-to-cart').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const sku = btn.dataset.sku || btn.dataset.id || btn.getAttribute('data-product') || 'unknown';
+      const name = btn.dataset.name || btn.getAttribute('aria-label') || 'Product';
+      const price = btn.dataset.price || '0';
+      const url = btn.dataset.url || btn.closest('a')?.href || location.pathname;
+      const img = btn.dataset.img || btn.closest('.card')?.querySelector('img')?.src || '';
+      addItem({sku, name, price, url, img});
+    });
+  });
+})();
+</script>
+<script>
+(function(){
+  // If your app.js exposes these helpers, great; otherwise we re-implement minimal ones:
+  const CART_KEY = 'stp_cart';
+  function load(){ try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch { return []; } }
+  function save(items){ localStorage.setItem(CART_KEY, JSON.stringify(items)); }
+  function updateCount(){
+    const n = load().reduce((s,i)=> s + (i.qty||1), 0);
+    const el = document.getElementById('cartCount');
+    if (el){
+      el.textContent = n ? `(${n})` : '';
+      el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump');
+    }
+  }
+  function addItem({sku,name,price,url,img}){
+    const items = load();
+    const found = items.find(i=> i.sku===sku);
+    if (found) found.qty = (found.qty||1)+1;
+    else items.push({sku,name,price:Number(price),url: url||location.pathname, img, qty:1, addedAt: Date.now()});
+    save(items); updateCount(); renderMiniCart(); openMiniCart();
+  }
+
+  // Mini-cart hooks (no-op if you didn’t include the drawer markup on this page)
+  function qs(s){ return document.querySelector(s); }
+  function renderMiniCart(){
+    const list = qs('#mcartList');
+    const totalEl = qs('#mcartTotal');
+    if (!list) return;
+    const items = load();
+    list.innerHTML = items.map(i => `
+      <li class="mc-item">
+        <img src="${i.img||''}" alt="" onerror="this.style.display='none'">
+        <div class="mc-meta">
+          <b>${i.name}</b>
+          <span class="mc-sku">${i.sku}</span>
+          <span class="mc-qty">Qty ${i.qty||1}</span>
+        </div>
+        <div class="mc-price">$${(i.price*(i.qty||1)).toFixed(2)}</div>
+      </li>
+    `).join('') || `<li class="mc-empty">Your bag is empty.</li>`;
+    if (totalEl){
+      const total = items.reduce((s,i)=> s + (i.price*(i.qty||1)), 0);
+      totalEl.textContent = `$${total.toFixed(2)}`;
+    }
+  }
+  function openMiniCart(){ const a=qs('#mcart'), o=qs('#mcartOverlay'); if(a) a.classList.add('open'); if(o) o.classList.add('show'); }
+  function closeMiniCart(){ const a=qs('#mcart'), o=qs('#mcartOverlay'); if(a) a.classList.remove('open'); if(o) o.classList.remove('show'); }
+  ['click','touchstart'].forEach(evt=>{
+    document.addEventListener(evt, e=>{
+      if (e.target.matches('#mcartClose') || e.target.matches('#mcartOverlay')) closeMiniCart();
+    }, {passive:true});
+  });
+  // Render once on load
+  renderMiniCart(); updateCount();
+
+  // Attach to BOTH styles: .add-to-bag and .add-to-cart
+  document.querySelectorAll('.add-to-bag, .add-to-cart').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const sku = btn.dataset.sku || btn.dataset.id || btn.getAttribute('data-product') || 'unknown';
+      const name = btn.dataset.name || btn.getAttribute('aria-label') || 'Product';
+      const price = btn.dataset.price || '0';
+      const url = btn.dataset.url || btn.closest('a')?.href || location.pathname;
+      const img = btn.dataset.img || btn.closest('.card')?.querySelector('img')?.src || '';
+      addItem({sku, name, price, url, img});
+    });
+  });
+})();
+</script>
+
 
 </body>
 </html>
