@@ -598,11 +598,11 @@
 
   document.querySelectorAll('.add-to-bag, .add-to-cart').forEach(btn=>{
     btn.addEventListener('click', (e)=>{
-      e.stopPropagation();
+      e.preventDefault();
       const sku = btn.dataset.sku || btn.dataset.id || btn.getAttribute('data-product') || 'unknown';
       const name = btn.dataset.name || btn.getAttribute('aria-label') || 'Product';
       const price = btn.dataset.price || '0';
-      const url = btn.dataset.url || btn.closest('a')?.href || location.pathname;
+      const url = btn.dataset.url || location.pathname;
       const img = btn.dataset.img || btn.closest('.card')?.querySelector('img')?.src || '';
       addItem({sku, name, price, url, img});
     });
