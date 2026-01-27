@@ -138,11 +138,7 @@
   });
 
   // --- Expose a way to open from header cart link
-  document.getElementById('cartLink')?.addEventListener('click', (e) => {
-    // if you have a dedicated cart page, you can let it navigate; otherwise open drawer:
-    e.preventDefault();
-    render(); openDrawer();
-  });
+  // Cart link allows normal navigation to cart.html
 
   // --- Init
   updateCount();
