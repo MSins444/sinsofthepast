@@ -194,6 +194,40 @@
     <div class="track"><span>★ EXOTIC LEATHERS ★  ★ HEIRLOOM-GRADE FUR ★ JAPANESE SELVEDGE DENIM ★</span><span>★ EXOTIC LEATHERS ★  ★ HEIRLOOM-GRADE FUR ★ JAPANESE SELVEDGE DENIM ★</span></div>
   </div>
 
+/* ===== MARQUEE (3-line, stacked) — overrides base.css ===== */
+.marquee{
+  margin: 22px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.marquee .track{
+  /* override any base.css positioning */
+  position: relative !important;
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  gap: 28px;
+  will-change: transform;
+  animation: stp-marquee 22s linear infinite;
+}
+
+.marquee .track:nth-child(2){ animation-duration: 26s; }
+.marquee .track:nth-child(3){ animation-duration: 30s; }
+
+.marquee .track span{
+  display: inline-block;
+  padding-right: 28px;
+}
+
+@keyframes stp-marquee{
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+
   <!-- CAMPAIGN BANNER -->
   <section class="banner reveal">
     <img src="assets/DualityofPastandFuture.png" alt="AW25 campaign still — duality series"
