@@ -141,21 +141,36 @@ img { max-width:100%; display:block; }
 .card .meta { padding:14px; }
 .price { font-weight:800; }
 
-/* ===========================
-   Marquee
-   =========================== */
-.marquee {
-  display:flex; overflow:hidden; gap:24px;
-  border-top:1px solid var(--hair); border-bottom:1px solid var(--hair);
-  padding:8px 0; background: color-mix(in hsl, var(--surface) 80%, transparent);
+/* MARQUEE (3-line stacked, stable loop) */
+.marquee{
+  margin: 22px 0;
+  display: grid;
+  gap: 10px;
+  overflow: hidden;
 }
-.marquee .track {
-  display:flex; gap:32px; white-space:nowrap;
-  animation:mar 22s linear infinite;
-  opacity:.9;
+
+.marquee .track{
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  gap: 28px;
+  will-change: transform;
+  animation: stp-marquee 20s linear infinite;
 }
-.marquee span { font-weight:700; letter-spacing:.06em; color:var(--gold); }
-@keyframes mar { to { transform:translateX(-50%); } }
+
+.marquee .track:nth-child(2){ animation-duration: 24s; }
+.marquee .track:nth-child(3){ animation-duration: 28s; }
+
+.marquee .track span{
+  display: inline-flex;
+  gap: 28px;
+  padding-right: 28px;
+}
+
+@keyframes stp-marquee{
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
 
 /* ===========================
    Footer
