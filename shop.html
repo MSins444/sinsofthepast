@@ -5,165 +5,186 @@
   <title>Sins of the Past — Shop</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <!-- Base theme -->
   <link rel="stylesheet" href="css/base.css">
-  <!-- keep last if it overrides cursors just for shop -->
   <link rel="stylesheet" href="css/cursor-shop.css">
 
   <style>
-    /* Page-specific polish */
-    .tagline{
-      font-size:clamp(22px,5vw,44px);
-      letter-spacing:.02em;
-      line-height:1.2;
-      text-align:center;
-      margin:24px auto 12px;
-      max-width:22ch;
+    /* ===== Quiet luxury shop polish ===== */
+    .shop-wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding: 0 16px;
     }
+
+    .tagline{
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size:clamp(26px,5vw,52px);
+      letter-spacing:.02em;
+      line-height:1.08;
+      text-align:center;
+      margin:26px auto 8px;
+      max-width:24ch;
+    }
+    .intro{
+      max-width: 900px;
+      margin: 10px auto 26px;
+      text-align:center;
+      opacity:.86;
+      line-height:1.65;
+    }
+
+    /* Grid (this is what you were missing) */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    /* Cards */
     .card .img{
       display:block;
-      aspect-ratio:4/5;
-      border-radius:16px;
+      aspect-ratio: 4/5;
+      border-radius: 18px;
       overflow:hidden;
       background:#0f1117;
+      border: 1px solid rgba(255,255,255,.06);
     }
     .card .img img{
-      width:100%; height:100%; object-fit:cover; display:block;
-    }
-    .specs{ margin:8px 0 12px 18px; color:var(--mute); }
-    .specs li{ margin:2px 0; }
-    /* Wide section divider hero */
-    .section-hero{
       width:100%;
-      grid-column:1/-1;
-      margin:40px 0;
-      padding:0;
-      border-radius:18px;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .specs{
+      margin: 10px 0 12px 18px;
+      color: var(--mute);
+      line-height: 1.5;
+    }
+    .specs li{ margin: 3px 0; }
+
+    /* Section divider hero (wide) */
+    .section-hero{
+      grid-column: 1 / -1;
+      border-radius: 18px;
       overflow:hidden;
       background:#0c0d11;
+      border: 1px solid rgba(255,255,255,.08);
       position:relative;
+      margin: 12px 0 6px;
     }
-    .section-hero .img{ aspect-ratio:16/5; border-radius:0; opacity:.95; }
+    .section-hero .img{
+      aspect-ratio: 16/6;
+      border-radius: 0;
+      opacity:.96;
+    }
     .section-hero .meta{
-      position:absolute; bottom:20px; left:20px; right:20px; text-align:left;
-      text-shadow:0 0 12px rgba(0,0,0,0.35);
+      position:absolute;
+      inset:auto 18px 18px 18px;
+      text-align:left;
+      text-shadow: 0 8px 22px rgba(0,0,0,.55);
+      max-width: 70ch;
     }
-    .section-hero h2{ font-size:clamp(28px,5vw,52px); margin:0; letter-spacing:.02em; }
-    .section-hero .price{ font-size:20px; }
-    /* =========================
-   MINI CART DRAWER (SHOP)
-   ========================= */
-.mcart{
-  position:fixed;
-  top:0;
-  right:0;
-  height:100dvh;
-  width:380px;
-  max-width:92vw;
-  background:#0e101b;
-  border-left:1px solid var(--line);
-  transform:translateX(100%);
-  transition:transform .25s ease;
-  z-index:10002;
-  display:flex;
-  flex-direction:column;
-}
-.mcart.open{ transform:translateX(0); }
+    .section-hero h2{
+      font-family:"Cormorant Garamond", Georgia, serif;
+      font-size: clamp(26px, 4.5vw, 52px);
+      margin: 0;
+      letter-spacing:.02em;
+      line-height:1.02;
+    }
 
-.mcart-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.5);
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .2s ease;
-  z-index:10001;
-}
-.mcart-overlay.show{
-  opacity:1;
-  pointer-events:auto;
-}
+    /* Quiet gold accent (optional) */
+    .gold{
+      color:#c9a24d;
+      text-shadow:0 0 10px rgba(201,162,77,.12);
+    }
 
-.mcart-head, .mcart-foot{
-  padding:14px;
-  border-bottom:1px solid var(--line);
-}
-.mcart-foot{ border-bottom:none; border-top:1px solid var(--line); }
+    /* Mini cart drawer (keep yours) */
+    .mcart{
+      position:fixed;
+      top:0;
+      right:0;
+      height:100dvh;
+      width:380px;
+      max-width:92vw;
+      background:#0e101b;
+      border-left:1px solid var(--line);
+      transform:translateX(100%);
+      transition:transform .25s ease;
+      z-index:10002;
+      display:flex;
+      flex-direction:column;
+    }
+    .mcart.open{ transform:translateX(0); }
 
-.mcart-close{
-  margin-left:auto;
-  border:1px solid var(--line);
-  background:#111424;
-  color:var(--ink);
-  border-radius:10px;
-  padding:8px 10px;
-  cursor:pointer;
-}
-.mcart-head{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
+    .mcart-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.5);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .2s ease;
+      z-index:10001;
+    }
+    .mcart-overlay.show{ opacity:1; pointer-events:auto; }
 
-.mcart-body{
-  padding:12px 14px;
-  overflow:auto;
-  flex:1 1 auto;
-}
+    .mcart-head, .mcart-foot{
+      padding:14px;
+      border-bottom:1px solid var(--line);
+    }
+    .mcart-foot{ border-bottom:none; border-top:1px solid var(--line); }
 
-.mc-items{
-  list-style:none;
-  padding:0;
-  margin:0;
-  display:grid;
-  gap:10px;
-}
+    .mcart-head{ display:flex; align-items:center; gap:10px; }
+    .mcart-close{
+      margin-left:auto;
+      border:1px solid var(--line);
+      background:#111424;
+      color:var(--ink);
+      border-radius:10px;
+      padding:8px 10px;
+      cursor:pointer;
+    }
 
-.mc-item{
-  display:grid;
-  grid-template-columns:56px 1fr auto;
-  gap:10px;
-  align-items:center;
-  border:1px solid var(--line);
-  background:#0c0f19;
-  border-radius:14px;
-  padding:10px;
-}
-.mc-item img{
-  width:56px;
-  height:56px;
-  object-fit:cover;
-  border-radius:10px;
-  background:#0f1117;
-}
-.mc-meta b{ display:block; font-size:14px; }
-.mc-qty{ display:block; font-size:12px; color:var(--mute); margin-top:2px; }
-.mc-price{ font-weight:800; }
+    .mcart-body{ padding:12px 14px; overflow:auto; flex:1 1 auto; }
+    .mc-items{ list-style:none; padding:0; margin:0; display:grid; gap:10px; }
 
-.mc-empty{
-  color:var(--mute);
-  border:1px dashed var(--line);
-  padding:14px;
-  border-radius:14px;
-  text-align:center;
-}
-
-.mcart-foot .row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
-}
-
-.mcart-foot .checkout{
-  display:flex;
-  gap:10px;
-}
-.mcart-foot .checkout .btn{
-  flex:1 1 auto;
-  text-align:center;
-}
-
+    .mc-item{
+      display:grid;
+      grid-template-columns:56px 1fr auto;
+      gap:10px;
+      align-items:center;
+      border:1px solid var(--line);
+      background:#0c0f19;
+      border-radius:14px;
+      padding:10px;
+    }
+    .mc-item img{
+      width:56px;
+      height:56px;
+      object-fit:cover;
+      border-radius:10px;
+      background:#0f1117;
+    }
+    .mc-meta b{ display:block; font-size:14px; }
+    .mc-qty{ display:block; font-size:12px; color:var(--mute); margin-top:2px; }
+    .mc-price{ font-weight:800; }
+    .mc-empty{
+      color:var(--mute);
+      border:1px dashed var(--line);
+      padding:14px;
+      border-radius:14px;
+      text-align:center;
+    }
+    .mcart-foot .row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+    .mcart-foot .checkout{ display:flex; gap:10px; }
+    .mcart-foot .checkout .btn{ flex:1 1 auto; text-align:center; }
   </style>
 </head>
 
@@ -190,418 +211,283 @@
 
 <main id="main" tabindex="-1">
   <section class="section">
-    <h1>Shop</h1>
-    <p class="tagline">Luxury relics, bad decisions, and ethically sourced sins.</p>
-    <p class="muted" style="max-width:900px;margin:8px auto 22px;text-align:center">
-      Season I: <strong>The Unrepentant Cuts</strong> — spiritual warfare, Japanese denim, fur, diamonds, silver, gold, art, and exotic skins for people who should know better.
-    </p>
+    <div class="shop-wrap">
+      <h1>Shop</h1>
+      <p class="tagline">Luxury relics. Bad decisions.</p>
+      <p class="intro">
+        Season I: <strong>The Unrepentant Cuts</strong> — ethically sourced skins, heirloom fur, silver and stones.
+        Quiet from a distance. Violent up close.
+      </p>
 
-      <!-- E1: The Bad Habits Chain -->
-      <article class="card tilt">
-        <a href="vice-link-chain.html" class="img" aria-label="View The Bad Habits Chain">
-          <img src="assets/bhc.jpg" alt="The Bad Habits Chain">
-        </a>
-        <div class="meta">
-          <h3>The Bad Habits Chain™</h3>
-          <p class="muted">Three charms, zero discipline.</p>
-          <ul class="specs">
-            <li>28g sterling silver Vice Link charms</li>
-            <li>3 charms, black diamond details</li>
-            <li>20&quot; Cuban chain, 5.3mm</li>
-            <li>Pairs with the "Don't Check My Bank Account" Wallet</li>
-          </ul>
-          <div class="buy">
-            <span class="price">$2,800.00</span>
-            <button
-              class="btn small add-to-bag"
-              data-sku="bad-habits-chain"
-              data-name="The Bad Habits Chain"
-              data-price="2800.00"
-              data-url="vice-link-chain.html"
-              data-img="assets/bhc.jpg">Add to Bag</button>
+      <!-- ✅ ONE grid wrapper for all cards -->
+      <div class="grid">
+
+        <!-- Bad Habits Chain -->
+        <article class="card tilt">
+          <a href="vice-link-chain.html" class="img" aria-label="View The Bad Habits Chain">
+            <img src="assets/bhc.jpg" alt="The Bad Habits Chain">
+          </a>
+          <div class="meta">
+            <h3>The Bad Habits Chain™</h3>
+            <p class="muted">Three charms, zero discipline.</p>
+            <ul class="specs">
+              <li>28g sterling silver Vice Link charms</li>
+              <li>3 charms, black diamond details</li>
+              <li>20&quot; Cuban chain, 5.3mm</li>
+              <li>Pairs with the &quot;Don’t Check My Bank Account&quot; Wallet</li>
+            </ul>
+            <div class="buy">
+              <span class="price">$2,800.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="bad-habits-chain"
+                data-name="The Bad Habits Chain"
+                data-price="2800.00"
+                data-url="vice-link-chain.html"
+                data-img="assets/bhc.jpg">Add to Bag</button>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
 
-    <!-- C2: The After-Hours Fox Fur Muff Bag -->
-      <article class="card tilt">
-        <a href="after-hours-muff.html" class="img" aria-label="View The After-Hours Muff Bag">
-          <img src="assets/After hours muff bag 2.jpg" alt="The After-Hours Muff Bag">
-        </a>
-        <div class="meta">
-          <h3>The After-Hours Muff Bag™</h3>
-          <p class="muted">Say what you want — it stays quiet.</p>
-          <ul class="specs">
-            <li>Genuine arctic fox fur exterior</li>
-            <li>Nylon core structure</li>
-            <li>Hand-finished rope wrist strap</li>
-            <li>Naturally patterned fur — no two pieces identical</li>
-            <li>Cinematic, red-carpet energy</li>
-            <li>Discreet interior pocket for essentials</li>
-            <li>Made in limited quantities. No restocks.</li>
-          </ul>
-          <div class="buy">
-            <span class="price">$900.00</span>
-            <button
-              class="btn small add-to-bag"
-              data-sku="after-hours-muff"
-              data-name="The After-Hours Muff"
-              data-price="900.00"
-              data-url="after-hours-muff.html"
-              data-img="assets/After hours muff bag 2.jpg">Add to Bag</button>
+        <!-- After-Hours Muff Bag -->
+        <article class="card tilt">
+          <a href="after-hours-muff.html" class="img" aria-label="View The After-Hours Muff Bag">
+            <img src="assets/After hours muff bag 2.jpg" alt="The After-Hours Muff Bag">
+          </a>
+          <div class="meta">
+            <h3>The After-Hours Muff Bag™</h3>
+            <p class="muted">Say what you want — it stays quiet.</p>
+            <ul class="specs">
+              <li>Genuine arctic fox fur exterior</li>
+              <li>Nylon core structure</li>
+              <li>Discreet interior pocket</li>
+              <li>Limited quantities. No restocks.</li>
+            </ul>
+            <div class="buy">
+              <span class="price">$900.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="after-hours-muff"
+                data-name="The After-Hours Muff"
+                data-price="900.00"
+                data-url="after-hours-muff.html"
+                data-img="assets/After hours muff bag 2.jpg">Add to Bag</button>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
 
-
-      <!-- A3: The Pony Play Pants -->
-      <article class="card tilt">
-        <a href="pony-play-pants.html" class="img" aria-label="View The Pony Play Pants">
-          <img src="assets/pony-play-pants.jpg" alt="The Pony Play Pants">
-        </a>
-        <div class="meta">
-          <h3>The Pony Play Pants™</h3>
-          <p class="muted">Grow up? Absolutely not.</p>
-          <ul class="specs">
-            <li>Cow hair paneling</li>
-            <li>Raw Japanese indigo denim</li>
-            <li>Satin pocketing</li>
-            <li>3 mink head cuff attachments</li>
-            <li>Silver hardware</li>
-          </ul>
-          <div class="buy">
-            <span class="price">$1,800.00</span>
-            <button
-              class="btn small add-to-bag"
-              data-sku="pony-play-pants"
-              data-name="The Pony Play Pants"
-              data-price="1800.00"
-              data-url="pony-play-pants.html"
-              data-img="assets/pony-play-pants.jpg">Add to Bag</button>
+        <!-- Pony Play Pants -->
+        <article class="card tilt">
+          <a href="pony-play-pants.html" class="img" aria-label="View The Pony Play Pants">
+            <img src="assets/pony-play-pants.jpg" alt="The Pony Play Pants">
+          </a>
+          <div class="meta">
+            <h3>The Pony Play Pants™</h3>
+            <p class="muted">Grow up? Absolutely not.</p>
+            <ul class="specs">
+              <li>Cow hair paneling</li>
+              <li>Raw Japanese indigo denim</li>
+              <li>3 mink head cuff attachments</li>
+            </ul>
+            <div class="buy">
+              <span class="price">$1,800.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="pony-play-pants"
+                data-name="The Pony Play Pants"
+                data-price="1800.00"
+                data-url="pony-play-pants.html"
+                data-img="assets/pony-play-pants.jpg">Add to Bag</button>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
 
-      <!-- A4: The Wrong Turn Trousers -->
-      <article class="card tilt">
-        <a href="wrong-turn-trousers.html" class="img" aria-label="View The Wrong Turn Trousers">
-          <img src="assets/wrong-turn-trousers.jpg" alt="The Wrong Turn Trousers">
-        </a>
-        <div class="meta">
-          <h3>The Wrong Turn Trousers™</h3>
-          <p class="muted">Your ancestors warned you. You didn't listen.</p>
-          <ul class="specs">
-            <li>Raw Japanese denim</li>
-            <li>Leather crossroads sigils</li>
-            <li>Built to match the Crossroads Jacket</li>
-          </ul>
-          <div class="buy">
-            <span class="price">$650.00</span>
-            <button
-              class="btn small add-to-bag"
-              data-sku="wrong-turn-trousers"
-              data-name="The Wrong Turn Trousers"
-              data-price="650.00"
-              data-url="wrong-turn-trousers.html"
-              data-img="assets/wrong-turn-trousers.jpg">Add to Bag</button>
+        <!-- Wrong Turn Trousers -->
+        <article class="card tilt">
+          <a href="wrong-turn-trousers.html" class="img" aria-label="View The Wrong Turn Trousers">
+            <img src="assets/wrong-turn-trousers.jpg" alt="The Wrong Turn Trousers">
+          </a>
+          <div class="meta">
+            <h3>The Wrong Turn Trousers™</h3>
+            <p class="muted">Your ancestors warned you.</p>
+            <ul class="specs">
+              <li>Raw Japanese denim</li>
+              <li>Leather crossroads sigils</li>
+              <li>Built to match the Crossroads Jacket</li>
+            </ul>
+            <div class="buy">
+              <span class="price">$650.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="wrong-turn-trousers"
+                data-name="The Wrong Turn Trousers"
+                data-price="650.00"
+                data-url="wrong-turn-trousers.html"
+                data-img="assets/wrong-turn-trousers.jpg">Add to Bag</button>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
 
-      <!-- B1: The "Don't Ask Me Where I Was" Jacket -->
-      <article class="card tilt">
-        <a href="dont-ask-me-where-i-was-jacket.html" class="img" aria-label="View The "Don't Ask Me Where I Was" Jacket">
-          <img src="assets/dont-ask-me-where-i-was-jacket.jpg" alt="The "Don't Ask Me Where I Was" Jacket">
-        </a>
-        <div class="meta">
-          <h3>The "Don't Ask Me Where I Was" Jacket™</h3>
-          <p class="muted">Evidence? Never heard of her.</p>
-          <ul class="specs">
-            <li>Raw Japanese denim shell</li>
-            <li>Leather patchwork at the crossroads</li>
-            <li>Designed to pair with Wrong Turn Trousers</li>
-          </ul>
-          <div class="buy">
-            <span class="price">$950.00</span>
-            <button
-              class="btn small add-to-bag"
-              data-sku="dont-ask-me-where-i-was-jacket"
-              data-name="The "Don't Ask Me Where I Was" Jacket"
-              data-price="950.00"
-              data-url="dont-ask-me-where-i-was-jacket.html"
-              data-img="assets/dont-ask-me-where-i-was-jacket.jpg">Add to Bag</button>
+        <!-- Don't Ask Me Where I Was Jacket (FIXED QUOTES) -->
+        <article class="card tilt">
+          <a href="dont-ask-me-where-i-was-jacket.html" class="img" aria-label="View The Don’t Ask Me Where I Was Jacket">
+            <img src="assets/dont-ask-me-where-i-was-jacket.jpg" alt="The Don’t Ask Me Where I Was Jacket">
+          </a>
+          <div class="meta">
+            <h3>The “Don’t Ask Me Where I Was” Jacket™</h3>
+            <p class="muted">Evidence? Never heard of her.</p>
+            <ul class="specs">
+              <li>Raw Japanese denim shell</li>
+              <li>Leather patchwork at the crossroads</li>
+              <li>Pairs with Wrong Turn Trousers</li>
+            </ul>
+            <div class="buy">
+              <span class="price">$950.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="dont-ask-me-where-i-was-jacket"
+                data-name="The Don’t Ask Me Where I Was Jacket"
+                data-price="950.00"
+                data-url="dont-ask-me-where-i-was-jacket.html"
+                data-img="assets/dont-ask-me-where-i-was-jacket.jpg">Add to Bag</button>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
 
-      <!-- SECTION DIVIDER: Fallen Angels Poster -->
-      <article class="card tilt" style="width:100%;grid-column:1/-1">
-        <a href="onlythefreeposter.html" class="img" aria-label="View We Are The Fallen Angels Poster" style="aspect-ratio:3/1">
-          <img src="assets/onlythefree.JPG" alt="We Are The Fallen Angels Poster" loading="lazy" decoding="async" style="object-fit:cover;width:100%;height:100%">
-        </a>
-        <div class="meta" style="text-align:center">
-          <h3 style="margin-top:12px;">We Are The Fallen Angels</h3>
-          <p class="muted">Archival print — the cult classic returns.</p>
-          <div class="buy" style="justify-content:center">
-            <span class="price">$50.00</span>
-            <button
-              class="btn small add-to-bag"
-              data-sku="fallen-angels-poster"
-              data-name="We Are The Fallen Angels Poster"
-              data-price="50.00"
-              data-url="onlythefreeposter.html"
-              data-img="assets/onlythefree.JPG">Add to Bag</button>
+        <!-- Wide divider: Fallen Angels Poster -->
+        <article class="card tilt section-hero">
+          <a href="onlythefreeposter.html" class="img" aria-label="View We Are The Fallen Angels Poster">
+            <img src="assets/onlythefree.JPG" alt="We Are The Fallen Angels Poster" loading="lazy" decoding="async">
+          </a>
+          <div class="meta">
+            <h2 class="gold">We Are The Fallen Angels</h2>
+            <p class="muted" style="margin-top:8px;max-width:52ch">
+              Archival print — the cult classic returns.
+            </p>
+            <div class="buy" style="margin-top:10px;display:flex;gap:14px;align-items:center;">
+              <span class="price">$50.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="fallen-angels-poster"
+                data-name="We Are The Fallen Angels Poster"
+                data-price="50.00"
+                data-url="onlythefreeposter.html"
+                data-img="assets/onlythefree.JPG">Add to Bag</button>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
 
-      <!-- B2: The Back-From-The-Dead Fox Coat -->
-      <article class="card tilt">
-        <a href="back-from-the-dead-fox-coat.html" class="img" aria-label="View The Back-From-The-Dead Fox Coat">
-          <img src="assets/back-from-the-dead-fox-coat.jpg" alt="The Back-From-The-Dead Fox Coat">
-        </a>
-        <div class="meta">
-          <h3>The Back-From-The-Dead Fox Coat™</h3>
-          <p class="muted">It lived twice. You lived once — barely.</p>
-          <ul class="specs">
-            <li>Fox head-only pelt construction</li>
-            <li>Fully reversible to cow leather</li>
-            <li>Statement of reincarnation &amp; sin</li>
-          </ul>
-          <div class="buy">
-            <span class="price">$5,000.00</span>
-            <button
-              class="btn small add-to-bag"
-              data-sku="back-from-the-dead-fox-coat"
-              data-name="The Back-From-The-Dead Fox Coat"
-              data-price="5000.00"
-              data-url="back-from-the-dead-fox-coat.html"
-              data-img="assets/back-from-the-dead-fox-coat.jpg">Add to Bag</button>
+        <!-- Back From The Dead Fox Coat -->
+        <article class="card tilt">
+          <a href="back-from-the-dead-fox-coat.html" class="img" aria-label="View The Back-From-The-Dead Fox Coat">
+            <img src="assets/back-from-the-dead-fox-coat.jpg" alt="The Back-From-The-Dead Fox Coat">
+          </a>
+          <div class="meta">
+            <h3>The Back-From-The-Dead Fox Coat™</h3>
+            <p class="muted">It lived twice. You lived once — barely.</p>
+            <ul class="specs">
+              <li>Fox head-only pelt construction</li>
+              <li>Fully reversible to cow leather</li>
+              <li>Statement of reincarnation &amp; sin</li>
+            </ul>
+            <div class="buy">
+              <span class="price">$5,000.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="back-from-the-dead-fox-coat"
+                data-name="The Back-From-The-Dead Fox Coat"
+                data-price="5000.00"
+                data-url="back-from-the-dead-fox-coat.html"
+                data-img="assets/back-from-the-dead-fox-coat.jpg">Add to Bag</button>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
 
-      <!-- C1: The Bad Decision Aviator -->
-      <article class="card tilt">
-        <a href="bad-decision-aviator.html" class="img" aria-label="View The Bad Decision Aviator">
-          <img src="assets/bad-decision-aviator.jpg" alt="The Bad Decision Aviator">
-        </a>
-        <div class="meta">
-          <h3>The Bad Decision Aviator™</h3>
-          <p class="muted">Fly high, crash pretty.</p>
-          <ul class="specs">
-            <li>Full fox pelt aviator hat</li>
-            <li>Luxe interior lining</li>
-            <li>Genuine crystal Fox pelt</li>
-            <li>Silver hardware</li>
-            <li>Fox head attached</li>
-          </ul>
-          <div class="buy">
-            <span class="price">$700.00</span>
-            <button
-              class="btn small add-to-bag"
-              data-sku="bad-decision-aviator"
-              data-name="The Bad Decision Aviator"
-              data-price="700.00"
-              data-url="bad-decision-aviator.html"
-              data-img="assets/bad-decision-aviator.jpg">Add to Bag</button>
+        <!-- Two-Faced Mink Belt -->
+        <article class="card tilt">
+          <a href="two-faced-mink-belt.html" class="img" aria-label="View The Two-Faced Mink Belt">
+            <img src="assets/two-faced-mink-belt.jpg" alt="The Two-Faced Mink Belt">
+          </a>
+          <div class="meta">
+            <h3>The Two-Faced Mink Belt™</h3>
+            <p class="muted">Fur or leather — pick your personality.</p>
+            <ul class="specs">
+              <li>Mink head-only pelt construction</li>
+              <li>Fully reversible — fur ↔ tanned leather</li>
+              <li>Designed to sit over belt loops</li>
+            </ul>
+            <div class="buy">
+              <span class="price">$1,100.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="two-faced-mink-belt"
+                data-name="The Two-Faced Mink Belt"
+                data-price="1100.00"
+                data-url="two-faced-mink-belt.html"
+                data-img="assets/two-faced-mink-belt.jpg">Add to Bag</button>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
 
-        <!-- A2: The "This Seems Illegal" Denims -->
-      <article class="card tilt">
-        <a href="this-seems-illegal-denims.html" class="img" aria-label="View The "This Seems Illegal" Denims">
-          <img src="assets/this-seems-illegal-denims.jpg" alt="The "This Seems Illegal" Denims">
-        </a>
-        <div class="meta">
-          <h3>The "This Seems Illegal" Denims™</h3>
-          <p class="muted">One leg regrets, the other leg repeats. A sermon in gator and python.</p>
-          <ul class="specs">
-            <li>Caiman/alligator tail down one leg</li>
-            <li>Python wrap on the opposite leg</li>
-            <li>Raw Japanese denim shell</li>
-            <li>Satin interior details</li>
-            <li>Silver hardware</li>
-          </ul>
-          <div class="buy">
-            <span class="price">$2,400.00</span>
-            <button
-              class="btn small add-to-bag"
-              data-sku="this-seems-illegal-denims"
-              data-name="The "This Seems Illegal" Denims"
-              data-price="2400.00"
-              data-url="this-seems-illegal-denims.html"
-              data-img="assets/this-seems-illegal-denims.jpg">Add to Bag</button>
+        <!-- Two-Faced Mink Headband -->
+        <article class="card tilt">
+          <a href="two-faced-mink-head--wrap.html" class="img" aria-label="View The Two-Faced Mink Headband">
+            <img src="assets/two-faced-mink-headband-hero.jpg" alt="The Two-Faced Mink Headband">
+          </a>
+          <div class="meta">
+            <h3>The Two-Faced Mink Headband™</h3>
+            <p class="muted">Same rules. Higher up.</p>
+            <ul class="specs">
+              <li>Reversible — fur ↔ tanned leather</li>
+              <li>Structured leather interior</li>
+              <li>Part of the Two-Faced system</li>
+            </ul>
+            <div class="buy">
+              <span class="price">$750.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="two-faced-mink-headband"
+                data-name="The Two-Faced Mink Headband"
+                data-price="750.00"
+                data-url="two-faced-mink-head--wrap.html"
+                data-img="assets/two-faced-mink-headband-hero.jpg">Add to Bag</button>
+            </div>
           </div>
-        </div>
-      </article>
-      
-      <!-- C3: The Two-Faced Mink Belt -->
-      <article class="card tilt">
-        <a href="two-faced-mink-belt.html" class="img" aria-label="View The Two-Faced Mink Belt">
-          <img src="assets/two-faced-mink-belt.jpg" alt="The Two-Faced Mink Belt">
-        </a>
-        <div class="meta">
-          <h3>The Two-Faced Mink Belt™</h3>
-          <p class="muted">Fur or leather — pick your personality today.</p>
-          <ul class="specs">
-            <li>Mink head-only pelt construction</li>
-            <li>Fully reversible — fur ↔ tanned leather</li>
-            <li>Designed to sit OVER belt loops for maximum disrespect</li>
-            <li>Ethically sourced, handcrafted in California</li>
-            <li>Customizable belt buckle options</li>
-          </ul>
-          <div class="buy">
-            <span class="price">$1,100.00</span>
-            <button
-              class="btn small add-to-bag"
-              data-sku="two-faced-mink-belt"
-              data-name="The Two-Faced Mink Belt"
-              data-price="1100.00"
-              data-url="two-faced-mink-belt.html"
-              data-img="assets/two-faced-mink-belt.jpg">Add to Bag</button>
-          </div>
-        </div>
-      </article>
+        </article>
 
-      <!-- C5: The Two-Faced Mink Headband -->
-      <article class="card tilt">
-        <a href="two-faced-mink-head--wrap.html" class="img" aria-label="View The Two-Faced Mink Headband">
-          <img src="assets/two-faced-mink-headband-hero.jpg" alt="The Two-Faced Mink Headband">
-        </a>
-        <div class="meta">
-          <h3>The Two-Faced Mink Headband™</h3>
-          <p class="muted">Same rules. Higher up.</p>
-          <ul class="specs">
-            <li>Mink head-only pelt construction</li>
-            <li>Fully reversible — fur ↔ tanned leather</li>
-            <li>Structured leather interior</li>
-            <li>Part of the Two-Faced system</li>
-          </ul>
-          <div class="buy">
-            <span class="price">$750.00</span>
-            <button
-              class="btn small add-to-bag"
-              data-sku="two-faced-mink-headband"
-              data-name="The Two-Faced Mink Headband"
-              data-price="750.00"
-              data-url="two-faced-mink-head--wrap.html"
-              data-img="assets/two-faced-mink-headband-hero.jpg">Add to Bag</button>
+        <!-- Wallet (FIXED QUOTES) -->
+        <article class="card tilt">
+          <a href="wallet.html" class="img" aria-label="View The Don’t Check My Bank Account Wallet">
+            <img src="assets/dont-check-my-bank-account-wallet-cover.jpg" alt="The Don’t Check My Bank Account Wallet">
+          </a>
+          <div class="meta">
+            <h3>The “Don’t Check My Bank Account” Wallet™</h3>
+            <p class="muted">Deadly on the outside. Devastating inside.</p>
+            <ul class="specs">
+              <li>Cobra skin body</li>
+              <li>Cobra head centerpiece</li>
+              <li>Meant to pair with the Bad Habits Chain</li>
+            </ul>
+            <div class="buy">
+              <span class="price">$2,500.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="dont-check-my-bank-account-wallet"
+                data-name="The Don’t Check My Bank Account Wallet"
+                data-price="2500.00"
+                data-url="wallet.html"
+                data-img="assets/dont-check-my-bank-account-wallet-cover.jpg">Add to Bag</button>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
 
-      <!-- D1: The "Don't Check My Bank Account" Wallet -->
-      <article class="card tilt">
-        <a href="wallet.html" class="img" aria-label="View The "Don't Check My Bank Account" Wallet" style="aspect-ratio:3/4">
-          <img src="assets/dont-check-my-bank-account-wallet-cover.jpg" alt="The "Don't Check My Bank Account" Wallet">
-        </a>
-        <div class="meta">
-          <h3>The "Don't Check My Bank Account" Wallet™</h3>
-          <p class="muted">Deadly on the outside. Devastating inside.</p>
-          <ul class="specs">
-            <li>Cobra skin body</li>
-            <li>Cobra head centerpiece</li>
-            <li>Stepani-crafted construction</li>
-            <li>Luxury leather interior</li>
-            <li>Sins of the Past designed</li>
-            <li>3 color options (Black, Blue, Natural)</li>
-            <li>Meant to be paired with the Bad Habits Chain</li>
-          </ul>
-          <div class="buy">
-            <span class="price">$2,500.00</span>
-            <button
-              class="btn small add-to-bag"
-              data-sku="dont-check-my-bank-account-wallet"
-              data-name="The "Don't Check My Bank Account" Wallet"
-              data-price="2500.00"
-              data-url="wallet.html"
-              data-img="assets/dont-check-my-bank-account-wallet-cover.jpg">Add to Bag</button>
-          </div>
-        </div>
-      </article>
+      </div><!-- /grid -->
 
-    <div class="grid">
-      <!-- A1: The Bad Influence Jeans -->
-      <article class="card tilt">
-        <a href="bad-influence-jeans.html" class="img" aria-label="View The Bad Influence Jeans">
-          <img src="assets/bad-influence-jeans.jpg" alt="The Bad Influence Jeans">
-        </a>
-        <div class="meta">
-          <h3>The Bad Influence Jeans™</h3>
-          <p class="muted">Snakes and foxes on the same pair of legs. Snakes AND foxes? Pick a struggle DAMMNIT!</p>
-          <ul class="specs">
-            <li>Raw Japanese denim base</li>
-            <li>Blue/red serpent appliqués</li>
-            <li>Blue/red fox-head panels</li>
-            <li>3 mink head cuff attachments</li>
-            <li>Gunmetal hardware</li>
-            <li>Leather scythe appliqués</li>
-          </ul>
-          <div class="buy">
-            <span class="price">$2,200.00</span>
-            <button
-              class="btn small add-to-bag"
-              data-sku="bad-influence-jeans"
-              data-name="The Bad Influence Jeans"
-              data-price="2200.00"
-              data-url="bad-influence-jeans.html"
-              data-img="assets/bad-influence-jeans.jpg">Add to Bag</button>
-          </div>
-        </div>
-      </article>
-
-      <!-- SECTION DIVIDER: "Do Not Open" Zipper Pulls -->
-      <article class="card tilt section-hero">
-        <a href="do-not-open-zipper-pulls.html" class="img" aria-label="View The "Do Not Open" Zipper Pulls">
-          <img src="assets/do-not-open-zipper-pulls.jpg" alt="The "Do Not Open" Zipper Pulls" loading="lazy" decoding="async">
-        </a>
-        <div class="meta">
-          <h2>The "Do Not Open" Zipper Pulls™</h2>
-          <p class="muted" style="max-width:46ch;margin-top:6px">
-            Your zipper's got an attitude. Sins of the Past hardware, cast like jewelry and built to outlive the garment.
-          </p>
-          <ul class="specs">
-            <li>Base: solid .925 sterling silver scythe pull</li>
-            <li>Options: bare silver — or silver with black diamond inlay</li>
-            <li>Finish: high-polish face with subtly oxidized recesses</li>
-            <li>Use on: denim, bags, relic wallets, or custom outerwear</li>
-          </ul>
-          <div class="buy" style="display:flex;align-items:center;gap:18px;">
-            <span class="price">$350.00</span>
-            <button
-              class="btn small add-to-bag"
-              data-sku="do-not-open-zipper-pulls"
-              data-name="The "Do Not Open" Zipper Pulls"
-              data-price="350.00"
-              data-url="do-not-open-zipper-pulls.html"
-              data-img="assets/zipperpulls.png"
-              style="background:#fff;color:#000">Add to Bag</button>
-          </div>
-        </div>
-      </article>
-
+      <p class="muted" style="text-align:center;margin:18px auto 0;max-width:80ch">
+        Natural, ethically sourced materials only — metals, stones, exotic skins, and furs for the unrepentant.
+      </p>
     </div>
   </section>
 </main>
 
 <footer class="footer">© <span id="y"></span> Sins of the Past</footer>
 
-<!-- Site JS (global stuff like cursor, cart count, etc.) -->
-<script src="app.js" defer></script>
-
 <script>
-  // Footer year
   (function(){
     var y = document.getElementById('y');
     if (y) y.textContent = new Date().getFullYear();
   })();
 </script>
-
-<p class="muted" style="text-align:center;margin-top:6px">
-  Natural, ethically sourced materials only — metals, stones, exotic skins, and furs for the unrepentant.
-</p>
 
 <!-- Mini-Cart Drawer -->
 <div class="mcart-overlay" id="mcartOverlay" hidden></div>
@@ -631,111 +517,102 @@
   </div>
 </aside>
 
-
 <script>
 (function(){
   const CART_KEY = 'stp_cart';
-  
-  function load(){ 
-    try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } 
-    catch { return []; } 
+
+  function load(){
+    try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); }
+    catch { return []; }
   }
-  
-  function save(items){ 
-    localStorage.setItem(CART_KEY, JSON.stringify(items)); 
+
+  function save(items){
+    localStorage.setItem(CART_KEY, JSON.stringify(items));
   }
-  
+
   function updateCount(){
     const n = load().reduce((s,i)=> s + (i.qty||1), 0);
     const el = document.getElementById('cartCount');
-    if (el){
-      el.textContent = n ? `(${n})` : '';
-      el.classList.remove('bump'); 
-      void el.offsetWidth; 
-      el.classList.add('bump');
-    }
-  }
-  
-  function addItem({sku,name,price,url,img}){
-    const items = load();
-    const found = items.find(i=> i.sku===sku);
-    if (found) found.qty = (found.qty||1)+1;
-    else items.push({sku,name,price:Number(price),url: url||location.pathname, img, qty:1, addedAt: Date.now()});
-    save(items); 
-    updateCount(); 
-    renderMiniCart(); 
-    openMiniCart();
+    if (el) el.textContent = n ? `(${n})` : '';
   }
 
   function qs(s){ return document.querySelector(s); }
-  
+
   function renderMiniCart(){
     const list = qs('#mcartList');
     const totalEl = qs('#mcartTotal');
     if (!list) return;
+
     const items = load();
     list.innerHTML = items.map(i => `
       <li class="mc-item">
         <img src="${i.img||''}" alt="" onerror="this.style.display='none'">
         <div class="mc-meta">
           <b>${i.name}</b>
-          <span class="mc-sku">${i.sku}</span>
           <span class="mc-qty">Qty ${i.qty||1}</span>
         </div>
         <div class="mc-price">$${(i.price*(i.qty||1)).toFixed(2)}</div>
       </li>
     `).join('') || `<li class="mc-empty">Your bag is empty.</li>`;
+
     if (totalEl){
       const total = items.reduce((s,i)=> s + (i.price*(i.qty||1)), 0);
       totalEl.textContent = `$${total.toFixed(2)}`;
     }
   }
-  
-  function openMiniCart(){ 
-    const a=qs('#mcart'), o=qs('#mcartOverlay'); 
-    if(a) a.classList.add('open'); 
-    if(o) o.classList.add('show'); 
+
+  function openMiniCart(){
+    const a=qs('#mcart'), o=qs('#mcartOverlay');
+    if(a) a.classList.add('open');
+    if(o) o.classList.add('show');
     document.body.style.overflow='hidden';
   }
-  
-  function closeMiniCart(){ 
-    const a=qs('#mcart'), o=qs('#mcartOverlay'); 
-    if(a) a.classList.remove('open'); 
-    if(o) o.classList.remove('show'); 
+
+  function closeMiniCart(){
+    const a=qs('#mcart'), o=qs('#mcartOverlay');
+    if(a) a.classList.remove('open');
+    if(o) o.classList.remove('show');
     document.body.style.overflow='';
   }
-  
-  ['click','touchstart'].forEach(evt=>{
-    document.addEventListener(evt, e=>{
-      if (e.target.matches('#mcartClose') || e.target.matches('#mcartOverlay')) closeMiniCart();
-    }, {passive:true});
+
+  function addItem({sku,name,price,url,img}){
+    const items = load();
+    const found = items.find(i=> i.sku===sku);
+    if (found) found.qty = (found.qty||1)+1;
+    else items.push({sku,name,price:Number(price),url: url||location.pathname, img, qty:1, addedAt: Date.now()});
+    save(items);
+    updateCount();
+    renderMiniCart();
+    openMiniCart();
+  }
+
+  document.addEventListener('click', (e)=>{
+    if (e.target.matches('#mcartClose') || e.target.matches('#mcartOverlay')) closeMiniCart();
   });
-  
-  renderMiniCart(); 
-  updateCount();
 
   document.querySelectorAll('.add-to-bag, .add-to-cart').forEach(btn=>{
     btn.addEventListener('click', (e)=>{
       e.preventDefault();
-      const sku = btn.dataset.sku || btn.dataset.id || btn.getAttribute('data-product') || 'unknown';
-      const name = btn.dataset.name || btn.getAttribute('aria-label') || 'Product';
-      const price = btn.dataset.price || '0';
-      const url = btn.dataset.url || location.pathname;
-      const img = btn.dataset.img || btn.closest('.card')?.querySelector('img')?.src || '';
-      addItem({sku, name, price, url, img});
+      addItem({
+        sku: btn.dataset.sku || btn.dataset.id || 'unknown',
+        name: btn.dataset.name || 'Product',
+        price: btn.dataset.price || '0',
+        url: btn.dataset.url || location.pathname,
+        img: btn.dataset.img || ''
+      });
     });
   });
-  
-  // Cart link in header
+
   document.getElementById('cartLink')?.addEventListener('click', (e)=>{
     e.preventDefault();
+    renderMiniCart();
     openMiniCart();
   });
+
+  renderMiniCart();
+  updateCount();
 })();
 </script>
-
-<script src="js/cart-mini.js" defer></script>
-
 
 </body>
 </html>
