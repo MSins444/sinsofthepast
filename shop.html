@@ -33,26 +33,7 @@
       line-height:1.65;
     }
 
-    /* Make product tiles "normal size" (not huge) */
-.grid{
-  display: grid;
-  gap: 18px;
-
-  /* each tile has a max width, so images can't blow up */
-  grid-template-columns: repeat(auto-fit, minmax(240px, 280px));
-
-  /* center the whole grid */
-  justify-content: center;
-  align-items: start;
-}
-
-/* optional: slightly smaller image window */
-.card .img{
-  aspect-ratio: 3 / 4; /* less wide, more editorial */
-  max-width: 280px;    /* hard cap */
-  margin: 0 auto;      /* center each tile */
-}
-
+    
     /* Grid (this is what you were missing) */
     .grid{
       display:grid;
