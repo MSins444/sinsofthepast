@@ -1,65 +1,238 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Vice Link Charm Chain — Sins of the Past</title>
-  <link rel="stylesheet" href="css/base.css?v=2">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>The Bad Habits Chain™ — Sins of the Past</title>
+
+  <link rel="stylesheet" href="css/base.css">
+
   <style>
-    .product-page{display:grid;gap:24px;grid-template-columns:1.1fr .9fr;padding:24px}
-    .product-hero img{width:100%;height:auto;border-radius:18px;display:block;background:#0f1117}
-    .product-info h1{margin:0 0 .25rem}
-    .product-info .price{font-weight:800;font-size:1.25rem}
-    @media(max-width:900px){.product-page{grid-template-columns:1fr}}
+    .product-page {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 40px;
+    }
+
+    @media (max-width: 800px) {
+      .product-page {
+        grid-template-columns: 1fr;
+        margin: 30px auto;
+      }
+    }
+
+    /* LEFT COLUMN WRAPPER */
+    .product-images {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HERO IMAGE — match wallet.html */
+    .hero-image {
+      aspect-ratio: 3 / 4;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #05060a;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+    }
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* luxury: show whole product */
+      display: block;
+    }
+
+    /* THUMB ROW — optional, match wallet.html */
+    .thumb-row {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+    .thumb-row img {
+      width: 100px;
+      aspect-ratio: 3 / 4;
+      height: auto;
+      object-fit: cover;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: .18s ease;
+      flex: 0 0 auto;
+      border: 1px solid rgba(255,255,255,0.08);
+      opacity: 0.8;
+    }
+    .thumb-row img:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.5);
+    }
+    .thumb-row img.active {
+      opacity: 1;
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    /* TEXT */
+    .product-info h1 {
+      font-size: clamp(26px, 3vw, 40px);
+      margin-bottom: 8px;
+    }
+    .product-info .muted { opacity: .8; }
+    .product-info p { line-height: 1.65; max-width: 60ch; }
+    .product-info ul {
+      margin: 10px 0 0 18px;
+      line-height: 1.55;
+    }
+    .price {
+      font-size: 26px;
+      margin-top: 18px;
+      display: inline-block;
+    }
+    .buy {
+      display:flex;
+      align-items:center;
+      gap: 14px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
   </style>
-</head>
-<body>
-  <header class="header">
-    <a class="brand" href="home.html"><span>Sins of the Past</span></a>
-    <nav class="nav">
-      <a href="shop.html">Shop</a><a href="about.html">About</a><a href="arcade.html">Arcade</a><a href="contact.html">Contact</a>
-    </nav>
-    <a href="cart.html" id="cartLink">Cart <span id="cartCount" style="opacity:.8"></span></a>
-  </header>
 
-  <main class="product-page">
-    <div class="product-hero">
-      <img src="assets/cwa.JPG" alt="Vice Link Charm Chain in 925 silver">
-    </div>
-    <div class="product-info">
-      <h1>Vice Link Charm Chain</h1>
-      <p class="muted">
-        A luxury statement piece, forged in solid 925 sterling silver. The Vice Link Chain features heavyweight curb links paired with a removable branded charm — sculpted with Sins of the Past™ motifs of skulls, dice, and scythes. Each piece is handcrafted in New York’s jewelry district and polished to a bold, dark-edged finish.
-      </p>
-      <p class="muted">
-        <strong>Material:</strong> 925 sterling silver (nickel-free, hypoallergenic)<br>
-        <strong>Chain:</strong> Classic curb link, 5.3 mm width, available in 18", 20", or 22"<br>
-        <strong>Clasp:</strong> Premium lobster clasp, built for strength<br>
-        <strong>Charm:</strong> Custom sculpted Sins of the Past™ motif<br>
-        <strong>Finish:</strong> Polished with oxidized details for depth
-      </p>
-      <p class="muted">
-        Every Vice Link Charm Chain is produced in limited runs, with optional serialized engraving and certificate of authenticity.
-      </p>
-      <ul>
-        <li>Material: 925 sterling silver</li>
-        <li>Chain length: 18&quot;, 20&quot;, 22&quot;</li>
-        <li>Secure lobster clasp</li>
-        <li>Branded charm with reaper motif</li>
-      </ul>
-      <div class="buy" style="margin-top:10px">
-        <span class="price">$550</span>
-        <button class="btn primary" style="margin-left:12px">Add to Bag</button>
-      </div>
-      <p class="muted" style="margin-top:18px">Care: store in pouch, avoid moisture & abrasives.</p>
-      <p style="margin-top:16px"><a class="btn" href="home.html">← Back to Home</a></p>
-    </div>
-  </main>
-
-  <footer class="footer">© <span id="y"></span> Sins of the Past</footer>
   <script>
-    const y=document.getElementById('y');
-    if(y) y.textContent=new Date().getFullYear();
+    function swapImage(el) {
+      var hero = document.getElementById("heroImg");
+      if (!hero) return;
+
+      const newSrc = el.dataset.large || el.src;
+      hero.src = newSrc;
+
+      document.querySelectorAll(".thumb-row img").forEach(function(img){
+        img.classList.remove("active");
+      });
+      el.classList.add("active");
+    }
   </script>
+</head>
+
+<body class="page-product">
+
+<header class="header" role="banner">
+  <a class="brand" href="home.html" aria-label="Go to Home">
+    <img src="assets/wca.JPG" alt="Sins of the Past" onerror="this.style.display='none'">
+    <span>Sins of the Past</span>
+  </a>
+
+  <nav class="nav" aria-label="Primary">
+    <a href="home.html">Home</a>
+    <a href="shop.html" class="active" aria-current="page">Shop</a>
+    <a href="about.html">About</a>
+    <a href="arcade.html">Arcade</a>
+    <a href="contact.html">Contact</a>
+    <a href="care.html">Care</a>
+  </nav>
+
+  <a href="cart.html" id="cartLink" aria-label="View cart">
+    Cart <span id="cartCount" style="opacity:.8"></span>
+  </a>
+</header>
+
+<main id="main" tabindex="-1">
+  <section class="section">
+    <div class="product-page">
+
+      <!-- LEFT: IMAGES -->
+      <div class="product-images">
+
+        <div class="hero-image">
+          <img id="heroImg"
+               src="assets/wca.JPG"
+               alt="The Bad Habits Chain™ in sterling silver">
+        </div>
+
+        <!-- OPTIONAL thumbs (keep only if you have more chain images) -->
+        <div class="thumb-row">
+          <img src="assets/wca.JPG" class="active" onclick="swapImage(this)" alt="Chain hero">
+          <!-- Add more if you have them:
+          <img src="assets/dont-check-my-bank-account-wallet.jpg" onclick="swapImage(this)" alt="Chain detail">
+          <img src="assets/bad-habits-chain-3.jpg" onclick="swapImage(this)" alt="Charms close-up">
+          -->
+        </div>
+
+      </div>
+
+      <!-- RIGHT: DETAILS -->
+      <div class="product-info">
+        <h1>The Bad Habits Chain™</h1>
+        <p class="muted">Three charms, zero discipline.</p>
+
+        <p>
+          Designed as a functional extension of the Don’t Check My Bank Account wallet, the Bad Habits Chain™
+          is equal parts restraint and temptation. Heavy sterling silver links anchor the wallet in place,
+          while sculptural charms move freely — never quiet, never subtle.
+        </p>
+
+        <p class="muted">This isn’t a decorative chain. It’s a reminder.</p>
+
+        <ul class="specs">
+          <li>Material: solid .925 sterling silver Cuban chain</li>
+          <li>Length options: 18", 20", 22"</li>
+          <li>Heavy-duty lobster clasp + reinforced key ring</li>
+          <li>23 Black diamonds detailing</li>
+          <li>Approx. 28g sterling hardware (charms)</li>
+          <li>Three Vice Link charms: Skull (consequence), Dice (chance), Scythe (rebirth)</li>
+          <li>Designed to attach directly to Sins of the Past™ wallets</li>
+        </ul>
+
+        <h2 style="margin-top:18px">Designed to Pair With</h2>
+        <p>
+          Don’t Check My Bank Account™ Wallet.
+          The chain clips cleanly to the wallet, allowing it to hang, drape, or coil naturally — whether worn on denim,
+          outerwear, or carried loose. Together, they create a single object: money, motion, and poor decisions in balance.
+        </p>
+
+        <p class="muted">Sold separately. Best worn together.</p>
+
+        <div class="buy">
+          <span class="price">$1,200.00</span>
+          <button
+            class="btn small add-to-cart"
+            data-id="bad-habits-chain"
+            data-name="The Bad Habits Chain"
+            data-price="1200.00"
+            data-img="assets/bhc.jpg">
+            Add to Bag
+          </button>
+        </div>
+
+        <p class="muted" style="margin-top:18px">
+          Care: store in pouch, avoid moisture &amp; abrasives.
+        </p>
+
+        <p style="margin-top:16px">
+          <a class="btn" href="shop.html">← Back to Shop</a>
+        </p>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="footer">© <span id="y"></span> Sins of the Past</footer>
+
+<script>
+  var y = document.getElementById('y');
+  if (y) y.textContent = new Date().getFullYear();
+</script>
+
+<script src="app.js" defer></script>
+
+<script src="js/cart-mini.js" defer></script>
+
+
 </body>
 </html>
