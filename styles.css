@@ -186,7 +186,7 @@ body.page-cover { --cursor: url('/assets/indexgrim.png') 12 12, auto !important;
 
 /* Page-specific cursors (relative to /css/) */
 body.page-home    { --cursor: url('/assets/scythe.png') 12 12, auto !important; }
-body.page-shop    { --cursor: url('/assets/sgrim.png') 12 12, auto !important; }
+body.page-shop    { --cursor: url('/assets/grimindex.png') 12 12, auto !important; }
 body.page-about   { --cursor: url('/assets/flame.png') 12 12, auto !important; }
 body.page-contact { --cursor: url('/assets/grimbag.png') 12 12, auto !important; }
 body.page-care    { --cursor: url('/assets/insigina.png') 12 12, auto !important; }
