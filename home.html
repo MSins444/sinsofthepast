@@ -552,6 +552,21 @@
   }
 })();
 </script>
+<script>
+  const marquee = document.querySelector('.marquee-home');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 120) {
+      marquee.style.opacity = '0';
+      marquee.style.pointerEvents = 'none';
+      marquee.style.transition = 'opacity 0.6s ease';
+    } else {
+      marquee.style.opacity = '1';
+      marquee.style.pointerEvents = 'auto';
+    }
+  });
+</script>
+
 
 </body>
 </html>
