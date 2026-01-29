@@ -491,6 +491,47 @@
   window.dispatchEvent(new Event('stp:header:ready'));
 })();
 </script>
+<script>
+(async function(){
+  try{
+    const mount = document.getElementById('siteHeader');
+    if (!mount) throw new Error('Missing <div id="siteHeader"></div>');
+
+    const res = await fetch('header.html', { cache: 'no-store' });
+    if (!res.ok) throw new Error(`header.html not found: ${res.status}`);
+
+    mount.innerHTML = await res.text();
+
+    const map = {
+      'page-home':   { nav: 'home' },
+      'page-shop':   { nav: 'shop' },
+      'page-about':  { nav: 'lore' },
+      'page-arcade': { nav: 'arcade' },
+      'page-contact':{ nav: 'contact' },
+      'page-care':   { nav: 'care' }
+    };
+
+    const body = document.body;
+    const key = Object.keys(map).find(c => body.classList.contains(c));
+    const cfg = map[key] || { nav: '' };
+
+    document.querySelectorAll('.nav a[data-nav]').forEach(a => {
+      if (a.dataset.nav === cfg.nav) {
+        a.classList.add('active');
+        a.setAttribute('aria-current','page');
+      } else {
+        a.classList.remove('active');
+        a.removeAttribute('aria-current');
+      }
+    });
+
+    window.dispatchEvent(new Event('stp:header:ready'));
+  }catch(err){
+    console.error('Header loader error:', err);
+    alert(err.message);
+  }
+})();
+</script>
 
 </body>
 </html>
