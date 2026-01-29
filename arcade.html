@@ -344,10 +344,71 @@
     // ---------- Sins Chess (vanilla) ----------
     // Pieces: uppercase = white, lowercase = black
     // P/p pawn, R/r rook, N/n knight, B/b bishop, Q/q queen, K/k king
-    const PIECE_TO_GLYPH = {
-      'K':'♔','Q':'♕','R':'♖','B':'♗','N':'♘','P':'♙',
-      'k':'♚','q':'♛','r':'♜','b':'♝','n':'♞','p':'♟'
-    };
+   const PIECE_TO_SVG = {
+  K: reaperSVG('w'),
+  Q: veilSVG('w'),
+  R: obeliskSVG('w'),
+  B: acolyteSVG('w'),
+  N: houndSVG('w'),
+  P: relicSVG('w'),
+
+  k: reaperSVG('b'),
+  q: veilSVG('b'),
+  r: obeliskSVG('b'),
+  b: acolyteSVG('b'),
+  n: houndSVG('b'),
+  p: relicSVG('b'),
+};
+
+// --- SINS PIECE ICONS (inline SVG) ---
+// Simple, readable silhouettes. You can refine later.
+function svgWrap(pathD, side, extra=''){
+  // side controls fill/stroke vibe
+  const fill = side === 'w' ? 'rgba(247,247,251,.92)' : 'rgba(18,20,28,.92)';
+  const stroke = side === 'w' ? 'rgba(201,162,77,.55)' : 'rgba(255,90,90,.35)';
+
+  return `
+  <svg class="piece piece-${side} ${extra}" viewBox="0 0 64 64" aria-hidden="true">
+    <path d="${pathD}" fill="${fill}" stroke="${stroke}" stroke-width="2" stroke-linejoin="round"/>
+  </svg>`;
+}
+
+// REAPER (King): hood + scythe-ish silhouette
+function reaperSVG(side){
+  const d = "M32 8c-9 0-16 7-16 16 0 5 2 9 5 12l-5 20h32l-5-20c3-3 5-7 5-12 0-9-7-16-16-16zm-9 20c4-5 14-5 18 0-5 3-13 3-18 0z";
+  return svgWrap(d, side, "reaper");
+}
+
+// VEIL (Queen): crown/veil sigil
+function veilSVG(side){
+  const d = "M14 22l6-10 12 8 12-8 6 10-6 6v20H20V28l-6-6zm10 6h16v14H24V28z";
+  return svgWrap(d, side, "veil");
+}
+
+// OBELISK (Rook): tomb/monolith
+function obeliskSVG(side){
+  const d = "M22 10h20l-2 10v26H24V20l-2-10zm-4 40h28v6H18v-6z";
+  return svgWrap(d, side, "obelisk");
+}
+
+// ACOLYTE (Bishop): ritual staff / crossroads notch
+function acolyteSVG(side){
+  const d = "M32 10c-6 0-10 4-10 10 0 4 2 7 5 9l-6 27h22l-6-27c3-2 5-5 5-9 0-6-4-10-10-10zm0 10l-6-6 6-4 6 4-6 6z";
+  return svgWrap(d, side, "acolyte");
+}
+
+// HOUND (Knight): angular hound head
+function houndSVG(side){
+  const d = "M20 48V22l10-10h16l-6 10 6 6v20H20zm10-14h12v8H30v-8z";
+  return svgWrap(d, side, "hound");
+}
+
+// RELIC (Pawn): coin/charm
+function relicSVG(side){
+  const d = "M32 14c-7 0-12 5-12 12 0 5 3 9 7 11l-3 13h16l-3-13c4-2 7-6 7-11 0-7-5-12-12-12zm0 6a6 6 0 110 12 6 6 0 010-12z";
+  return svgWrap(d, side, "relic");
+}
+
 
     const boardEl = document.getElementById('board');
     const turnPill = document.getElementById('turnPill');
