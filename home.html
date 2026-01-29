@@ -134,44 +134,29 @@
       letter-spacing: .14em;
       text-transform: uppercase;
     }
-/* ===========================
-   MOVIE-CREDITS MARQUEE (FULL CROSS + FULL EXIT)
-   =========================== */
-
-.marquee-credits{
-  position: relative;
-  overflow: hidden;
-  padding: 28px 0 18px;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  background: linear-gradient(
-    to bottom,
-    rgba(10,11,15,.92),
-    rgba(10,11,15,.72),
-    rgba(10,11,15,.92)
-  );
-}
-
 .credit-row{
   position: relative;
-  height: 48px;
-  margin: 10px 0;
+  height: 52px;
   overflow: hidden;
 }
 
-/* IMPORTANT: no base transform here — animation owns it */
+/* continuous ribbon */
 .credit-track{
   position: absolute;
-  left: 0;
   top: 50%;
-  will-change: transform, opacity;
-  animation: creditsAcross 11.5s linear infinite;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4rem;
+  width: max-content;
+  transform: translateY(-50%);
+  will-change: transform;
+  animation: creditsLoop 16s linear infinite;
 }
 
-/* Alternate direction */
 .credit-track.reverse{
-  animation-name: creditsAcrossReverse;
-  animation-duration: 13.5s;
+  animation-name: creditsLoopReverse;
+  animation-duration: 19s;
   opacity: .9;
 }
 
@@ -184,25 +169,44 @@
   text-transform: uppercase;
   color: var(--ink);
   text-shadow: 0 10px 30px rgba(0,0,0,.55);
+
+  /* fade mask on edges so it "appears" like film credits */
+  opacity: .95;
 }
 
-/* FULL cross: start beyond right edge, end beyond left edge */
-@keyframes creditsAcross{
-  0%   { transform: translate3d(110vw, -50%, 0); opacity: 0; filter: blur(2px); }
-  10%  { opacity: 1; filter: blur(0); }
-  75%  { opacity: 1; }
-  92%  { opacity: 0; filter: blur(2px); }
-  100% { transform: translate3d(-220vw, -50%, 0); opacity: 0; filter: blur(2px); }
+/* This is the key: move the whole ribbon by half its length
+   because there are TWO identical spans */
+@keyframes creditsLoop{
+  from { transform: translate3d(0, -50%, 0); }
+  to   { transform: translate3d(-50%, -50%, 0); }
 }
 
-/* Reverse direction: start beyond left edge, end beyond right edge */
-@keyframes creditsAcrossReverse{
-  0%   { transform: translate3d(-220vw, -50%, 0); opacity: 0; filter: blur(2px); }
-  10%  { opacity: 1; filter: blur(0); }
-  75%  { opacity: 1; }
-  92%  { opacity: 0; filter: blur(2px); }
-  100% { transform: translate3d(110vw, -50%, 0); opacity: 0; filter: blur(2px); }
+@keyframes creditsLoopReverse{
+  from { transform: translate3d(-50%, -50%, 0); }
+  to   { transform: translate3d(0, -50%, 0); }
 }
+
+/* Optional: edge fade (makes it feel like credits entering/exiting) */
+.credit-row::before,
+.credit-row::after{
+  content:"";
+  position:absolute;
+  top:0; bottom:0;
+  width: 120px;
+  z-index: 2;
+  pointer-events:none;
+}
+
+.credit-row::before{
+  left:0;
+  background: linear-gradient(to right, rgba(10,11,15,1), rgba(10,11,15,0));
+}
+
+.credit-row::after{
+  right:0;
+  background: linear-gradient(to left, rgba(10,11,15,1), rgba(10,11,15,0));
+}
+
 
     /* ===== Campaign banner ===== */
     .banner{ position:relative; margin: 18px 0 8px; }
@@ -292,22 +296,27 @@
     </div>
   </section>
 
- <!-- MARQUEE -->
-<div class="marquee marquee-home" aria-hidden="true">
-  <div class="track">
+<div class="credit-row">
+  <div class="credit-track">
     <span>★ GOLD ★ SILVER ★ PLATINUM ★ NATURAL DIAMONDS &amp; GEMSTONES ★</span>
     <span>★ GOLD ★ SILVER ★ PLATINUM ★ NATURAL DIAMONDS &amp; GEMSTONES ★</span>
   </div>
-  <div class="track">
+</div>
+
+<div class="credit-row">
+  <div class="credit-track reverse">
     <span>★ LIMITED RUN ★ ARTISAN CRAFTED ★ SMALL BATCH ★ NO RESTOCKS ★</span>
     <span>★ LIMITED RUN ★ ARTISAN CRAFTED ★ SMALL BATCH ★ NO RESTOCKS ★</span>
   </div>
-  <div class="track">
+</div>
+
+<div class="credit-row">
+  <div class="credit-track">
     <span>★ EXOTIC LEATHERS ★ HEIRLOOM-GRADE FUR ★ JAPANESE SELVEDGE DENIM ★</span>
     <span>★ EXOTIC LEATHERS ★ HEIRLOOM-GRADE FUR ★ JAPANESE SELVEDGE DENIM ★</span>
   </div>
 </div>
-  
+
 
   <!-- CAMPAIGN BANNER -->
   <section class="section reveal">
