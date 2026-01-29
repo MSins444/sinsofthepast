@@ -20,8 +20,12 @@
     }
 
     /* Layout */
-    main{ max-width: var(--wrap); margin: 0 auto; }
-    .section{ padding-top: 26px; padding-bottom: 36px; }
+   .section-hero{
+  width: 100%;
+  max-width: 1280px;
+  margin: 36px auto;
+}
+
 
     /* Cinematic page background */
     body.page-shop{
@@ -177,15 +181,15 @@
 
     /* ===== Grid that never stretches cards ===== */
     .grid{
-      display:grid;
-      gap: 18px;
-      grid-template-columns: repeat(auto-fit, var(--cardW));
-      justify-content: center;
-      align-items: start;
-      margin-top: 14px;
-      padding-bottom: 6px;
-      position: relative;
-      z-index: 1;
+    .grid{
+  display:grid;
+  gap: 28px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
     }
     .card{
       width: var(--cardW);
@@ -262,6 +266,31 @@
       font-weight: 800;
       letter-spacing: .02em;
     }
+
+    .act{
+  margin: 40px auto 24px;
+  text-align:center;
+}
+.act-inner{
+  max-width: 680px;
+  margin: 0 auto;
+}
+.act-kicker{
+  font-size:11px;
+  letter-spacing:.35em;
+  opacity:.6;
+}
+.act h2{
+  font-size: clamp(26px, 4vw, 42px);
+  letter-spacing:.06em;
+  margin:6px 0 10px;
+}
+.act-lead{
+  color: var(--mute);
+  font-size: 15px;
+  line-height:1.6;
+}
+
 
     /* ===== Wide “Scene” Divider Card ===== */
     .section-hero{
@@ -423,6 +452,16 @@
 
   <main id="main" tabindex="-1">
     <section class="section">
+<section class="act">
+  <div class="act-inner">
+    <p class="act-kicker">ACT I</p>
+    <h2>The Objects</h2>
+    <p class="act-lead">
+      Jewelry and small goods. The pieces people notice first —
+      and remember last.
+    </p>
+  </div>
+</section>
 
       <!-- OPENING CREDITS -->
       <div class="credits">
