@@ -13,7 +13,7 @@
   /* Force the right cursor path for this page */
 body.page-contact { --cursor: url('/assets/grimbag.png') 12 12, auto !important; }
 /* repeat per page as needed */
-body.page-shop    { --cursor: url('/assets/insigina.png') 12 12, auto !important; }
+body.page-shop    { --cursor: url('/assets/flower.png') 12 12, auto !important; }
 body.page-about   { --cursor: url('/assets/flame.png') 12 12, auto !important; }
 body.page-home    { --cursor: url('/assets/grim.png') 12 12, auto !important; }
 body.page-care    { --cursor: url('/assets/insigina.png') 12 12, auto !important}; 
