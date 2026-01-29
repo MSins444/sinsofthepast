@@ -481,7 +481,10 @@ function relicSVG(side){
           sq.dataset.c = String(c);
 
           const piece = game.board[r][c];
-          if (piece) sq.textContent = PIECE_TO_GLYPH[piece] || '';
+         if (piece){
+  sq.innerHTML = PIECE_TO_SVG[piece] || '';
+}
+
 
           // coords (subtle)
           if (r === 7){
