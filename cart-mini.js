@@ -22,10 +22,7 @@
       <div class="mcart-overlay" id="mcartOverlay" hidden></div>
 
       <aside class="mcart" id="mcart" aria-labelledby="mcartTitle" aria-modal="true" role="dialog" hidden>
-        <header>
-          <h3 id="mcartTitle">Your Bag</h3>
-          <button class="close" id="mcartClose" aria-label="Close cart" type="button">✕</button>
-        </header>
+<div id="siteHeader"></div>
 
         <div class="body" id="mcartBody">
           <ul class="mc-items" id="mcartList">
