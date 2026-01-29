@@ -85,88 +85,80 @@
     }
 
  /* ===========================
-   LUXURY MARQUEE (HOME)
+   MOVIE-CREDITS MARQUEE
    =========================== */
 
-.marquee-home {
-  position: sticky;
-  top: 0;
-  z-index: 5;
+.marquee-credits{
+  position: relative;
+  overflow: hidden;
+  padding: 28px 0 18px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+
+  /* subtle film-strip fade */
   background: linear-gradient(
     to bottom,
-    rgba(10,11,15,0.95),
-    rgba(10,11,15,0.6),
-    rgba(10,11,15,0)
+    rgba(10,11,15,.92),
+    rgba(10,11,15,.72),
+    rgba(10,11,15,.92)
   );
-  padding: 28px 0 22px;
+}
+
+.credit-row{
+  position: relative;
+  height: 44px;
+  margin: 10px 0;
   overflow: hidden;
 }
 
-/* each row */
-.marquee-home .track {
-  display: flex;
-  width: max-content;
-  animation: marquee 22s linear infinite;
-  margin-bottom: 10px;
+/* Track that travels across the screen */
+.credit-track{
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  will-change: transform, opacity;
+  animation: creditsAcross 10.5s linear infinite;
 }
 
-.marquee-home .track:nth-child(2) {
-  animation-duration: 28s;
+/* Alternate direction to feel more cinematic */
+.credit-track.reverse{
+  animation-name: creditsAcrossReverse;
+  animation-duration: 12.5s;
   opacity: .9;
 }
 
-.marquee-home .track:nth-child(3) {
-  animation-duration: 34s;
-  opacity: .75;
-}
+/* Text styling */
+.credit-track span{
+  display: inline-block;
+  white-space: nowrap;
 
-/* text */
-.marquee-home span {
-  font-size: clamp(18px, 2.6vw, 32px);
+  font-size: clamp(18px, 2.6vw, 34px);
   font-weight: 600;
-  letter-spacing: 0.25em;
+  letter-spacing: .22em;
   text-transform: uppercase;
   color: var(--ink);
-  padding-right: 4rem;
-  white-space: nowrap;
+
+  /* make it feel like titles */
+  text-shadow: 0 10px 30px rgba(0,0,0,.55);
 }
 
-/* smooth animation */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+/* Fade in → hold → fade out while moving across */
+@keyframes creditsAcross{
+  0%   { transform: translate(110vw,-50%); opacity: 0; filter: blur(2px); }
+  8%   { opacity: 1; filter: blur(0); }
+  70%  { opacity: 1; }
+  92%  { opacity: .15; }
+  100% { transform: translate(-160%, -50%); opacity: 0; filter: blur(2px); }
 }
 
-
-    /* ===== Sections ===== */
-    .section{ padding: 22px 16px; max-width: 1100px; margin: 0 auto; }
-    .split{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 22px;
-      align-items: start;
-      margin-top: 18px;
-    }
-    .panel{
-      border-radius: 18px;
-      background: rgba(255,255,255,.02);
-      border: 1px solid rgba(255,255,255,.06);
-      padding: 18px 18px;
-    }
-    .panel h2{
-      font-family:"Cormorant Garamond", Georgia, serif;
-      font-weight:600;
-      margin: 0 0 6px;
-      letter-spacing:.02em;
-      font-size: 28px;
-    }
-    .panel p{ margin: 0; opacity:.86; line-height: 1.6; }
-    .rule{
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(201,162,77,.35), transparent);
-      margin: 18px 0;
-      opacity:.9;
-    }
+@keyframes creditsAcrossReverse{
+  0%   { transform: translate(-160%,-50%); opacity: 0; filter: blur(2px); }
+  8%   { opacity: 1; filter: blur(0); }
+  70%  { opacity: 1; }
+  92%  { opacity: .15; }
+  100% { transform: translate(110vw, -50%); opacity: 0; filter: blur(2px); }
+}
 
     /* ===== Editorial tiles (quiet luxury “system”) ===== */
     .tiles{
