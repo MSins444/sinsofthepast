@@ -6,19 +6,112 @@
   <title>About — Sins of the Past</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <!-- Shared styles (has the cursor system & theme) -->
   <link rel="stylesheet" href="css/base.css?v=1">
 
-  <!-- Optional: tiny style so the follower dot never blocks clicks -->
   <style>
+    /* follower dot (optional) */
     .cursor{
       position:fixed; left:0; top:0; width:16px; height:16px;
       border-radius:50%; outline:2px solid var(--acid, #00e0c6);
       opacity:.5; transform:translate(-50%,-50%); z-index:9999;
       pointer-events:none;
     }
+
+    /* Lore page polish */
+    .hero{ min-height:54vh; }
+    .hero .inner{ max-width: 900px; }
+
+    .kicker{
+      letter-spacing:.35em;
+      text-transform:uppercase;
+      font-size:11px;
+      opacity:.65;
+      margin-bottom:10px;
+    }
+
+    .lead{
+      max-width: 62ch;
+      margin: 10px auto 0;
+      font-size: clamp(15px, 2.1vw, 18px);
+      line-height: 1.6;
+      color: var(--mute);
+    }
+
+    .lore{
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .lore p{
+      max-width: 78ch;
+      margin: 12px auto;
+      line-height: 1.8;
+    }
+
+    .pull{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px 18px;
+      background: rgba(255,255,255,.02);
+      max-width: 860px;
+      margin: 22px auto;
+    }
+
+    .pull b{ letter-spacing:.08em; text-transform:uppercase; font-size:12px; opacity:.8; }
+    .pull p{ margin: 10px 0 0; }
+
+    .acts{
+      display:grid;
+      gap:14px;
+      margin-top: 18px;
+    }
+
+    .act{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      background:#0c0d11;
+    }
+    .act h3{ margin: 0 0 6px; letter-spacing:.06em; }
+    .act .muted{ margin: 0; }
+
+    .sigils{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap:14px;
+      margin-top: 16px;
+    }
+    .sigil{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      background: rgba(255,255,255,.015);
+    }
+    .sigil h3{ margin:0 0 6px; }
+    .sigil p{ margin:0; color:var(--mute); line-height:1.6; }
+
+    .fineprint{
+      max-width: 980px;
+      margin: 18px auto 0;
+      color: var(--mute);
+      text-align:center;
+      font-size: 13px;
+      line-height: 1.7;
+      opacity:.9;
+    }
+
+    /* Make your existing “empty img” cards look intentional on this page */
+    .card .img{
+      aspect-ratio: 4/3;
+      border-radius:16px;
+      background:
+        radial-gradient(700px 280px at 30% 30%, rgba(255,255,255,.06), transparent 60%),
+        linear-gradient(135deg, rgba(0,0,0,.25), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+    }
   </style>
 </head>
+
 <body class="page-about">
 
   <!-- Apply saved theme (optional) -->
@@ -39,67 +132,155 @@
     <nav class="nav">
       <a href="home.html">Home</a>
       <a href="shop.html">Shop</a>
-      <a href="about.html" class="active">About</a>
+      <a href="about.html" class="active" aria-current="page">About</a>
       <a href="arcade.html">Arcade</a>
       <a href="contact.html">Contact</a>
+      <a href="care.html">Care</a>
       <a href="cart.html" id="cartLink">Cart <span id="cartCount" style="opacity:.8"></span></a>
-       <a href="care.html">Care</a>
     </nav>
   </header>
 
-  <section class="hero" style="min-height:48vh">
+  <!-- HERO -->
+  <section class="hero">
     <div class="inner">
-      <h1>About the Label</h1>
-      <p class="muted">Small-batch apparel & handmade jewelry from the world of Sins of the Past.</p>
-      <a href="shop.html" class="btn">Shop the latest</a>
+      <p class="kicker">The Lore</p>
+      <h1>Not a brand. A canon.</h1>
+      <p class="lead">
+        Sins of the Past™ is a quiet-luxury label built like a film: mood first, details second,
+        and a hidden story threading through every object you touch.
+        Fur, skin, silver, and hardware—treated like props with consequences.
+      </p>
+      <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <a href="shop.html" class="btn primary">Enter the Shop</a>
+        <a href="care.html" class="btn">Care & Materials</a>
+        <a href="contact.html" class="btn">Inquiries</a>
+      </div>
     </div>
   </section>
 
+  <!-- LORE BODY -->
   <section class="section">
-    <h2>Origins</h2>
-    <p class="muted" style="max-width:900px;margin:8px auto 24px">
-      Born from late-night sketches and found textures, the label blends folk horror motifs with street silhouettes.
-      Each drop is produced in limited quantities—once it’s gone, it’s gone.
-    </p>
+    <div class="lore">
+      <h2>What “Sins” Means</h2>
+      <p class="muted">
+        “Sins” isn’t confession-for-attention. It’s the residue: choices that leave fingerprints.
+        The Past is never gone—just restyled. Every drop is a chapter: limited, numbered in spirit,
+        and never reissued the same way twice.
+      </p>
 
-    <div class="grid">
-      <article class="card">
-        <div class="img"></div>
-        <div class="meta">
-          <h3>Materials</h3>
-          <p class="muted">Heavyweight cotton, 925 silver, and hardware tested for real wear.</p>
-        </div>
-      </article>
+      <div class="pull">
+        <b>Director’s Note</b>
+        <p class="muted">
+          I studied cinema and screenwriting, so the label is built like a script.
+          Each piece has a role: hero, supporting, or scene-stealer.
+          The site is the trailer. The garment is the full cut.
+        </p>
+      </div>
 
-      <article class="card">
-        <div class="img"></div>
-        <div class="meta">
-          <h3>Process</h3>
-          <p class="muted">Illustrations → screens → fabric → finishing. Small-batch, never mass.</p>
-        </div>
-      </article>
+      <h2>The World</h2>
+      <p class="muted">
+        This universe lives at a crossroads: luxury discipline, street posture, folklore,
+        and modern myth. The silhouettes stay clean—then the materials start talking:
+        fur that moves like smoke, skins that catch light like scales, hardware that reads like jewelry.
+      </p>
 
-      <article class="card">
-        <div class="img"></div>
-        <div class="meta">
-          <h3>Values</h3>
-          <p class="muted">Quality over quantity. Story over hype. Community over clout.</p>
+      <div class="sigils" aria-label="Lore pillars">
+        <div class="sigil">
+          <h3>Crossroads</h3>
+          <p>Decision points. Duality. The moment you can’t undo—only own.</p>
         </div>
-      </article>
+        <div class="sigil">
+          <h3>Relics</h3>
+          <p>Objects that feel inherited, even when they’re new. Built to outlive trends.</p>
+        </div>
+        <div class="sigil">
+          <h3>Quiet Violence</h3>
+          <p>Not loud branding. Precision. Weight. A piece that speaks after you leave.</p>
+        </div>
+        <div class="sigil">
+          <h3>No Restocks</h3>
+          <p>Chapters close. The canon moves forward. If you missed it, you missed it.</p>
+        </div>
+      </div>
+
+      <h2>How the Drops Are Structured</h2>
+      <p class="muted">
+        Think of every release as a film with acts. Some pieces are cinematic anchors.
+        Others are the smaller objects that make the world believable. Together, they build continuity.
+      </p>
+
+      <div class="acts">
+        <div class="act">
+          <h3>Act I — The Objects</h3>
+          <p class="muted">Hardware, jewelry, small goods. The first proof that the world is real.</p>
+        </div>
+        <div class="act">
+          <h3>Act II — Worn Power</h3>
+          <p class="muted">Belts, headbands, wraps, bags. The pieces that change your posture.</p>
+        </div>
+        <div class="act">
+          <h3>Act III — The Garments</h3>
+          <p class="muted">Denim, fur, statement construction. The hero wardrobe. The full reveal.</p>
+        </div>
+      </div>
+
+      <h2>Materials & Discipline</h2>
+      <p class="muted">
+        We don’t chase trends. We chase longevity. Heavyweight fabrics. Precious metal.
+        Natural materials with real behavior—patina, wear, shine, texture. The point is to live in it.
+      </p>
+
+      <!-- Your existing cards, rewritten to match the lore tone -->
+      <div class="grid" style="margin-top:20px">
+        <article class="card">
+          <div class="img" aria-hidden="true"></div>
+          <div class="meta">
+            <h3>Materials</h3>
+            <p class="muted">
+              Fur, skin, silver, stone, and hardware chosen for how they age—not how they photograph.
+            </p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="img" aria-hidden="true"></div>
+          <div class="meta">
+            <h3>Process</h3>
+            <p class="muted">
+              Designed like scenes: concept → pattern → build → finish. Small batch. No shortcuts.
+            </p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="img" aria-hidden="true"></div>
+          <div class="meta">
+            <h3>Canon</h3>
+            <p class="muted">
+              Every piece belongs to the world. The names, motifs, and pairings are intentional.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <h2>Collaborations & Custom Work</h2>
+      <p class="muted">
+        Capsule collabs, custom jewelry, editorial shoots, and gallery activations.
+        If you’re building a world too, we can build an artifact for it.
+      </p>
+
+      <p class="muted" style="text-align:center;margin-top:14px">
+        Email <a href="mailto:sinsofthepast444@gmail.com">sinsofthepast444@gmail.com</a>
+      </p>
+
+      <p class="fineprint">
+        Sins of the Past™ is intentionally limited. If it feels rare, it’s because it is.
+      </p>
     </div>
-  </section>
-
-  <section class="section">
-    <h2>Collaborations</h2>
-    <p class="muted" style="max-width:900px;margin:8px auto 0">
-      Open to capsule collabs, custom jewelry, and gallery activations.
-      Email <a href="mailto:sinsofthepast444@gmail.com">sinsofthepast444@gmail.com</a>.
-    </p>
   </section>
 
   <footer class="footer">© <span id="y"></span> Sins of the Past</footer>
 
-  <!-- Your site JS (include only once) -->
   <script src="app.js"></script>
 
   <!-- Optional follower dot -->
@@ -111,11 +292,14 @@
       cursor.style.left = e.clientX + 'px';
       cursor.style.top  = e.clientY + 'px';
     });
+
+    // Footer year
+    const y = document.getElementById('y');
+    if (y) y.textContent = new Date().getFullYear();
   </script>
 
-  <!-- Moved the tagline INSIDE the body (valid HTML) -->
   <p class="muted" style="text-align:center;margin:6px 0 16px">
-    Footwear handcrafted in Le Marche, Italy — The Shoe Valley (since 1901).
+    Natural materials, disciplined construction, and a story that doesn’t beg for approval.
   </p>
 </body>
 </html>
