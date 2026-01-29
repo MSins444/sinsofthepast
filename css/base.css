@@ -250,7 +250,7 @@ img { max-width:100%; display:block; }
 :where(input, textarea, [contenteditable="true"]) { cursor: text !important; }
 
 /* per-page cursors */
-body.page-home    { --cursor: url('../assets/grim.png') 12 12, auto; }
+body.page-home    { --cursor: url('../assets/indexgrim.png') 12 12, auto; }
 body.page-shop    { --cursor: url('../assets/flower.png') 12 12, auto; }
 body.page-about   { --cursor: url('../assets/flame.png') 12 12, auto; }
 body.page-contact { --cursor: url('../assets/grimbag.png') 12 12, auto; }
