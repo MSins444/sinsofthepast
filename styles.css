@@ -11,7 +11,7 @@
   --gold:#ffca6b;
 
   /* Force the right cursor path for this page */
-body.page-contact { --cursor: url('/assets/grimbag.png') 12 12, auto !important; }
+body.page-contact { --cursor: url('/assets/indexgrim.png') 12 12, auto !important; }
 /* repeat per page as needed */
 body.page-shop    { --cursor: url('/assets/flower.png') 12 12, auto !important; }
 body.page-about   { --cursor: url('/assets/flame.png') 12 12, auto !important; }
