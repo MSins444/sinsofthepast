@@ -251,7 +251,7 @@ img { max-width:100%; display:block; }
 
 /* per-page cursors */
 body.page-home    { --cursor: url('../assets/grim.png') 12 12, auto; }
-body.page-shop    { --cursor: url('../assets/sgrim.png') 12 12, auto; }
+body.page-shop    { --cursor: url('../assets/grimindex.png') 12 12, auto; }
 body.page-about   { --cursor: url('../assets/flame.png') 12 12, auto; }
 body.page-contact { --cursor: url('../assets/grimbag.png') 12 12, auto; }
 body.page-care    { --cursor: url('../assets/insigina.png') 12 12, auto; }
