@@ -892,5 +892,50 @@
 
   <!-- Keep your global JS last -->
   <script src="app.js" defer></script>
+  <script>
+(async function(){
+  const mount = document.getElementById('siteHeader');
+  if (!mount) return;
+
+  // Load the shared header file
+  const res = await fetch('header.html', { cache: 'no-store' });
+  const html = await res.text();
+  mount.innerHTML = html;
+
+  // Page label + active nav based on body class
+  const body = document.body;
+
+  const map = {
+    'page-home':   { label: 'Home',   nav: 'home' },
+    'page-shop':   { label: 'Shop',   nav: 'shop' },
+    'page-about':  { label: 'Lore',   nav: 'lore' },
+    'page-arcade': { label: 'Arcade', nav: 'arcade' },
+    'page-contact':{ label: 'Contact',nav: 'contact' },
+    'page-care':   { label: 'Care',   nav: 'care' }
+  };
+
+  const key = Object.keys(map).find(c => body.classList.contains(c));
+  const cfg = map[key] || { label: '', nav: '' };
+
+  // Set header label
+  const pageLabel = document.getElementById('pageLabel');
+  if (pageLabel) pageLabel.textContent = cfg.label ? cfg.label.toUpperCase() : '';
+
+  // Set active link
+  document.querySelectorAll('.nav a[data-nav]').forEach(a => {
+    if (a.dataset.nav === cfg.nav) {
+      a.classList.add('active');
+      a.setAttribute('aria-current', 'page');
+    } else {
+      a.classList.remove('active');
+      a.removeAttribute('aria-current');
+    }
+  });
+
+  // OPTIONAL: if app.js has a cart count updater, trigger it after header loads
+  window.dispatchEvent(new Event('stp:header:ready'));
+})();
+</script>
+
 </body>
 </html>
