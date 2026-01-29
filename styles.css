@@ -198,3 +198,78 @@ body {
   background-position: center;   /* centers the image */
   background-repeat: no-repeat;  /* prevents tiling */
 }
+
+/* ===========================
+   BIGGER: HOUSE RULES + MATERIALS
+   =========================== */
+
+/* Give the whole section more presence */
+.section{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(26px, 5vw, 70px) clamp(16px, 4vw, 28px);
+}
+
+/* Make the two panels look like luxury blocks */
+.split{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(14px, 2.5vw, 28px);
+  align-items: start;
+}
+
+/* Panel sizing + breathing room */
+.panel{
+  padding: clamp(18px, 2.4vw, 34px);
+  border-radius: 20px;
+  background: rgba(15,17,23,.55);
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 16px 50px rgba(0,0,0,.25);
+  backdrop-filter: blur(8px);
+}
+
+/* Headings bigger + more editorial */
+.panel h2{
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 600;
+  letter-spacing: .02em;
+  font-size: clamp(28px, 3.2vw, 44px);
+  margin: 0 0 10px;
+}
+
+/* Body copy bigger and easier to read */
+.panel p{
+  font-size: clamp(16px, 1.35vw, 19px);
+  line-height: 1.7;
+  color: rgba(247,247,251,.92);
+  margin: 0 0 12px;
+}
+
+/* The divider line (your .rule) actually visible */
+.panel .rule{
+  height: 1px;
+  margin: 16px 0 16px;
+  background: linear-gradient(
+    90deg,
+    rgba(201,162,77,.0),
+    rgba(201,162,77,.55),
+    rgba(201,162,77,.0)
+  );
+}
+
+/* Make muted text still readable */
+.panel .muted{
+  opacity: .9 !important;
+  color: rgba(166,173,191,.95);
+  font-size: clamp(14px, 1.2vw, 17px);
+}
+
+/* Mobile: stack + keep it big */
+@media (max-width: 900px){
+  .split{ grid-template-columns: 1fr; }
+  .panel h2{ font-size: clamp(26px, 7vw, 38px); }
+  .panel p{ font-size: 16px; }
+}
+/* ===========================
+   END OF FILE
+   =========================== */
