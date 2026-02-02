@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sins of the Past — Coming Soon</title>
+
+<style>
+:root{
+  --bg:#0a0b0f;
+  --ink:#f5f5f7;
+  --mute:#9aa0b2;
+  --line:#1c2030;
+  --gold:#c9a35d;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui}
+
+main{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:48px 20px;
+}
+
+.header{
+  text-align:center;
+  margin-bottom:48px;
+}
+
+.header h1{
+  font-size:clamp(28px,6vw,56px);
+  letter-spacing:.04em;
+  margin:0 0 12px;
+}
+
+.header p{
+  color:var(--mute);
+  max-width:42ch;
+  margin:0 auto;
+}
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:24px;
+  max-width:900px;
+  margin:0 auto;
+}
+
+.card{
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
+  background:#0f1220;
+}
+
+.card img{
+  width:100%;
+  aspect-ratio:4/5;
+  object-fit:cover;
+  display:block;
+}
+
+.card .info{
+  padding:14px 16px;
+}
+
+.card h3{
+  margin:0;
+  font-size:14px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.card span{
+  font-size:12px;
+  color:var(--mute);
+}
+
+.footer{
+  text-align:center;
+  margin-top:56px;
+  font-size:12px;
+  color:var(--mute);
+}
+</style>
+</head>
+
+<body>
+<main>
+
+  <div class="header">
+    <h1>SINS OF THE PAST</h1>
+    <p>Selected pieces. Limited releases.  
+       Full collection arriving soon.</p>
+  </div>
+
+  <section class="products">
+    <div class="card">
+      <img src="assets/two-faced-mink-headband-hero.jpg" alt="">
+      <div class="info">
+        <h3>Reversible Mink Headband</h3>
+        <span>Preview Only</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="assets/blu1.jpg" alt="">
+      <div class="info">
+        <h3>Fox Tail Charm</h3>
+        <span>Preview Only</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="assets/After Hours Muff Bag 4.jpg" alt="">
+      <div class="info">
+        <h3>Fur Muff Bag</h3>
+        <span>Preview Only</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    © Sins of the Past — No restocks. No rush.
+  </div>
+
+</main>
+</body>
+</html>
