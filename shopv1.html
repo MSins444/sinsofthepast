@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sins of the Past — The Collection</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/cursor-shop.css">
+
+  <style>
+    :root{
+      --wrap: 1180px;
+      --cardW: 292px;
+      --imgAR: 4/5;
+
+      --film: rgba(255,255,255,.06);
+      --shadow: 0 18px 60px rgba(0,0,0,.35);
+      --shadow2: 0 10px 30px rgba(0,0,0,.25);
+    }
+
+    /* Layout */
+   .section-hero{
+  width: 100%;
+  max-width: 1280px;
+  margin: 36px auto;
+}
+
+
+    /* Cinematic page background */
+    body.page-shop{
+      background:
+        radial-gradient(900px 500px at 50% -120px, rgba(255,255,255,.05), transparent 60%),
+        radial-gradient(700px 420px at 20% 30%, rgba(0,224,198,.06), transparent 60%),
+        radial-gradient(700px 420px at 80% 55%, rgba(255,64,129,.05), transparent 60%),
+        var(--bg);
+    }
+
+    /* Subtle film grain overlay (CSS-only) */
+    .film-grain{
+      pointer-events:none;
+      position:fixed;
+      inset:0;
+      opacity:.12;
+      mix-blend-mode: overlay;
+      background-image:
+        url("assets/noise.png");
+      background-size: 320px 320px;
+      z-index:0;
+    }
+
+    /* Make header feel more boutique */
+    .header{
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      background: rgba(10,11,15,.62);
+      border-bottom: 1px solid var(--line);
+    }
+
+    /* ===== Opening Credits (Hero) ===== */
+    .credits{
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(8,9,12,.25), rgba(8,9,12,.88)),
+        url("assets/Sinsbg.jpg") center/cover no-repeat;
+      box-shadow: var(--shadow);
+      margin: 10px auto 24px;
+      padding: clamp(28px, 4vw, 44px);
+      isolation: isolate;
+    }
+    .credits::after{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(500px 240px at 50% 20%, rgba(255,255,255,.06), transparent 65%),
+        linear-gradient(90deg, rgba(255,255,255,.03), transparent 35%, rgba(255,255,255,.02));
+      pointer-events:none;
+      z-index: 0;
+    }
+    .credits .inner{ position:relative; z-index:1; max-width: 980px; margin:0 auto; text-align:center; }
+    .kicker{
+      font-size: 11px;
+      letter-spacing: .34em;
+      text-transform: uppercase;
+      opacity: .70;
+    }
+    .title{
+      margin: 10px 0 10px;
+      font-size: clamp(34px, 5.4vw, 66px);
+      letter-spacing: .06em;
+      line-height: 1.02;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+    .logline{
+      margin: 0 auto;
+      max-width: 66ch;
+      color: var(--mute);
+      font-size: clamp(14px, 1.7vw, 17px);
+      line-height: 1.6;
+    }
+
+    .credits-meta{
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .badge{
+      border: 1px solid var(--line);
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      letter-spacing: .08em;
+      opacity: .78;
+      background: rgba(12,13,18,.35);
+    }
+
+    .credits-cta{
+      margin-top: 18px;
+      display:flex;
+      gap: 10px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .credits-cta .btn{ box-shadow: var(--shadow2); }
+    .btn.ghost{
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--ink);
+    }
+
+    /* ===== Scene Header Row ===== */
+    .scene-row{
+      display:flex;
+      align-items:flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 18px auto 8px;
+      padding: 0 6px;
+    }
+    .scene-left h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .scene-left p{
+      margin:6px 0 0;
+      color: var(--mute);
+      max-width: 60ch;
+      line-height: 1.55;
+      font-size: 13px;
+    }
+    .scene-right{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .chip{
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(12,13,18,.25);
+      color: var(--ink);
+      text-decoration:none;
+      opacity: .82;
+      transition: opacity .15s ease, transform .15s ease;
+    }
+    .chip:hover{ opacity: 1; transform: translateY(-1px); }
+
+    /* ===== Grid that never stretches cards ===== */
+    .grid{
+    .grid{
+  display:grid;
+  gap: 28px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;.grid{
+  align-items: stretch;
+}
+
+}
+
+    }
+    .card{
+      width: var(--cardW);
+      max-width: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.06);
+      background: rgba(12,13,18,.55);
+      box-shadow: 0 10px 30px rgba(0,0,0,.22);
+      transition: transform .18s ease, border-color .18s ease;
+      .grid{
+  align-items: stretch;
+}
+
+    }
+    .card:hover{
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,.14);
+    }
+
+    .card .img{
+      display:block;
+      width:100%;
+      aspect-ratio: var(--imgAR);
+      background:#0f1117;
+      overflow:hidden;
+    }
+    .card .img img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.001);
+      filter: contrast(1.02) saturate(1.04);
+    }
+
+    .meta{ padding: 14px 14px 15px; }
+    .meta h3{
+      margin: 2px 0 6px;
+      font-size: 16px;
+      letter-spacing: .02em;
+    }
+    .muted{ color: var(--mute); }
+
+    .director{
+      margin-top: 10px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding-top: 10px;
+      font-size: 12px;
+      color: var(--mute);
+      line-height: 1.6;
+    }
+    .director b{
+      color: var(--ink);
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: 10px;
+      opacity: .78;
+    }
+
+    .specs{
+      margin: 10px 0 12px 18px;
+      color: var(--mute);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .specs li{ margin: 2px 0; }
+
+    .buy{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .price{
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+
+    .act{
+  margin: 40px auto 24px;
+  text-align:center;
+}
+.act-inner{
+  max-width: 680px;
+  margin: 0 auto;
+}
+.act-kicker{
+  font-size:11px;
+  letter-spacing:.35em;
+  opacity:.6;
+}
+.act h2{
+  font-size: clamp(26px, 4vw, 42px);
+  letter-spacing:.06em;
+  margin:6px 0 10px;
+}
+.act-lead{
+  color: var(--mute);
+  font-size: 15px;
+  line-height:1.6;
+}
+
+
+    /* ===== Wide “Scene” Divider Card ===== */
+    .section-hero{
+      grid-column: 1 / -1;
+      width: min(980px, 100%);
+      margin: 24px auto 6px;
+      border-radius: 20px;
+      overflow: hidden;
+      background: rgba(12,13,18,.55);
+      border: 1px solid rgba(255,255,255,.08);
+      position:relative;
+      box-shadow: var(--shadow2);
+    }
+    .section-hero .img{
+      aspect-ratio: 16/6;
+      border-radius: 0;
+    }
+    .section-hero .meta{
+      position:absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      text-shadow: 0 0 16px rgba(0,0,0,.45);
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,.25));
+      border-radius: 16px;
+      padding: 14px 14px 12px;
+    }
+    .section-hero h2{
+      margin:0;
+      font-size: clamp(20px, 3.6vw, 36px);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    /* ===== MINI CART DRAWER ===== */
+    .mcart{
+      position:fixed;
+      top:0;
+      right:0;
+      height:100dvh;
+      width:380px;
+      max-width:92vw;
+      background:#0e101b;
+      border-left:1px solid var(--line);
+      transform:translateX(100%);
+      transition:transform .25s ease;
+      z-index:10002;
+      display:flex;
+      flex-direction:column;
+    }
+    .mcart.open{ transform:translateX(0); }
+
+    .mcart-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.55);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .2s ease;
+      z-index:10001;
+    }
+    .mcart-overlay.show{ opacity:1; pointer-events:auto; }
+
+    .mcart-head, .mcart-foot{
+      padding:14px;
+      border-bottom:1px solid var(--line);
+      background: rgba(12,13,18,.45);
+      backdrop-filter: blur(10px);
+    }
+    .mcart-foot{
+      border-bottom:none;
+      border-top:1px solid var(--line);
+    }
+    .mcart-head{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .mcart-close{
+      margin-left:auto;
+      border:1px solid var(--line);
+      background:#111424;
+      color:var(--ink);
+      border-radius:12px;
+      padding:8px 10px;
+      cursor:pointer;
+    }
+    .mcart-body{ padding:12px 14px; overflow:auto; flex:1 1 auto; }
+
+    .mc-items{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:grid;
+      gap:10px;
+    }
+    .mc-item{
+      display:grid;
+      grid-template-columns:56px 1fr auto;
+      gap:10px;
+      align-items:center;
+      border:1px solid var(--line);
+      background:#0c0f19;
+      border-radius:14px;
+      padding:10px;
+    }
+    .mc-item img{
+      width:56px; height:56px; object-fit:cover;
+      border-radius:10px;
+      background:#0f1117;
+    }
+    .mc-meta b{ display:block; font-size:14px; }
+    .mc-qty{ display:block; font-size:12px; color:var(--mute); margin-top:2px; }
+    .mc-price{ font-weight:800; }
+    .mc-empty{
+      color:var(--mute);
+      border:1px dashed var(--line);
+      padding:14px;
+      border-radius:14px;
+      text-align:center;
+    }
+    .mcart-foot .row{
+      display:flex; justify-content:space-between; align-items:center;
+      margin-bottom:10px;
+    }
+    .mcart-foot .checkout{ display:flex; gap:10px; }
+    .mcart-foot .checkout .btn{ flex:1 1 auto; text-align:center; }
+
+    @media (max-width: 560px){
+      :root{ --cardW: 262px; }
+      .scene-row{ align-items: flex-start; flex-direction: column; }
+      .scene-right{ justify-content: flex-start; }
+    }
+  </style>
+</head>
+
+<body class="page-shop">
+  <div class="film-grain" aria-hidden="true"></div>
+
+<div id="siteHeader"></div>
+
+
+
+  <main id="main" tabindex="-1">
+    <section class="section">
+<section class="act">
+  <div class="act-inner">
+    <p class="act-kicker">ACT I</p>
+    <h2>The Objects</h2>
+    <p class="act-lead">
+      Jewelry and small goods. The pieces people notice first —
+      and remember last.
+    </p>
+  </div>
+</section>
+
+      <!-- OPENING CREDITS -->
+      <div class="credits">
+        <div class="inner">
+          <div class="kicker">OPENING CREDITS • SEASON I</div>
+          <div class="title">The Unrepentant Cuts</div>
+          <p class="logline">
+            Relics in fur, skin, silver, and story — made in small batches, built to outlive trends.
+            This is quiet luxury with a screenwriter’s obsession for detail.
+          </p>
+
+          <div class="credits-meta">
+            <span class="badge">HANDMADE</span>
+            <span class="badge">NO RESTOCKS</span>
+            <span class="badge">ETHICALLY SOURCED</span>
+            <span class="badge">ARCHIVAL ENERGY</span>
+          </div>
+
+          <div class="credits-cta">
+            <a href="#scene-1" class="btn primary">Enter Scene One</a>
+            <a href="about.html" class="btn">Read the Lore</a>
+            <a href="arcade.html" class="btn ghost">Play for Passage</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE HEADER -->
+      <div class="scene-row" id="scene-1">
+        <div class="scene-left">
+          <h2>Scene One • The Collection</h2>
+          <p>
+            Each piece is written like a character: motive, silhouette, material, consequence.
+            Choose carefully. The wardrobe remembers.
+          </p>
+        </div>
+        <div class="scene-right" aria-label="Quick filters (visual only)">
+          <a class="chip" href="#jewelry">Jewelry</a>
+          <a class="chip" href="#accessories">Accessories</a>
+          <a class="chip" href="#denim">Denim</a>
+          <a class="chip" href="#hardware">Hardware</a>
+        </div>
+      </div>
+
+      <div class="grid">
+
+        <!-- Jewelry -->
+        <article class="card tilt" id="jewelry">
+          <a href="vice-link-chain.html" class="img" aria-label="View The Bad Habits Chain">
+            <img src="assets/bhc.jpg" alt="The Bad Habits Chain">
+          </a>
+          <div class="meta">
+            <h3>The Bad Habits Chain™</h3>
+            <p class="muted">Three charms, zero discipline.</p>
+            <ul class="specs">
+              <li>28g sterling silver Vice Link charms</li>
+              <li>Black diamond details</li>
+              <li>20&quot; Cuban chain, 5.3mm</li>
+              <li>Pairs with “Don’t Check My Bank Account” Wallet</li>
+            </ul>
+
+            <div class="director"><b>Director’s Note</b><br>
+              Jewelry should feel like plot armor — subtle until it isn’t.
+            </div>
+
+            <div class="buy">
+              <span class="price">$1,200.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="bad-habits-chain"
+                data-name="The Bad Habits Chain"
+                data-price="1200.00"
+                data-url="vice-link-chain.html"
+                data-img="assets/bhc.jpg">Add to Bag</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Accessories -->
+        <article class="card tilt" id="accessories">
+          <a href="after-hours-muff.html" class="img" aria-label="View The After-Hours Muff Bag">
+            <img src="assets/After hours muff bag 2.jpg" alt="The After-Hours Muff Bag">
+          </a>
+          <div class="meta">
+            <h3>The After-Hours Muff Bag™</h3>
+            <p class="muted">Say what you want — it stays quiet.</p>
+            <ul class="specs">
+              <li>Genuine arctic fox fur exterior</li>
+              <li>Nylon core structure</li>
+              <li>Discreet interior pocket</li>
+              <li>Limited quantities. No restocks.</li>
+            </ul>
+
+            <div class="director"><b>Director’s Note</b><br>
+              This is a close-up piece — the kind that changes the whole scene.
+            </div>
+
+            <div class="buy">
+              <span class="price">$900.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="after-hours-muff"
+                data-name="The After-Hours Muff"
+                data-price="900.00"
+                data-url="after-hours-muff.html"
+                data-img="assets/After hours muff bag 2.jpg">Add to Bag</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Wallet -->
+        <article class="card tilt">
+          <a href="wallet.html" class="img" aria-label="View The Don’t Check My Bank Account Wallet">
+            <img src="assets/dont-check-my-bank-account-wallet-cover.jpg" alt="The Don’t Check My Bank Account Wallet">
+          </a>
+          <div class="meta">
+            <h3>The “Don’t Check My Bank Account” Wallet™</h3>
+            <p class="muted">Deadly on the outside. Devastating inside.</p>
+            <ul class="specs">
+              <li>Cobra skin body</li>
+              <li>Cobra head centerpiece</li>
+              <li>Meant to pair with the Bad Habits Chain</li>
+            </ul>
+
+            <div class="director"><b>Director’s Note</b><br>
+              A prop that reads like a confession. Keep it close.
+            </div>
+
+            <div class="buy">
+              <span class="price">$2,500.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="dont-check-my-bank-account-wallet"
+                data-name="The Don’t Check My Bank Account Wallet"
+                data-price="2500.00"
+                data-url="wallet.html"
+                data-img="assets/dont-check-my-bank-account-wallet-cover.jpg">Add to Bag</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Headband -->
+        <article class="card tilt">
+          <a href="two-faced-mink-head--wrap.html" class="img" aria-label="View The Two-Faced Mink Headband">
+            <img src="assets/two-faced-mink-headband-hero.jpg" alt="The Two-Faced Mink Headband">
+          </a>
+          <div class="meta">
+            <h3>The Two-Faced Mink Headband™</h3>
+            <p class="muted">Same rules. Higher up.</p>
+            <ul class="specs">
+              <li>Fully reversible — fur ↔ tanned leather</li>
+              <li>Structured leather interior</li>
+              <li>Part of the Two-Faced system</li>
+            </ul>
+
+            <div class="director"><b>Director’s Note</b><br>
+              Duality, but wearable. Costume design with intent.
+            </div>
+
+            <div class="buy">
+              <span class="price">$750.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="two-faced-mink-headband"
+                data-name="The Two-Faced Mink Headband"
+                data-price="750.00"
+                data-url="two-faced-mink-head--wrap.html"
+                data-img="assets/two-faced-mink-headband-hero.jpg">Add to Bag</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Belt -->
+        <article class="card tilt">
+          <a href="two-faced-mink-belt.html" class="img" aria-label="View The Two-Faced Mink Belt">
+            <img src="assets/two-faced-mink-belt.jpg" alt="The Two-Faced Mink Belt">
+          </a>
+          <div class="meta">
+            <h3>The Two-Faced Mink Belt™</h3>
+            <p class="muted">Fur or leather — pick your personality today.</p>
+            <ul class="specs">
+              <li>Fully reversible — fur ↔ tanned leather</li>
+              <li>Ethically sourced, handcrafted in California</li>
+            </ul>
+
+            <div class="director"><b>Director’s Note</b><br>
+              This is the anchor. Everything else follows its lead.
+            </div>
+
+            <div class="buy">
+              <span class="price">$1,100.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="two-faced-mink-belt"
+                data-name="The Two-Faced Mink Belt"
+                data-price="1100.00"
+                data-url="two-faced-mink-belt.html"
+                data-img="assets/two-faced-mink-belt.jpg">Add to Bag</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Denim -->
+        <article class="card tilt" id="denim">
+          <a href="wrong-turn-trousers.html" class="img" aria-label="View The Wrong Turn Trousers">
+            <img src="assets/wrong-turn-trousers.jpg" alt="The Wrong Turn Trousers">
+          </a>
+          <div class="meta">
+            <h3>The Wrong Turn Trousers™</h3>
+            <p class="muted">Your ancestors warned you. You didn’t listen.</p>
+            <ul class="specs">
+              <li>Raw Japanese denim</li>
+              <li>Leather crossroads sigils</li>
+              <li>Built to match the Crossroads Jacket</li>
+            </ul>
+
+            <div class="director"><b>Director’s Note</b><br>
+              Wardrobe that implies history — even if you never speak it.
+            </div>
+
+            <div class="buy">
+              <span class="price">$650.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="wrong-turn-trousers"
+                data-name="The Wrong Turn Trousers"
+                data-price="650.00"
+                data-url="wrong-turn-trousers.html"
+                data-img="assets/wrong-turn-trousers.jpg">Add to Bag</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Denim -->
+        <article class="card tilt">
+          <a href="pony-play-pants.html" class="img" aria-label="View The Pony Play Pants">
+            <img src="assets/pony-play-pants.jpg" alt="The Pony Play Pants">
+          </a>
+          <div class="meta">
+            <h3>The Pony Play Pants™</h3>
+            <p class="muted">Grow up? Absolutely not.</p>
+            <ul class="specs">
+              <li>Cow hair paneling</li>
+              <li>Raw Japanese indigo denim</li>
+              <li>Satin pocketing</li>
+            </ul>
+
+            <div class="director"><b>Director’s Note</b><br>
+              A wildcard character — the fit that changes your entire pacing.
+            </div>
+
+            <div class="buy">
+              <span class="price">$1,800.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="pony-play-pants"
+                data-name="The Pony Play Pants"
+                data-price="1800.00"
+                data-url="pony-play-pants.html"
+                data-img="assets/pony-play-pants.jpg">Add to Bag</button>
+            </div>
+          </div>
+        </article>
+
+
+
+        <!-- Hardware Scene Divider -->
+        <article class="card tilt section-hero" id="hardware">
+          <a href="do-not-open-zipper-pulls.html" class="img" aria-label="View The Do Not Open Zipper Pulls">
+            <img src="assets/do-not-open-zipper-pulls.jpg" alt="The Do Not Open Zipper Pulls">
+          </a>
+          <div class="meta">
+            <h2>The “Do Not Open” Zipper Pulls™</h2>
+            <p class="muted" style="max-width:56ch;margin:8px 0 10px">
+              Hardware cast like jewelry — built to outlive the garment.
+              A small detail that reads like a plot twist.
+            </p>
+            <div class="buy" style="gap:14px">
+              <span class="price">$350.00</span>
+              <button class="btn small add-to-bag"
+                data-sku="do-not-open-zipper-pulls"
+                data-name="The Do Not Open Zipper Pulls"
+                data-price="350.00"
+                data-url="do-not-open-zipper-pulls.html"
+                data-img="assets/zipperpulls.png">Add to Bag</button>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">© <span id="y"></span> Sins of the Past</footer>
+
+  <!-- Mini-cart markup -->
+  <div class="mcart-overlay" id="mcartOverlay" hidden></div>
+
+  <aside class="mcart" id="mcart" aria-labelledby="mcartTitle" aria-modal="true" role="dialog" hidden>
+    <header class="mcart-head">
+      <h3 id="mcartTitle">Your Bag</h3>
+      <button class="mcart-close" id="mcartClose" type="button" aria-label="Close cart">✕</button>
+    </header>
+
+    <div class="mcart-body">
+      <ul class="mc-items" id="mcartList">
+        <li class="mc-empty">Your bag is empty.</li>
+      </ul>
+    </div>
+
+    <div class="mcart-foot">
+      <div class="row">
+        <span class="muted">Subtotal</span>
+        <span class="subtotal" id="mcartTotal">$0.00</span>
+      </div>
+
+      <div class="checkout">
+        <a href="cart.html" class="btn">View Cart</a>
+        <button class="btn primary" id="mcartCheckout" type="button">Checkout</button>
+      </div>
+    </div>
+  </aside>
+
+  <script>
+    (function(){
+      var y = document.getElementById('y');
+      if (y) y.textContent = new Date().getFullYear();
+    })();
+  </script>
+
+  <!-- Mini-cart logic -->
+  <script>
+  (function(){
+    const CART_KEY = 'stp_cart';
+
+    function load(){
+      try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); }
+      catch { return []; }
+    }
+    function save(items){
+      localStorage.setItem(CART_KEY, JSON.stringify(items));
+    }
+
+    function updateCount(){
+      const n = load().reduce((s,i)=> s + (i.qty||1), 0);
+      const el = document.getElementById('cartCount');
+      if (el) el.textContent = n ? `(${n})` : '';
+    }
+
+    function qs(s){ return document.querySelector(s); }
+
+    function renderMiniCart(){
+      const list = qs('#mcartList');
+      const totalEl = qs('#mcartTotal');
+      if (!list) return;
+
+      const items = load();
+
+      list.innerHTML = items.map(i => `
+        <li class="mc-item">
+          <img src="${i.img||''}" alt="" onerror="this.style.display='none'">
+          <div class="mc-meta">
+            <b>${i.name}</b>
+            <span class="mc-qty">Qty ${i.qty||1}</span>
+          </div>
+          <div class="mc-price">$${(Number(i.price)*(i.qty||1)).toFixed(2)}</div>
+        </li>
+      `).join('') || `<li class="mc-empty">Your bag is empty.</li>`;
+
+      if (totalEl){
+        const total = items.reduce((s,i)=> s + (Number(i.price)*(i.qty||1)), 0);
+        totalEl.textContent = `$${total.toFixed(2)}`;
+      }
+    }
+
+    function openMiniCart(){
+      const a = qs('#mcart'), o = qs('#mcartOverlay');
+      if(a){ a.hidden=false; a.classList.add('open'); }
+      if(o){ o.hidden=false; o.classList.add('show'); }
+      document.body.style.overflow='hidden';
+    }
+
+    function closeMiniCart(){
+      const a = qs('#mcart'), o = qs('#mcartOverlay');
+      if(a){ a.classList.remove('open'); a.hidden=true; }
+      if(o){ o.classList.remove('show'); o.hidden=true; }
+      document.body.style.overflow='';
+    }
+
+    function addItem({sku,name,price,url,img}){
+      const items = load();
+      const found = items.find(i=> i.sku===sku);
+      if (found) found.qty = (found.qty||1)+1;
+      else items.push({
+        sku,
+        name,
+        price: Number(price) || 0,
+        url: url || location.pathname,
+        img: img || '',
+        qty: 1,
+        addedAt: Date.now()
+      });
+      save(items);
+      updateCount();
+      renderMiniCart();
+      openMiniCart();
+    }
+
+    // close actions
+    document.addEventListener('click', (e)=>{
+      if (e.target.matches('#mcartClose') || e.target.matches('#mcartOverlay')) closeMiniCart();
+    });
+
+    // add buttons
+    document.querySelectorAll('.add-to-bag, .add-to-cart').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const sku = btn.dataset.sku || btn.dataset.id || 'unknown';
+        const name = btn.dataset.name || 'Product';
+        const price = btn.dataset.price || '0';
+        const url = btn.dataset.url || location.pathname;
+
+        // thumbnail: prefer data-img, otherwise nearest card img
+        const img =
+          btn.dataset.img ||
+          btn.closest('.card')?.querySelector('img')?.getAttribute('src') ||
+          '';
+
+        addItem({sku, name, price, url, img});
+      });
+    });
+
+    // cart link opens drawer
+    document.getElementById('cartLink')?.addEventListener('click', (e)=>{
+      e.preventDefault();
+      renderMiniCart();
+      openMiniCart();
+    });
+
+    // init
+    renderMiniCart();
+    updateCount();
+  })();
+  </script>
+
+  <!-- Keep your global JS last -->
+  <script src="app.js" defer></script>
+  <script>
+(async function(){
+  const mount = document.getElementById('siteHeader');
+  if (!mount) return;
+
+  // Load the shared header file
+  const res = await fetch('header.html', { cache: 'no-store' });
+  const html = await res.text();
+  mount.innerHTML = html;
+
+  // Page label + active nav based on body class
+  const body = document.body;
+
+  const map = {
+    'page-home':   { label: 'Home',   nav: 'home' },
+    'page-shop':   { label: 'Shop',   nav: 'shop' },
+    'page-about':  { label: 'Lore',   nav: 'lore' },
+    'page-arcade': { label: 'Arcade', nav: 'arcade' },
+    'page-contact':{ label: 'Contact',nav: 'contact' },
+    'page-care':   { label: 'Care',   nav: 'care' }
+  };
+
+  const key = Object.keys(map).find(c => body.classList.contains(c));
+  const cfg = map[key] || { label: '', nav: '' };
+
+  // Set header label
+  const pageLabel = document.getElementById('pageLabel');
+  if (pageLabel) pageLabel.textContent = cfg.label ? cfg.label.toUpperCase() : '';
+
+  // Set active link
+  document.querySelectorAll('.nav a[data-nav]').forEach(a => {
+    if (a.dataset.nav === cfg.nav) {
+      a.classList.add('active');
+      a.setAttribute('aria-current', 'page');
+    } else {
+      a.classList.remove('active');
+      a.removeAttribute('aria-current');
+    }
+  });
+
+  // OPTIONAL: if app.js has a cart count updater, trigger it after header loads
+  window.dispatchEvent(new Event('stp:header:ready'));
+})();
+</script>
+
+</body>
+</html>
