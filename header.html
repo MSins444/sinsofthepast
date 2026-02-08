@@ -1,3 +1,20 @@
+
+<div id="siteHeader"></div>
+<main id="main" tabindex="-1">
+  <section class="section">
+    <div class="header">
+      <h1>Shop</h1>
+      <p>Discover our collection of unique, handcrafted accessories. Each piece is a blend of vintage inspiration and modern edge, designed to make a statement.</p>
+    </div>
+
+    <div class="products">
+      <!-- Product cards will go here -->
+    </div>
+
+    <p class="footer">All products are made in limited quantities. Once they're gone, they're gone.</p>
+  </section> 
+  <a href="selected.html" data-nav="selected">Selected Pieces</a>
+
 <header class="header" role="banner">
   <a class="brand" href="home.html" aria-label="Go to Home">
     <img src="assets/lgo.png" alt="" onerror="this.style.display='none'">
@@ -17,3 +34,42 @@
     Cart <span id="cartCount" style="opacity:.8"></span>
   </a>
 </header>
+<body><script>
+(async function(){
+  const mount = document.getElementById('siteHeader');
+  if (!mount) return;
+
+  try {
+    const res = await fetch('header.html', { cache: 'no-store' });
+    if (!res.ok) throw new Error(`header.html not found: ${res.status}`);
+    mount.innerHTML = await res.text();
+
+    const map = {
+      'page-home': 'home',
+      'page-selected': 'selected',
+      'page-shop': 'shop',
+      'page-about': 'lore',
+      'page-arcade': 'arcade',
+      'page-contact': 'contact',
+      'page-care': 'care'
+    };
+
+    const bodyClass = document.body.className;
+    const activeNav = map[bodyClass] || '';
+
+    document.querySelectorAll('.nav a[data-nav]').forEach(a=>{
+      if(a.dataset.nav === activeNav){
+        a.classList.add('active');
+        a.setAttribute('aria-current','page');
+      } else {
+        a.classList.remove('active');
+        a.removeAttribute('aria-current');
+      }
+    });
+
+  } catch(err){
+    console.error('Header loader error:', err);
+  }
+})();
+</script>
+</body>
