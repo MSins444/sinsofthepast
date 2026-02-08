@@ -49,15 +49,13 @@ input, textarea{ cursor:text !important; }
   </p>
 
   <form id="sinnerForm" action="https://formspree.io/f/mwvnppqq" method="POST">
-    <input id="email" name="email" type="email" placeholder="Enter your email" required>
+  <input id="email" name="email" type="email" placeholder="Enter your email" required>
+  <input type="hidden" name="_subject" value="🔥 New Sinner Joined">
+  <input type="hidden" name="_template" value="table">
+  <input type="hidden" name="_redirect" value="./home.html">
+  <button type="submit">Join the Sins</button>
+</form>
 
-    <!-- Formspree optional: email subject, template, and redirect -->
-    <input type="hidden" name="_subject" value="🔥 New Sinner Joined">
-    <input type="hidden" name="_template" value="table">
-    <input type="hidden" name="_redirect" value="./home.html">
-
-    <button type="submit">Join the Sins</button>
-  </form>
 
   <div id="msg" class="msg"></div>
 
