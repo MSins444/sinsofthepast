@@ -49,13 +49,15 @@ input, textarea{ cursor:text !important; }
   </p>
 
   <form id="sinnerForm" action="https://formspree.io/f/mwvnppqq" method="POST">
-  <input id="email" name="email" type="email" placeholder="Enter your email" required>
-  <input type="hidden" name="_subject" value="🔥 New Sinner Joined">
-  <input type="hidden" name="_template" value="table">
-  <input type="hidden" name="_redirect" value="./home.html">
-  <button type="submit">Join the Sins</button>
-</form>
+    <input id="email" name="email" type="email" placeholder="Enter your email" required>
 
+    <!-- Formspree optional: email subject, template, and redirect -->
+    <input type="hidden" name="_subject" value="🔥 New Sinner Joined">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_redirect" value="./home.html">
+
+    <button type="submit">Join the Sins</button>
+  </form>
 
   <div id="msg" class="msg"></div>
 
@@ -68,25 +70,41 @@ input, textarea{ cursor:text !important; }
 const form = document.getElementById('sinnerForm');
 const msg = document.getElementById('msg');
 
-form.addEventListener('submit', e => {
-  const email = document.getElementById('email').value.trim();
+form.addEventListener('submit', async e => {
+  e.preventDefault(); // stop default submit
 
+  const email = document.getElementById('email').value.trim();
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
     msg.textContent = "That email feels false. Try again.";
     msg.style.display = 'block';
-    e.preventDefault(); // stop Formspree submit for invalid emails
     return;
   }
 
   // Save locally
   localStorage.setItem('stp_sinner_email', email);
 
-  // Show cinematic message (will stay briefly while Formspree submits)
+  // Show cinematic message
   msg.textContent = "🔥 You’re marked. Entering…";
   msg.style.display = 'block';
 
-  // No preventDefault here → form submits normally to Formspree and redirects
+  // Submit to Formspree via fetch
+  const data = new FormData(form);
+  try {
+    await fetch(form.action, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+  } catch(err) {
+    console.warn('Formspree submit failed:', err);
+  }
+
+  // Redirect after short delay
+  setTimeout(() => {
+    window.location.href = './home.html';
+  }, 1200);
 });
 </script>
+
 </body>
 </html>
