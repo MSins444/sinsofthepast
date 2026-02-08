@@ -48,8 +48,14 @@ input, textarea{ cursor:text !important; }
     Early drops. Private access. Unreleased pieces.
   </p>
 
-  <form action="https://formspree.io/f/mwvnppqq" method="POST">
-    <input id="email" type="email" placeholder="Enter your email" required>
+  <form id="sinnerForm" action="https://formspree.io/f/mwvnppqq" method="POST">
+    <input id="email" name="email" type="email" placeholder="Enter your email" required>
+
+    <!-- Formspree optional: email subject, template, and redirect -->
+    <input type="hidden" name="_subject" value="🔥 New Sinner Joined">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_redirect" value="./home.html">
+
     <button type="submit">Join the Sins</button>
   </form>
 
@@ -61,27 +67,28 @@ input, textarea{ cursor:text !important; }
 </div>
 
 <script>
-const form=document.getElementById('sinnerForm');
-const msg=document.getElementById('msg');
+const form = document.getElementById('sinnerForm');
+const msg = document.getElementById('msg');
 
-form.addEventListener('submit',e=>{
-  e.preventDefault();
-  const email=document.getElementById('email').value.trim();
+form.addEventListener('submit', e => {
+  const emailInput = document.getElementById('email');
+  const email = emailInput.value.trim();
+
+  // Simple email validation
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    msg.textContent="That email feels false. Try again.";
-    msg.style.display='block';
+    msg.textContent = "That email feels false. Try again.";
+    msg.style.display = 'block';
     return;
   }
 
-  // Save locally for now (replace with Mailchimp / Klaviyo later)
-  localStorage.setItem('stp_sinner_email',email);
+  // Save locally
+  localStorage.setItem('stp_sinner_email', email);
 
-  msg.textContent="You’re marked. Entering…";
-  msg.style.display='block';
+  // Show cinematic confirmation
+  msg.textContent = "🔥 You’re marked. Entering…";
+  msg.style.display = 'block';
 
-  setTimeout(()=>{
-    window.location.replace('./home.html');
-  },1200);
+  // Let Formspree handle the submission normally
 });
 </script>
 </body>
