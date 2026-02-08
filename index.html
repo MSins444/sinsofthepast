@@ -71,24 +71,23 @@ const form = document.getElementById('sinnerForm');
 const msg = document.getElementById('msg');
 
 form.addEventListener('submit', e => {
-  const emailInput = document.getElementById('email');
-  const email = emailInput.value.trim();
+  const email = document.getElementById('email').value.trim();
 
-  // Simple email validation
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
     msg.textContent = "That email feels false. Try again.";
     msg.style.display = 'block';
+    e.preventDefault(); // stop Formspree submit for invalid emails
     return;
   }
 
   // Save locally
   localStorage.setItem('stp_sinner_email', email);
 
-  // Show cinematic confirmation
+  // Show cinematic message (will stay briefly while Formspree submits)
   msg.textContent = "🔥 You’re marked. Entering…";
   msg.style.display = 'block';
 
-  // Let Formspree handle the submission normally
+  // No preventDefault here → form submits normally to Formspree and redirects
 });
 </script>
 </body>
