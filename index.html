@@ -70,7 +70,7 @@ button {
 <body>
 
 <div class="card" id="sinCard">
-  <img src="SinsF.png" alt="Sins of the Past Logo">
+  <img src="assets/SinsF.png" alt="Sins of the Past Logo">
   <p>Before you enter… confess your <b>last sin</b>.</p>
   <label>Type it:</label>
   <input id="sinInput" placeholder="pride, greed, lust…" autocomplete="off">
@@ -82,7 +82,8 @@ button {
 </div>
 
 <div class="card hidden" id="reaperGame">
-  <img src="SinsF.png" alt="Grim Reaper">
+<img src="assets/SinsF.png" alt="Sins of the Past Logo">
+>
   <p>You refused confession.</p>
   <p>Beat the <b>Grim Reaper</b> (Best of 3).</p>
   <div class="btns">
@@ -168,6 +169,24 @@ document.querySelectorAll('[data-move]').forEach(btn => {
 function enter(){
   window.location.href = 'home.html';
 }
+
+try {
+  const res = await fetch('header.html', { cache: 'no-store' });
+  const html = await res.text();
+  mount.innerHTML = html;
+} catch(e) {
+  console.warn('Header not found:', e);
+}
+
+try {
+  const res = await fetch('header.html', { cache: 'no-store' });
+  const html = await res.text();
+  mount.innerHTML = html;
+} catch(e) {
+  console.warn('Header not found:', e);
+}
+
+
 </script>
 
 </body>
