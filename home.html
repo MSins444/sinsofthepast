@@ -94,27 +94,16 @@ main{
 
 <script>
 const KEY = 'sop_user';
-let user = null;
-
-try {
-  const raw = localStorage.getItem(KEY);
-  user = raw ? JSON.parse(raw) : null;
-} catch {
-  user = null;
-}
-
-// If no user data, redirect to gate
-if(!user){
-  window.location.href = 'index.html';
-}
-
+let user = JSON.parse(localStorage.getItem(KEY)) || null;
 const locked  = document.getElementById('locked');
 const content = document.getElementById('content');
 const vip     = document.getElementById('vipBanner');
 const sinText = document.getElementById('sinText');
 
-// ===== LOCK RULE =====
-// Only show locked if user skipped AND did NOT beat Reaper
+// If no user, redirect to gate
+if(!user) window.location.href='index.html';
+
+// Show content or locked based on skip + Reaper
 if(user.lastSin === 'skipped' && !user.beatGrimReaper){
   locked.classList.remove('hidden');
   content.classList.add('hidden');
@@ -123,7 +112,7 @@ if(user.lastSin === 'skipped' && !user.beatGrimReaper){
   locked.classList.add('hidden');
 }
 
-// ===== SIN DISPLAY =====
+// SIN TEXT
 if(user.lastSin && user.lastSin !== 'skipped'){
   sinText.textContent = `Last sin confessed: ${user.lastSin}`;
 } else if(user.beatGrimReaper){
@@ -132,10 +121,10 @@ if(user.lastSin && user.lastSin !== 'skipped'){
   sinText.textContent = '';
 }
 
-// ===== VIP / DISCOUNT =====
+// VIP
 if(user.beatGrimReaper && user.discountCode){
   vip.classList.remove('hidden');
-  console.log('Apply discount code:', user.discountCode);
+  console.log('Apply discount:', user.discountCode);
 }
 </script>
 

@@ -4,18 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sins of the Past — The Gate</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
 <style>
-html, body {
-  margin:0; height:100%;
+html,body{
+  margin:0;
+  height:100%;
   font-family:'Press Start 2P', monospace;
-  display:flex; align-items:center; justify-content:center;
-  background:#000; color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  background:#000;
 }
-
-.card {
+.card{
   width:min(460px,92vw);
   background:#0b0c13;
   border:2px solid #00e0c6;
@@ -23,35 +24,29 @@ html, body {
   padding:16px;
   text-align:center;
 }
-
-img.logo {
-  max-width:280px;
-  margin-bottom:16px;
+label{font-size:11px}
+input{
+  width:100%;margin-top:6px;padding:8px;
+  background:#000;border:1px solid #333;color:#fff;
 }
-
-label { font-size:11px; display:block; margin-top:12px; }
-input {
-  width:100%; margin-top:6px; padding:8px;
-  background:#000; border:1px solid #333; color:#fff;
-}
-
-.btns { display:flex; gap:8px; margin-top:12px; }
-button {
-  flex:1; padding:10px;
-  font-family:inherit; border-radius:8px;
-  background:#111; color:#fff; border:1px solid #333;
+.btns{display:flex;gap:8px;margin-top:12px}
+button{
+  flex:1;padding:10px;
+  font-family:inherit;border-radius:8px;
+  background:#111;color:#fff;border:1px solid #333;
   cursor:pointer;
 }
-button.primary { background:#ff5a5a; color:#000; font-weight:bold; }
-
-.msg { font-size:10px; margin-top:8px; opacity:.7; }
-.hidden { display:none; }
+.primary{background:#ff5a5a;color:#000;font-weight:bold}
+.msg{font-size:10px;margin-top:8px;opacity:.7}
+.hidden{display:none}
+img{width:100%;border-radius:8px;margin-bottom:12px;}
 </style>
 </head>
+
 <body>
 
 <div class="card" id="sinCard">
-  <img src="SinsF.png" alt="Sins of the Past" class="logo">
+  <img src="SinsF.png" alt="Sins of the Past">
   <p>Before you enter… confess your <b>last sin</b>.</p>
   <label>Type it:</label>
   <input id="sinInput" placeholder="pride, greed, lust…" autocomplete="off">
@@ -81,14 +76,17 @@ const sinCard = document.getElementById('sinCard');
 const reaperGame = document.getElementById('reaperGame');
 const gameMsg = document.getElementById('gameMsg');
 
-let user = {
-  lastSin: '',
-  beatGrimReaper: false,
-  discountCode: '',
-  firstVisit: true
+// Initialize user
+let user = JSON.parse(localStorage.getItem(KEY)) || {
+  lastSin:'',
+  beatGrimReaper:false,
+  discountCode:'REAPER15',
+  firstVisit:true
 };
 
-function saveUser(){ localStorage.setItem(KEY, JSON.stringify(user)); }
+function saveUser(){
+  localStorage.setItem(KEY, JSON.stringify(user));
+}
 
 // CONFESS
 document.getElementById('saveSin').onclick = () => {
@@ -99,10 +97,10 @@ document.getElementById('saveSin').onclick = () => {
   }
   user.lastSin = val;
   saveUser();
-  enterHome();
+  window.location.href = 'home.html';
 };
 
-// SKIP → REAPER GAME
+// SKIP → Reaper mini-game
 document.getElementById('skipSin').onclick = () => {
   user.lastSin = 'skipped';
   saveUser();
@@ -110,18 +108,18 @@ document.getElementById('skipSin').onclick = () => {
   reaperGame.classList.remove('hidden');
 };
 
-// MINI-GAME LOGIC (Best 2 of 3)
+// Reaper mini-game
 let playerWins = 0;
 let reaperWins = 0;
-const beats = { rock: 'scythe', scythe: 'paper', paper: 'rock' };
+const beats = { rock:'scythe', scythe:'paper', paper:'rock' };
 
-document.querySelectorAll('[data-move]').forEach(btn=>{
+document.querySelectorAll('[data-move]').forEach(btn => {
   btn.onclick = () => {
     const player = btn.dataset.move;
     const reaper = ['rock','paper','scythe'][Math.floor(Math.random()*3)];
 
     if(player === reaper){
-      gameMsg.textContent = 'A draw… fate hesitates.';
+      gameMsg.textContent = 'Draw… fate hesitates.';
       return;
     }
 
@@ -136,15 +134,12 @@ document.querySelectorAll('[data-move]').forEach(btn=>{
     if(playerWins === 2 || reaperWins === 2){
       if(playerWins === 2){
         user.beatGrimReaper = true;
-        user.discountCode = 'REAPER15';
       }
       saveUser();
-      setTimeout(enterHome, 1000);
+      setTimeout(() => window.location.href = 'home.html', 900);
     }
-  };
+  }
 });
-
-function enterHome(){ window.location.href = 'home.html'; }
 </script>
 
 </body>
