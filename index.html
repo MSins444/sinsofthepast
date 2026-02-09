@@ -9,68 +9,49 @@
 
 <style>
 html, body {
-  margin: 0;
-  height: 100%;
+  margin:0; height:100%;
   font-family:'Press Start 2P', monospace;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #000;
-  color: #fff;
+  display:flex; align-items:center; justify-content:center;
+  background:#000; color:#fff;
 }
 
 .card {
-  width: min(460px, 92vw);
-  background: #0b0c13;
-  border: 2px solid #00e0c6;
-  border-radius: 12px;
-  padding: 16px;
-  text-align: center;
+  width:min(460px,92vw);
+  background:#0b0c13;
+  border:2px solid #00e0c6;
+  border-radius:12px;
+  padding:16px;
+  text-align:center;
 }
 
-.card img {
-  max-width: 80%;
-  margin-bottom: 12px;
-  border-radius: 8px;
+img.logo {
+  max-width:280px;
+  margin-bottom:16px;
 }
 
-label { font-size: 11px; display:block; margin-top:8px; }
+label { font-size:11px; display:block; margin-top:12px; }
 input {
-  width: 100%;
-  margin-top: 6px;
-  padding: 8px;
-  background: #000;
-  border: 1px solid #333;
-  color: #fff;
+  width:100%; margin-top:6px; padding:8px;
+  background:#000; border:1px solid #333; color:#fff;
 }
 
-.btns {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-}
-
+.btns { display:flex; gap:8px; margin-top:12px; }
 button {
-  flex: 1;
-  padding: 10px;
-  font-family: inherit;
-  border-radius: 8px;
-  background: #111;
-  color: #fff;
-  border: 1px solid #333;
-  cursor: pointer;
+  flex:1; padding:10px;
+  font-family:inherit; border-radius:8px;
+  background:#111; color:#fff; border:1px solid #333;
+  cursor:pointer;
 }
+button.primary { background:#ff5a5a; color:#000; font-weight:bold; }
 
-.primary { background: #ff5a5a; color: #000; font-weight: bold; }
-.msg { font-size: 10px; margin-top: 8px; opacity: .7; }
-.hidden { display: none; }
-
+.msg { font-size:10px; margin-top:8px; opacity:.7; }
+.hidden { display:none; }
 </style>
 </head>
 <body>
 
 <div class="card" id="sinCard">
-  <img src="assets/SinsF.png" alt="Sins of the Past Logo">
+  <img src="SinsF.png" alt="Sins of the Past" class="logo">
   <p>Before you enter… confess your <b>last sin</b>.</p>
   <label>Type it:</label>
   <input id="sinInput" placeholder="pride, greed, lust…" autocomplete="off">
@@ -82,8 +63,6 @@ button {
 </div>
 
 <div class="card hidden" id="reaperGame">
-<img src="assets/SinsF.png" alt="Sins of the Past Logo">
->
   <p>You refused confession.</p>
   <p>Beat the <b>Grim Reaper</b> (Best of 3).</p>
   <div class="btns">
@@ -96,12 +75,11 @@ button {
 
 <script>
 const KEY = 'sop_user';
-
-const sinInput   = document.getElementById('sinInput');
-const msg        = document.getElementById('msg');
-const sinCard    = document.getElementById('sinCard');
+const sinInput = document.getElementById('sinInput');
+const msg = document.getElementById('msg');
+const sinCard = document.getElementById('sinCard');
 const reaperGame = document.getElementById('reaperGame');
-const gameMsg    = document.getElementById('gameMsg');
+const gameMsg = document.getElementById('gameMsg');
 
 let user = {
   lastSin: '',
@@ -110,10 +88,9 @@ let user = {
   firstVisit: true
 };
 
-function saveUser(){
-  localStorage.setItem(KEY, JSON.stringify(user));
-}
+function saveUser(){ localStorage.setItem(KEY, JSON.stringify(user)); }
 
+// CONFESS
 document.getElementById('saveSin').onclick = () => {
   const val = sinInput.value.trim();
   if(!val){
@@ -122,9 +99,10 @@ document.getElementById('saveSin').onclick = () => {
   }
   user.lastSin = val;
   saveUser();
-  enter();
+  enterHome();
 };
 
+// SKIP → REAPER GAME
 document.getElementById('skipSin').onclick = () => {
   user.lastSin = 'skipped';
   saveUser();
@@ -132,12 +110,12 @@ document.getElementById('skipSin').onclick = () => {
   reaperGame.classList.remove('hidden');
 };
 
+// MINI-GAME LOGIC (Best 2 of 3)
 let playerWins = 0;
 let reaperWins = 0;
-
 const beats = { rock: 'scythe', scythe: 'paper', paper: 'rock' };
 
-document.querySelectorAll('[data-move]').forEach(btn => {
+document.querySelectorAll('[data-move]').forEach(btn=>{
   btn.onclick = () => {
     const player = btn.dataset.move;
     const reaper = ['rock','paper','scythe'][Math.floor(Math.random()*3)];
@@ -161,32 +139,12 @@ document.querySelectorAll('[data-move]').forEach(btn => {
         user.discountCode = 'REAPER15';
       }
       saveUser();
-      setTimeout(enter, 1000);
+      setTimeout(enterHome, 1000);
     }
   };
 });
 
-function enter(){
-  window.location.href = 'home.html';
-}
-
-try {
-  const res = await fetch('header.html', { cache: 'no-store' });
-  const html = await res.text();
-  mount.innerHTML = html;
-} catch(e) {
-  console.warn('Header not found:', e);
-}
-
-try {
-  const res = await fetch('header.html', { cache: 'no-store' });
-  const html = await res.text();
-  mount.innerHTML = html;
-} catch(e) {
-  console.warn('Header not found:', e);
-}
-
-
+function enterHome(){ window.location.href = 'home.html'; }
 </script>
 
 </body>
