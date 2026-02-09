@@ -562,6 +562,27 @@
       marquee.style.pointerEvents = 'auto';
     }
   });
+
+  window.addEventListener('DOMContentLoaded', () => {
+  const greetEl = document.getElementById('sin-greet');
+  if (!greetEl) return;
+
+  const user = JSON.parse(localStorage.getItem('sop_user') || 'null') || {};
+  let messages = [];
+
+  if (user.lastSin && user.lastSin.toLowerCase() !== 'none') messages.push(`Last time you confessed: ${user.lastSin}`);
+  if (user.beatGrimReaper) messages.push('Welcome back, conqueror of the Grim Reaper');
+
+  if (messages.length) {
+    greetEl.textContent = messages.join(' • ');
+    greetEl.style.display = '';
+    if (user.beatGrimReaper) greetEl.classList.add('vip');
+    greetEl.style.opacity = 0;
+    greetEl.style.transition = 'opacity 1.2s ease';
+    setTimeout(()=> greetEl.style.opacity = 1, 100);
+  }
+});
+
 </script>
 
 
