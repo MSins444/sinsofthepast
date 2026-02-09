@@ -3,113 +3,145 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Become a Sinner — Sins of the Past</title>
-<link rel="preload" as="image" href="assets/SinsF.png">
+<title>Sins of the Past — The Gate</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
 <style>
-html,body{margin:0;height:100%;background:#000;color:#fff;font-family:'Press Start 2P',monospace;display:flex;align-items:center;justify-content:center}
-
-#grid{position:absolute;inset:0;background:
-  linear-gradient(#111 1px,transparent 1px),
-  linear-gradient(90deg,#111 1px,transparent 1px);
-background-size:40px 40px;opacity:.35}
-
-.container{z-index:2;width:min(460px,92vw);background:rgba(14,14,20,.95);border:2px solid #ff5a5a;border-radius:14px;padding:20px;text-align:center;box-shadow:0 0 40px rgba(255,90,90,.25)}
-
-.logo{width:100%;max-width:360px;margin:0 auto 16px;display:block}
-
-h1{font-size:18px;margin-bottom:10px}
-.tagline{font-size:11px;line-height:1.6;opacity:.85;margin-bottom:14px}
-
-input[type=email]{width:100%;padding:10px;border-radius:8px;border:1px solid #444;background:#0b0c13;color:#fff;font-family:inherit;font-size:11px}
-input:focus-visible{outline:2px solid #ff5a5a;outline-offset:2px}
-
-button{margin-top:12px;padding:10px;border-radius:8px;border:none;background:#ff5a5a;color:#111;font-family:inherit;font-size:11px;cursor:pointer}
-button:hover{background:#ff7070}
-
-.fine{font-size:9px;opacity:.55;margin-top:10px;line-height:1.5}
-
-.msg{display:none;font-size:10px;margin-top:8px}
-
-:root{ --cursor: url('assets/indexgrim.png') 12 12, auto; }
-:where(html, body, *):not(input, textarea){ cursor: var(--cursor) !important; }
-input, textarea{ cursor:text !important; }
+html,body{
+  margin:0;height:100%;
+  background:#000;color:#fff;
+  font-family:'Press Start 2P',monospace;
+  display:flex;align-items:center;justify-content:center;
+}
+.card{
+  width:min(460px,92vw);
+  background:#0b0c13;
+  border:2px solid #00e0c6;
+  border-radius:12px;
+  padding:16px;
+}
+label{font-size:11px}
+input{
+  width:100%;margin-top:6px;padding:8px;
+  background:#000;border:1px solid #333;color:#fff;
+}
+.btns{display:flex;gap:8px;margin-top:12px}
+button{
+  flex:1;padding:10px;
+  font-family:inherit;border-radius:8px;
+  background:#111;color:#fff;border:1px solid #333;
+  cursor:pointer;
+}
+.primary{background:#ff5a5a;color:#000;font-weight:bold}
+.msg{font-size:10px;margin-top:8px;opacity:.7}
+.hidden{display:none}
 </style>
 </head>
+
 <body>
-<div id="grid" aria-hidden="true"></div>
 
-<div class="container">
-  <img src="assets/SinsF.png" alt="Sins of the Past" class="logo">
-  <h1>Become a Sinner</h1>
-  <p class="tagline">
-    This is not a newsletter.<br>
-    It’s an invitation.<br><br>
-    Early drops. Private access. Unreleased pieces.
-  </p>
+<div class="card" id="sinCard">
+  <p>Before you enter… confess your <b>last sin</b>.</p>
+  <label>Type it:</label>
+  <input id="sinInput" placeholder="pride, greed, lust…" autocomplete="off">
+  <div class="btns">
+    <button class="primary" id="saveSin">Confess</button>
+    <button id="skipSin">Skip</button>
+  </div>
+  <div class="msg" id="msg"></div>
+</div>
 
-  <form id="sinnerForm" action="https://formspree.io/f/mwvnppqq" method="POST">
-    <input id="email" name="email" type="email" placeholder="Enter your email" required>
-
-    <!-- Formspree optional: email subject, template, and redirect -->
-    <input type="hidden" name="_subject" value="🔥 New Sinner Joined">
-    <input type="hidden" name="_template" value="table">
-    <input type="hidden" name="_redirect" value="./home.html">
-
-    <button type="submit">Join the Sins</button>
-  </form>
-
-  <div id="msg" class="msg"></div>
-
-  <p class="fine">
-    By joining, you accept that Sins of the Past is not for everyone.
-  </p>
+<div class="card hidden" id="reaperGame">
+  <p>You refused confession.</p>
+  <p>Beat the <b>Grim Reaper</b> (Best of 3).</p>
+  <div class="btns">
+    <button data-move="rock">🪨</button>
+    <button data-move="paper">📜</button>
+    <button data-move="scythe">⚔️</button>
+  </div>
+  <div class="msg" id="gameMsg"></div>
 </div>
 
 <script>
-const form = document.getElementById('sinnerForm');
-const msg = document.getElementById('msg');
+const KEY = 'sop_user';
 
-form.addEventListener('submit', async e => {
-  e.preventDefault(); // stop default submit
+const sinInput   = document.getElementById('sinInput');
+const msg        = document.getElementById('msg');
+const sinCard    = document.getElementById('sinCard');
+const reaperGame = document.getElementById('reaperGame');
+const gameMsg    = document.getElementById('gameMsg');
 
-  const email = document.getElementById('email').value.trim();
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    msg.textContent = "That email feels false. Try again.";
-    msg.style.display = 'block';
-    return;
-  }
-
-  // Save locally
-  localStorage.setItem('stp_sinner_email', email);
-
-  // Show cinematic message
-  msg.textContent = "🔥 You’re marked. Entering…";
-  msg.style.display = 'block';
-
-  // Submit to Formspree via fetch
-  const data = new FormData(form);
-  try {
-    await fetch(form.action, {
-      method: 'POST',
-      body: data,
-      headers: { 'Accept': 'application/json' }
-    });
-  } catch(err) {
-    console.warn('Formspree submit failed:', err);
-  }
-
-  // Redirect after short delay
-  setTimeout(() => {
-    window.location.href = './home.html';
-  }, 1200);
-});
-const user = JSON.parse(localStorage.getItem('sop_user') || 'null') || {
+let user = {
   lastSin: '',
   beatGrimReaper: false,
-  discountCode: ''
+  discountCode: '',
+  firstVisit: false
 };
 
+function saveUser(){
+  localStorage.setItem(KEY, JSON.stringify(user));
+}
+
+document.getElementById('saveSin').onclick = () => {
+  const val = sinInput.value.trim();
+  if(!val){
+    msg.textContent = 'Say something… or face judgment.';
+    return;
+  }
+  user.lastSin = val;
+  saveUser();
+  enter();
+};
+
+document.getElementById('skipSin').onclick = () => {
+  user.lastSin = 'skipped';
+  saveUser();
+  sinCard.classList.add('hidden');
+  reaperGame.classList.remove('hidden');
+};
+
+let playerWins = 0;
+let reaperWins = 0;
+
+const beats = {
+  rock: 'scythe',
+  scythe: 'paper',
+  paper: 'rock'
+};
+
+document.querySelectorAll('[data-move]').forEach(btn=>{
+  btn.onclick = () => {
+    const player = btn.dataset.move;
+    const reaper = ['rock','paper','scythe'][Math.floor(Math.random()*3)];
+
+    if(player === reaper){
+      gameMsg.textContent = 'A draw… fate hesitates.';
+      return;
+    }
+
+    if(beats[player] === reaper){
+      playerWins++;
+      gameMsg.textContent = 'You win this round.';
+    } else {
+      reaperWins++;
+      gameMsg.textContent = 'The Reaper claims a round.';
+    }
+
+    if(playerWins === 2 || reaperWins === 2){
+      if(playerWins === 2){
+        user.beatGrimReaper = true;
+        user.discountCode = 'REAPER15';
+      }
+      saveUser();
+      setTimeout(enter, 1000);
+    }
+  };
+});
+
+function enter(){
+  window.location.href = 'home.html';
+}
 </script>
 
 </body>

@@ -1,590 +1,141 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Sins of the Past — Home</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sins of the Past — Inside</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="css/base.css?v=3">
-
-  <style>
-    /* ===== Cursor dot (optional) ===== */
-    .cursor{
-      position:fixed; left:0; top:0; width:16px; height:16px;
-      border-radius:50%; outline:2px solid var(--acid, #00e0c6);
-      opacity:.5; transform:translate(-50%,-50%); z-index:9999; pointer-events:none;
-    }
-
-    /* ===== Page background: quiet texture ===== */
-    body.page-home{
-      background:
-        radial-gradient(1200px 600px at 50% -200px, rgba(255,255,255,.04), transparent 60%),
-        radial-gradient(700px 420px at 10% 20%, rgba(201,162,77,.06), transparent 60%),
-        var(--bg);
-    }
-
-    /* ===== Header basics ===== */
-    .header{ display:flex; align-items:center; gap:14px; padding:12px 16px; }
-    .header .brand{ display:flex; align-items:center; gap:8px; text-decoration:none; }
-    .header .brand span{ font-weight:800; letter-spacing:.2px; }
-    .header .nav{ display:flex; gap:16px; margin-left:auto; }
-    .header .nav a{ text-decoration:none; padding:6px 8px; border-radius:8px; }
-    #cartLink{ margin-left:8px; }
-
-    /* ===== HERO ===== */
-    .hero{
-      position: relative;
-      min-height: 72vh;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 8rem 1.25rem;
-      color: var(--ink);
-
-      background-image:
-        radial-gradient(800px 600px at 50% 30%, rgba(0,0,0,.15), rgba(0,0,0,.72)),
-        linear-gradient(to bottom, rgba(10,11,15,.25), rgba(10,11,15,.78)),
-        var(--hero-url, none);
-      background-size: auto, auto, cover;
-      background-repeat: no-repeat, no-repeat, no-repeat;
-      background-position: center, center, center;
-      transition: background-image .8s ease-in-out;
-      overflow:hidden;
-    }
-
-    .hero .inner{ max-width: 860px; display:grid; gap:14px; justify-items:center; }
-    .kicker{
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight:600;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      font-size:12px;
-      opacity:.85;
-    }
-    .hero h1{
-      font-family: "Cormorant Garamond", Georgia, serif;
-      font-weight:600;
-      letter-spacing:.02em;
-      font-size: clamp(38px, 5vw, 64px);
-      line-height: 1.02;
-      margin:0;
-    }
-    .hero p.muted{
-      max-width: 56ch;
-      margin: 0;
-      opacity: .86;
-      font-size: 15px;
-    }
-    .hero .cta{
-      display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap;
-      margin-top: 8px;
-    }
-
- 
-
-    /* ===== Editorial tiles (quiet luxury “system”) ===== */
-    .tiles{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 14px;
-    }
-    .tile{
-      display:block;
-      text-decoration:none;
-      border-radius: 18px;
-      overflow:hidden;
-      background:#0f1117;
-      border: 1px solid rgba(255,255,255,.06);
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-    .tile:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(0,0,0,.35);
-    }
-    .tile .img{
-      aspect-ratio: 4/5;
-      background: #0f1117;
-    }
-    .tile .img img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .tile .meta{ padding: 14px 14px 16px; }
-    .tile .meta b{
-      display:block;
-      font-weight:600;
-      letter-spacing:.02em;
-      margin-bottom: 6px;
-      font-size: 15px;
-    }
-    .tile .meta span{ display:block; opacity:.82; font-size: 13px; line-height: 1.4; }
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      margin-top:10px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(201,162,77,.22);
-      background: rgba(201,162,77,.06);
-      color: #c9a24d;
-      font-size: 11px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-.credit-row{
-  position: relative;
-  height: 52px;
-  overflow: hidden;
+<style>
+html,body{
+  margin:0;
+  background:#000;
+  color:#fff;
+  font-family:Inter,system-ui,sans-serif;
 }
 
-/* continuous ribbon */
-.credit-track{
-  position: absolute;
-  top: 50%;
-  left: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 4rem;
-  width: max-content;
-  transform: translateY(-50%);
-  will-change: transform;
-  animation: creditsLoop 16s linear infinite;
+.hidden{display:none}
+
+header{
+  padding:24px;
+  border-bottom:1px solid #222;
 }
 
-.credit-track.reverse{
-  animation-name: creditsLoopReverse;
-  animation-duration: 19s;
-  opacity: .9;
+.vip{
+  background:linear-gradient(90deg,#ff5a5a,#ffb347);
+  color:#000;
+  padding:12px 16px;
+  border-radius:12px;
+  font-weight:800;
+  margin-bottom:12px;
 }
 
-.credit-track span{
-  display: inline-block;
-  white-space: nowrap;
-  font-size: clamp(18px, 2.6vw, 34px);
-  font-weight: 600;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--ink);
-  text-shadow: 0 10px 30px rgba(0,0,0,.55);
-
-  /* fade mask on edges so it "appears" like film credits */
-  opacity: .95;
+.locked{
+  min-height:80vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:24px;
 }
 
-/* This is the key: move the whole ribbon by half its length
-   because there are TWO identical spans */
-@keyframes creditsLoop{
-  from { transform: translate3d(0, -50%, 0); }
-  to   { transform: translate3d(-50%, -50%, 0); }
+.locked h1{
+  font-size:22px;
+  margin-bottom:12px;
 }
 
-@keyframes creditsLoopReverse{
-  from { transform: translate3d(-50%, -50%, 0); }
-  to   { transform: translate3d(0, -50%, 0); }
+main{
+  padding:24px;
 }
 
-/* Optional: edge fade (makes it feel like credits entering/exiting) */
-.credit-row::before,
-.credit-row::after{
-  content:"";
-  position:absolute;
-  top:0; bottom:0;
-  width: 120px;
-  z-index: 2;
-  pointer-events:none;
+.sin{
+  opacity:.7;
+  font-size:12px;
+  margin-top:6px;
 }
-
-.credit-row::before{
-  left:0;
-  background: linear-gradient(to right, rgba(10,11,15,1), rgba(10,11,15,0));
-}
-
-.credit-row::after{
-  right:0;
-  background: linear-gradient(to left, rgba(10,11,15,1), rgba(10,11,15,0));
-}
-.credit-track{ gap: 8rem; }
-
-
-    /* ===== Campaign banner ===== */
-    .banner{ position:relative; margin: 18px 0 8px; }
-    .banner img{
-      display:block;
-      width:100%;
-      height: min(48vw, 520px);
-      object-fit: cover;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.06);
-      filter: contrast(1.02) saturate(.95);
-    }
-
-    /* Reveal */
-    .reveal{ opacity:0; transform:translateY(12px); transition:opacity .5s ease, transform .5s ease; }
-    .reveal.show{ opacity:1; transform:none; }
-
-    .sr-only{ position:absolute!important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); border:0; }
-
-    /* Tiny bump on cart count update */
-    #cartCount.bump{ animation:bump .35s ease; }
-    @keyframes bump{ 0%{transform:scale(1)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
-
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      .hero{ transition:none; }
-      .tile{ transition:none; }
-      .tile:hover{ transform:none; box-shadow:none; }
-      .reveal{ transition:none; opacity:1; transform:none; }
-      .cursor{ display:none; }
-      .marquee .track{ animation: none; transform: none; }
-    }
-
-    /* Mobile */
-    @media (max-width: 900px){
-      .split{ grid-template-columns: 1fr; }
-      .tiles{ grid-template-columns: 1fr; }
-      .hero{ padding: 5.5rem 1rem; min-height: 70dvh; }
-      .header{ flex-wrap:wrap; gap:8px; padding:10px 12px; }
-      .header .brand{ flex:1 1 100%; }
-      .header .nav{ flex:1 1 100%; overflow-x:auto; -webkit-overflow-scrolling:touch; gap:10px; }
-      #cartLink{ margin-left:auto; }
-    }
-  </style>
+</style>
 </head>
 
-<body class="page-home">
-  <!-- theme + greet as early as possible -->
-  <script>
-  (function(){
-    const acid = localStorage.getItem('stp_theme_acid');
-    const hot  = localStorage.getItem('stp_theme_hot');
-    if (acid) document.documentElement.style.setProperty('--acid', acid);
-    if (hot)  document.documentElement.style.setProperty('--hot',  hot);
+<body>
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const sin = (localStorage.getItem('stp_sin') || '').trim();
-      const el  = document.getElementById('sin-greet');
-      if (!el) return;
-      if (sin && sin.toLowerCase() !== 'none') {
-        el.textContent = `welcome back — last time you confessed: ${sin}`;
-        el.style.display = '';
-      } else {
-        el.remove();
-      }
-    });
-  })();
-  </script>
-
-  <a href="#main" class="sr-only">Skip to content</a>
-<div id="siteHeader"></div>
-
-
-  <!-- HERO -->
-  <section class="hero" id="main">
-    <div class="inner reveal">
-      <div class="kicker">Quiet luxury • small batch</div>
-      <h1>Luxury relics.<br>Bad decisions.</h1>
-
-      <p id="sin-greet" class="muted" style="display:none;margin:-6px 0 0"></p>
-      <p class="muted">Exotic skins, heirloom fur, and silver hardware—built like artifacts, worn like a warning.</p>
-
-      <div class="cta">
-        <a href="shop.html" class="btn primary">Enter the shop</a>
-        <a href="about.html" class="btn">Read the story</a>
-      </div>
-    </div>
-  </section>
-
-<div class="credit-row">
-  <div class="credit-track">
-    <span>★ GOLD ★ SILVER ★ PLATINUM ★ NATURAL DIAMONDS &amp; GEMSTONES ★</span>
-    <span>★ GOLD ★ SILVER ★ PLATINUM ★ NATURAL DIAMONDS &amp; GEMSTONES ★</span>
+<!-- LOCKED STATE -->
+<section id="locked" class="locked hidden">
+  <div>
+    <h1>Access Denied</h1>
+    <p>You skipped confession and failed judgment.</p>
+    <p>Come back honest… or stronger.</p>
   </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<div id="content" class="hidden">
+
+  <header>
+    <div id="vipBanner" class="vip hidden">
+      ☠️ You defeated the Grim Reaper — 15% off unlocked
+    </div>
+    <h1>Welcome inside</h1>
+    <div class="sin" id="sinText"></div>
+  </header>
+
+  <main>
+    <p>This is where your shop, drops, lookbooks, and rituals live.</p>
+
+    <!-- Example product -->
+    <div style="margin-top:24px;padding:16px;border:1px solid #222;border-radius:12px;">
+      <h3>Sample Item</h3>
+      <p>$100</p>
+      <button>Buy Now</button>
+    </div>
+  </main>
+
 </div>
 
-<div class="credit-row">
-  <div class="credit-track reverse">
-    <span>★ LIMITED RUN ★ ARTISAN CRAFTED ★ SMALL BATCH ★ NO RESTOCKS ★</span>
-    <span>★ LIMITED RUN ★ ARTISAN CRAFTED ★ SMALL BATCH ★ NO RESTOCKS ★</span>
-  </div>
-</div>
-
-<div class="credit-row">
-  <div class="credit-track">
-    <span>★ EXOTIC LEATHERS ★ HEIRLOOM-GRADE FUR ★ JAPANESE SELVEDGE DENIM ★</span>
-    <span>★ EXOTIC LEATHERS ★ HEIRLOOM-GRADE FUR ★ JAPANESE SELVEDGE DENIM ★</span>
-  </div>
-</div>
-
-
-  <!-- CAMPAIGN BANNER -->
-  <section class="section reveal">
-    <div class="banner">
-      <img src="assets/almohadflag.png"
-           alt="Campaign still — Duality series"
-           width="2400" height="900" loading="lazy" decoding="async">
-    </div>
-  </section>
-
-  <!-- QUIET LUXURY MANIFESTO + MATERIALS -->
-  <section class="section reveal">
-    <div class="split">
-      <div class="panel">
-        <h2>The House Rules</h2>
-        <p>We don’t chase trends. We build objects that feel inherited—then wear them like you got away with something.</p>
-        <div class="rule"></div>
-        <p style="opacity:.8">Every piece is designed to stand alone, but the real power is in the system: matched materials, matched attitude.</p>
-      </div>
-
-      <div class="panel">
-        <h2>Materials, not noise</h2>
-        <p>Exotic hides. Fur with presence. Silver that hits like jewelry. Quiet from a distance—violent up close.</p>
-        <div class="rule"></div>
-        <p class="muted" style="margin-top:10px">Natural, ethically sourced materials only. Small batch. No restocks.</p>
-      </div>
-    </div>
-
-    <!-- Editorial “system” tiles (not “Featured”) -->
-    <div class="tiles" style="margin-top:18px;">
-      <a class="tile" href="wallet.html" aria-label="View the wallet">
-        <div class="img">
-          <img src="assets/dont-check-my-bank-account-wallet-cover.jpg" alt="Don't Check My Bank Account Wallet" loading="lazy" decoding="async">
-        </div>
-        <div class="meta">
-          <b>The Wallet</b>
-          <span>Artifact-grade build. Cobra skin. Designed to ruin your standards.</span>
-          <span class="chip">The Relic System</span>
-        </div>
-      </a>
-
-      <a class="tile" href="two-faced-mink-head--wrap.html" aria-label="View the Two-Faced two-faced-mink-head--wrap">
-        <div class="img">
-          <img src="assets/two-faced-mink-headband-hero.jpg" alt="Two-Faced Mink head wrap" loading="lazy" decoding="async" onerror="this.style.display='none'">
-        </div>
-        <div class="meta">
-          <b>The Two-Faced System</b>
-          <span>Fur ↔ leather duality. Built to match. Built to disrespect.</span>
-          <span class="chip">Fur + Leather</span>
-        </div>
-      </a>
-
-      <a class="tile" href="vice-link-chain.html" aria-label="View the chain">
-        <div class="img">
-          <img src="assets/Photoroomvlc.JPG" alt="Vice Link Chain" loading="lazy" decoding="async">
-        </div>
-        <div class="meta">
-          <b>The Chain</b>
-          <span>Silver weight. Functional attachment. Jewelry behavior.</span>
-          <span class="chip">Hardware</span>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <footer class="footer">© <span id="y"></span> Sins of the Past</footer>
-
-  <!-- Optional follower dot -->
-  <div class="cursor"></div>
-
-  <script>
-    // Cursor follower (disabled on touch)
-    (function(){
-      const cursor = document.querySelector('.cursor');
-      const coarse = window.matchMedia('(pointer: coarse)').matches;
-      if (!cursor || coarse) { if (cursor) cursor.remove(); return; }
-      document.addEventListener('mousemove', e => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top  = e.clientY + 'px';
-      }, {passive:true});
-    })();
-
-    // Footer year
-    (function(){
-      const y = document.getElementById('y');
-      if (y) y.textContent = new Date().getFullYear();
-    })();
-
-    // Rotating hero slideshow (preloads; skips missing)
-    (function rotateHeroSlideshow(){
-      const hero = document.querySelector('.hero');
-      if (!hero) return;
-
-      const picks = [
-        'assets/Sinsbg.png',
-        'assets/sinsbgg.png',
-        'assets/mngs.png'
-      ];
-
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      function preload(src){
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.onload = () => resolve(src);
-          img.onerror = () => reject(src);
-          img.src = src;
-        });
-      }
-
-      Promise.allSettled(picks.map(preload)).then(results => {
-        const ok = results.filter(r => r.status === 'fulfilled').map(r => r.value);
-        if (!ok.length) return;
-
-        let idx = 0;
-        function showNext(){
-          const src = ok[idx % ok.length]; idx++;
-          const apply = () => hero.style.setProperty('--hero-url', `url("${src}")`);
-          if (reduced){ apply(); return; }
-          const img = new Image(); img.onload = apply; img.src = src;
-        }
-
-        showNext();
-        setInterval(showNext, 6500);
-      });
-    })();
-
-    // Reveal on scroll
-    (function revealOnScroll(){
-      const els = document.querySelectorAll('.reveal');
-      if (!els.length) return;
-      const io = new IntersectionObserver((entries)=>{
-        entries.forEach(e=>{
-          if (e.isIntersecting) {
-            e.target.classList.add('show');
-            io.unobserve(e.target);
-          }
-        });
-      }, {threshold: .1, rootMargin: '120px'});
-      els.forEach(el=> io.observe(el));
-    })();
-  </script>
-
-  <!-- Mini-cart JS (use ONE source of truth) -->
-  <script src="cart-mini.js" defer></script>
-
-  <script>
-(async function(){
-  const mount = document.getElementById('siteHeader');
-  if (!mount) return;
-
-  // Load the shared header file
-  const res = await fetch('header.html', { cache: 'no-store' });
-  const html = await res.text();
-  mount.innerHTML = html;
-
-  // Page label + active nav based on body class
-  const body = document.body;
-
-  const map = {
-    'page-home':   { label: 'Home',   nav: 'home' },
-    'page-shop':   { label: 'Shop',   nav: 'shop' },
-    'page-about':  { label: 'Lore',   nav: 'lore' },
-    'page-arcade': { label: 'Arcade', nav: 'arcade' },
-    'page-contact':{ label: 'Contact',nav: 'contact' },
-    'page-care':   { label: 'Care',   nav: 'care' }
-  };
-
-  const key = Object.keys(map).find(c => body.classList.contains(c));
-  const cfg = map[key] || { label: '', nav: '' };
-
-  // Set header label
-  const pageLabel = document.getElementById('pageLabel');
-  if (pageLabel) pageLabel.textContent = cfg.label ? cfg.label.toUpperCase() : '';
-
-  // Set active link
-  document.querySelectorAll('.nav a[data-nav]').forEach(a => {
-    if (a.dataset.nav === cfg.nav) {
-      a.classList.add('active');
-      a.setAttribute('aria-current', 'page');
-    } else {
-      a.classList.remove('active');
-      a.removeAttribute('aria-current');
-    }
-  });
-
-  // OPTIONAL: if app.js has a cart count updater, trigger it after header loads
-  window.dispatchEvent(new Event('stp:header:ready'));
-})();
-</script>
 <script>
-(async function(){
-  try{
-    const mount = document.getElementById('siteHeader');
-    if (!mount) throw new Error('Missing <div id="siteHeader"></div>');
+const KEY = 'sop_user';
+const raw = localStorage.getItem(KEY);
 
-    const res = await fetch('header.html', { cache: 'no-store' });
-    if (!res.ok) throw new Error(`header.html not found: ${res.status}`);
+let user = null;
 
-    mount.innerHTML = await res.text();
+try {
+  user = raw ? JSON.parse(raw) : null;
+} catch {
+  user = null;
+}
 
-    const map = {
-      'page-home':   { nav: 'home' },
-      'page-shop':   { nav: 'shop' },
-      'page-about':  { nav: 'lore' },
-      'page-arcade': { nav: 'arcade' },
-      'page-contact':{ nav: 'contact' },
-      'page-care':   { nav: 'care' }
-    };
+// If no user data, send them back to the gate
+if(!user){
+  window.location.href = 'index.html';
+}
 
-    const body = document.body;
-    const key = Object.keys(map).find(c => body.classList.contains(c));
-    const cfg = map[key] || { nav: '' };
+const locked  = document.getElementById('locked');
+const content = document.getElementById('content');
+const vip     = document.getElementById('vipBanner');
+const sinText = document.getElementById('sinText');
 
-    document.querySelectorAll('.nav a[data-nav]').forEach(a => {
-      if (a.dataset.nav === cfg.nav) {
-        a.classList.add('active');
-        a.setAttribute('aria-current','page');
-      } else {
-        a.classList.remove('active');
-        a.removeAttribute('aria-current');
-      }
-    });
+// LOCK RULE
+if(user.lastSin === 'skipped' && !user.beatGrimReaper){
+  locked.classList.remove('hidden');
+} else {
+  content.classList.remove('hidden');
+}
 
-    window.dispatchEvent(new Event('stp:header:ready'));
-  }catch(err){
-    console.error('Header loader error:', err);
-    alert(err.message);
-  }
-})();
+// SIN DISPLAY
+if(user.lastSin && user.lastSin !== 'skipped'){
+  sinText.textContent = `Last sin confessed: ${user.lastSin}`;
+} else if(user.beatGrimReaper){
+  sinText.textContent = `You entered by force.`;
+}
+
+// VIP / DISCOUNT
+if(user.beatGrimReaper && user.discountCode){
+  vip.classList.remove('hidden');
+
+  // ready for Shopify / cart integration
+  console.log('Apply discount:', user.discountCode);
+}
 </script>
-<script>
-  const marquee = document.querySelector('.marquee-home');
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 120) {
-      marquee.style.opacity = '0';
-      marquee.style.pointerEvents = 'none';
-      marquee.style.transition = 'opacity 0.6s ease';
-    } else {
-      marquee.style.opacity = '1';
-      marquee.style.pointerEvents = 'auto';
-    }
-  });
-
-  window.addEventListener('DOMContentLoaded', () => {
-  const greetEl = document.getElementById('sin-greet');
-  if (!greetEl) return;
-
-  const user = JSON.parse(localStorage.getItem('sop_user') || 'null') || {};
-  let messages = [];
-
-  if (user.lastSin && user.lastSin.toLowerCase() !== 'none') messages.push(`Last time you confessed: ${user.lastSin}`);
-  if (user.beatGrimReaper) messages.push('Welcome back, conqueror of the Grim Reaper');
-
-  if (messages.length) {
-    greetEl.textContent = messages.join(' • ');
-    greetEl.style.display = '';
-    if (user.beatGrimReaper) greetEl.classList.add('vip');
-    greetEl.style.opacity = 0;
-    greetEl.style.transition = 'opacity 1.2s ease';
-    setTimeout(()=> greetEl.style.opacity = 1, 100);
-  }
-});
-
-</script>
-
 
 </body>
 </html>
