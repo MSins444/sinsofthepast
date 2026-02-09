@@ -104,6 +104,12 @@ form.addEventListener('submit', async e => {
     window.location.href = './home.html';
   }, 1200);
 });
+const user = JSON.parse(localStorage.getItem('sop_user') || 'null') || {
+  lastSin: '',
+  beatGrimReaper: false,
+  discountCode: ''
+};
+
 </script>
 
 </body>
