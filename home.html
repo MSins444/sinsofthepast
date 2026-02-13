@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sins of the Past — Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -13,6 +14,10 @@ body{display:flex;flex-direction:column}
 #sin-greet{font-size:12px;color:#00e0c6;text-shadow:0 0 8px #00e0c6;margin:0 0 16px;padding:12px;border:1px solid #00e0c6;border-radius:8px;background:rgba(0,224,198,0.05)}
 
 .page-home{font-family:'Press Start 2P',monospace}
+
+/* Fallback for missing banner */
+.banner img{display:block;width:100%;height:auto}
+.banner img:not([src]) {background:linear-gradient(90deg,#1a1a2e,#16213e);min-height:200px}
 </style>
 </head>
 <body class="page-home">
@@ -57,7 +62,7 @@ body{display:flex;flex-direction:column}
   <!-- CAMPAIGN BANNER -->
   <section class="banner">
     <img src="assets/campaign-aw25.jpg" alt="AW25 campaign still — duality series"
-         width="2400" height="900" loading="lazy" decoding="async">
+         width="2400" height="900" loading="lazy" decoding="async" onerror="this.style.display='none'">
   </section>
 
   <!-- PRODUCTS -->
@@ -95,37 +100,42 @@ body{display:flex;flex-direction:column}
     const mount = document.getElementById('siteHeader');
     if (!mount) return;
 
-    const res = await fetch('header.html', { cache: 'no-store' });
-    const html = await res.text();
-    mount.innerHTML = html;
+    try {
+      const res = await fetch('header.html', { cache: 'no-store' });
+      if (!res.ok) throw new Error('Header not found');
+      const html = await res.text();
+      mount.innerHTML = html;
 
-    // Set active nav based on body class
-    const body = document.body;
-    const map = {
-      'page-home':   { label: 'Home',   nav: 'home' },
-      'page-shop':   { label: 'Shop',   nav: 'shop' },
-      'page-about':  { label: 'Lore',   nav: 'lore' },
-      'page-arcade': { label: 'Arcade', nav: 'arcade' },
-      'page-contact':{ label: 'Contact',nav: 'contact' },
-      'page-care':   { label: 'Care',   nav: 'care' }
-    };
-    const key = Object.keys(map).find(c => body.classList.contains(c));
-    const cfg = map[key] || { label: '', nav: '' };
+      // Set active nav based on body class
+      const body = document.body;
+      const map = {
+        'page-home':   { label: 'Home',   nav: 'home' },
+        'page-shop':   { label: 'Shop',   nav: 'shop' },
+        'page-about':  { label: 'Lore',   nav: 'lore' },
+        'page-arcade': { label: 'Arcade', nav: 'arcade' },
+        'page-contact':{ label: 'Contact',nav: 'contact' },
+        'page-care':   { label: 'Care',   nav: 'care' }
+      };
+      const key = Object.keys(map).find(c => body.classList.contains(c));
+      const cfg = map[key] || { label: '', nav: '' };
 
-    const pageLabel = document.getElementById('pageLabel');
-    if (pageLabel) pageLabel.textContent = cfg.label ? cfg.label.toUpperCase() : '';
+      const pageLabel = document.getElementById('pageLabel');
+      if (pageLabel) pageLabel.textContent = cfg.label ? cfg.label.toUpperCase() : '';
 
-    document.querySelectorAll('.nav a[data-nav]').forEach(a => {
-      if (a.dataset.nav === cfg.nav) {
-        a.classList.add('active');
-        a.setAttribute('aria-current', 'page');
-      } else {
-        a.classList.remove('active');
-        a.removeAttribute('aria-current');
-      }
-    });
+      document.querySelectorAll('.nav a[data-nav]').forEach(a => {
+        if (a.dataset.nav === cfg.nav) {
+          a.classList.add('active');
+          a.setAttribute('aria-current', 'page');
+        } else {
+          a.classList.remove('active');
+          a.removeAttribute('aria-current');
+        }
+      });
 
-    window.dispatchEvent(new Event('stp:header:ready'));
+      window.dispatchEvent(new Event('stp:header:ready'));
+    } catch (err) {
+      console.warn('Header fetch failed:', err);
+    }
   })();
 
   // ====================== USER DATA ======================
