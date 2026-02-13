@@ -151,6 +151,32 @@ if(user.beatGrimReaper && user.discountCode){
   vip.classList.remove('hidden');
   console.log('Apply discount code:', user.discountCode);
 }
+
+function enter() {
+  // Clear any pending loads
+  window.location.href = 'home.html';
+}
+
+// ===== CONFESS SIN =====
+document.getElementById('saveSin').onclick = () => {
+  const val = sinInput.value.trim();
+  if(!val){
+    msg.textContent = 'Say something… or face judgment.';
+    return;
+  }
+  user.lastSin = val;
+  saveUser();
+  enter();
+};
+
+// ===== SKIP SIN / REAPER GAME =====
+document.getElementById('skipSin').onclick = () => {
+  user.lastSin = 'skipped';
+  saveUser();
+  sinCard.classList.add('hidden');
+  reaperGame.classList.remove('hidden');
+};
+
 </script>
 
 </body>
