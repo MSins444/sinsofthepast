@@ -1,3 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sins of the Past — Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+/* ...existing styles... */
+html,body{margin:0;height:100%;background:#000;color:#fff;font-family:inherit;overflow-x:hidden}
+body{display:flex;flex-direction:column}
+
+#sin-greet{font-size:12px;color:#00e0c6;text-shadow:0 0 8px #00e0c6;margin:0 0 16px;padding:12px;border:1px solid #00e0c6;border-radius:8px;background:rgba(0,224,198,0.05)}
+
+.page-home{font-family:'Press Start 2P',monospace}
+</style>
+</head>
 <body class="page-home">
   <!-- HEADER -->
   <div id="siteHeader"></div>
@@ -108,21 +125,16 @@
       }
     });
 
-    // Trigger any cart updater
     window.dispatchEvent(new Event('stp:header:ready'));
   })();
 
   // ====================== USER DATA ======================
-  const defaultUser = {
-    name: '',
-    lastSin: '',
-    beatGrimReaper: false,
-    discountCode: '',
-    firstVisit: true
+  let user = JSON.parse(localStorage.getItem('user')) || { 
+    lastSin: null,
+    skipped: false,
+    allowedFeatures: [],
+    email: null
   };
-
-  // Load or initialize user
-  let user = JSON.parse(localStorage.getItem('user')) || { skipped: false, allowedFeatures: [] };
 
   function saveUser() {
     localStorage.setItem('user', JSON.stringify(user));
@@ -135,14 +147,16 @@
     throw new Error('Access denied - confession required');
   }
 
-  // If they confessed, show greeting
+  // If they confessed, show greeting with email
   if(user.lastSin && !user.skipped) {
     const greet = document.getElementById('sin-greet');
     if(greet) {
       greet.style.display = 'block';
-      greet.textContent = `Welcome back, confessor. Your sin has been recorded: "${user.lastSin}"`;
+      const emailText = user.email ? ` (${user.email})` : '';
+      greet.textContent = `Welcome back, confessor${emailText}. Your sin has been recorded: "${user.lastSin}"`;
     }
   }
 
   </script>
 </body>
+</html>
