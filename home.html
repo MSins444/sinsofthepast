@@ -102,7 +102,7 @@ main{
 const KEY = 'sop_user';
 let user;
 
-// ===== LOAD & AUTO-FIX =====
+// ===== LOAD & CLEAN USER DATA =====
 try {
   const raw = localStorage.getItem(KEY);
   user = raw ? JSON.parse(raw) : {};
@@ -110,11 +110,14 @@ try {
   user = {};
 }
 
-user.lastSin = user.lastSin || '';
-user.beatGrimReaper = user.beatGrimReaper || false;
-user.discountCode = user.discountCode || '';
-user.firstVisit = user.firstVisit ?? true;
-
+// Fix old or missing values
+if(!user.lastSin || typeof user.lastSin !== 'string'){
+  user.lastSin = '';
+}
+if(typeof user.beatGrimReaper !== 'boolean'){
+  user.beatGrimReaper = false;
+}
+if(!user.discountCode) user.discountCode = '';
 localStorage.setItem(KEY, JSON.stringify(user));
 
 const locked  = document.getElementById('locked');
@@ -122,8 +125,11 @@ const content = document.getElementById('content');
 const vip     = document.getElementById('vipBanner');
 const sinText = document.getElementById('sinText');
 
-// ===== LOCK RULE =====
-if(user.lastSin === 'skipped' && !user.beatGrimReaper){
+// ===== DECIDE ACCESS =====
+// Only lock if skipped and NOT beaten
+const isLocked = user.lastSin.toLowerCase() === 'skipped' && !user.beatGrimReaper;
+
+if(isLocked){
   locked.classList.remove('hidden');
   content.classList.add('hidden');
 } else {
@@ -131,8 +137,8 @@ if(user.lastSin === 'skipped' && !user.beatGrimReaper){
   locked.classList.add('hidden');
 }
 
-// ===== SIN TEXT =====
-if(user.lastSin && user.lastSin !== 'skipped'){
+// ===== SHOW SIN =====
+if(user.lastSin && user.lastSin.toLowerCase() !== 'skipped'){
   sinText.textContent = `Last sin confessed: ${user.lastSin}`;
 } else if(user.beatGrimReaper){
   sinText.textContent = `You entered by force.`;
@@ -143,7 +149,7 @@ if(user.lastSin && user.lastSin !== 'skipped'){
 // ===== VIP =====
 if(user.beatGrimReaper && user.discountCode){
   vip.classList.remove('hidden');
-  console.log('Apply discount:', user.discountCode);
+  console.log('Apply discount code:', user.discountCode);
 }
 </script>
 
