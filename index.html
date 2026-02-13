@@ -100,12 +100,22 @@ const game  = document.getElementById('rpsGame');
 const press = document.getElementById('press');
 const msg   = document.getElementById('msg');
 const input = document.getElementById('sinInput');
-const saveSin = document.getElementById('saveSin');
-const skipSin = document.getElementById('skipSin');
-const sinCard = document.getElementById('sinCard');
-const reaperGame = document.getElementById('reaperGame');
+const saveBtn = document.getElementById('saveBtn');
+const skipBtn = document.getElementById('skipBtn');
 
-// User data with sin tracking
+// Game HUD elements
+const pScoreEl = document.getElementById('pScore');
+const rScoreEl = document.getElementById('rScore');
+const roundEl = document.getElementById('round');
+const resultEl = document.getElementById('rpsResult');
+
+// Game state
+let pWins = 0;
+let rWins = 0;
+let round = 1;
+let rpsResolved = false;
+
+// User data
 const user = JSON.parse(localStorage.getItem('user')) || {
   lastSin: null,
   skipped: false,
@@ -120,75 +130,92 @@ function goToLanding() {
   window.location.href = 'home.html';
 }
 
+// Show/Hide helpers
+function showCard() {
+  card.style.display = 'block';
+  game.style.display = 'none';
+  press.style.display = 'none';
+}
+
+function showPress() {
+  card.style.display = 'none';
+  game.style.display = 'none';
+  press.style.display = 'block';
+}
+
+function showGame() {
+  card.style.display = 'none';
+  game.style.display = 'block';
+  press.style.display = 'none';
+}
+
+function resetMatch() {
+  pWins = 0;
+  rWins = 0;
+  round = 1;
+  rpsResolved = false;
+  resultEl.style.display = 'none';
+  resultEl.innerHTML = '';
+  updateHUD();
+}
+
 // ===== CONFESS SIN =====
-saveSin.onclick = () => {
-  const val = sinInput.value.trim();
+saveBtn.onclick = () => {
+  const val = input.value.trim();
   if(!val){
     msg.textContent = 'Say something… or face judgment.';
+    msg.style.display = 'block';
     return;
   }
   user.lastSin = val;
   user.skipped = false;
   user.allowedFeatures = ['landing', 'confess', 'view_all_sins', 'view_redemption'];
   saveUser();
+  localStorage.setItem(KEY, val);
   msg.textContent = '✓ Your sin has been recorded.';
+  msg.style.display = 'block';
   setTimeout(goToLanding, 1500);
 };
 
-// ===== SKIP SIN (Consequences!) =====
-skipSin.onclick = () => {
+// ===== SKIP SIN (Play Mini-Game) =====
+skipBtn.onclick = () => {
   user.lastSin = null;
   user.skipped = true;
-  user.allowedFeatures = ['landing', 'confess']; // Limited access
+  user.allowedFeatures = ['landing', 'confess'];
   saveUser();
-  sinCard.classList.add('hidden');
-  reaperGame.classList.remove('hidden');
-  msg.textContent = '⚠️ You chose to skip... consequences await.';
-};
-
-// init
-const saved = localStorage.getItem(KEY);
-if (!saved || forceReset){ showCard(); } else { showPress(); }
-
-// save
-document.getElementById('saveBtn').onclick=()=>{
-  const val=input.value.trim();
-  if(!val){
-    msg.textContent="Please type something (or skip).";
-    msg.style.display='block';
-    return;
-  }
-  localStorage.setItem(KEY,val);
-  msg.textContent="Saved: "+val;
-  msg.style.display='block';
-  setTimeout(()=> showPress(), 700);
-};
-// skip → play mini-game
-document.getElementById('skipBtn').onclick=()=>{
-  localStorage.setItem(KEY,'none');
+  localStorage.setItem(KEY, 'none');
   resetMatch();
   showGame();
 };
 
-// ENTER SITE only when:
-// - press screen is visible, OR
-// - mini-game ended (rpsResolved = true)
+// Init
+const saved = localStorage.getItem(KEY);
+if (!saved || forceReset) {
+  showCard();
+} else {
+  showPress();
+}
+
+// ENTER SITE
 function enter(){
-  const onCard  = card.style.display!=='none';
-  const onGame  = game.style.display!=='none';
-  const onPress = press.style.display!=='none';
+  const onCard  = card.style.display !== 'none';
+  const onGame  = game.style.display !== 'none';
+  const onPress = press.style.display !== 'none';
 
   if (onCard) return;
   if (onGame && !rpsResolved) return;
 
-  sessionStorage.setItem('stp_from_cover','1'); // for homepage music
+  sessionStorage.setItem('stp_from_cover','1');
   document.body.classList.add('fade');
-  setTimeout(()=>window.location.replace('./home.html'),700); // ✅ redirect to home.html
+  setTimeout(() => window.location.replace('./home.html'), 700);
 }
 
+// Allow enter on any key or click
+document.addEventListener('keydown', enter);
+document.addEventListener('click', enter);
 
-// reset helper
-document.getElementById('resetLink').onclick=(e)=>{
+// Reset helper
+document.getElementById('resetLink').onclick = (e) => {
   e.preventDefault();
   localStorage.removeItem(KEY);
   resetMatch();
@@ -196,56 +223,55 @@ document.getElementById('resetLink').onclick=(e)=>{
 };
 
 /* ----- Best-of-3 Mini-game ----- */
-const moves = ["rock","paper","scythe"];
-function resultFor(p,c){
-  if (p===c) return "draw";
-  if (p==="rock" && c==="scythe") return "win";
-  if (p==="scythe" && c==="paper") return "win";
-  if (p==="paper" && c==="rock") return "win";
+const moves = ["rock", "paper", "scythe"];
+
+function resultFor(p, c){
+  if (p === c) return "draw";
+  if (p === "rock" && c === "scythe") return "win";
+  if (p === "scythe" && c === "paper") return "win";
+  if (p === "paper" && c === "rock") return "win";
   return "lose";
 }
 
 function updateHUD(){
   pScoreEl.textContent = String(pWins);
   rScoreEl.textContent = String(rWins);
-  roundEl.textContent  = `Round ${round}`;
+  roundEl.textContent = `Round ${round}`;
 }
 
 function resolveRound(player){
-  const comp = moves[Math.floor(Math.random()*moves.length)];
-  const res  = resultFor(player, comp);
+  const comp = moves[Math.floor(Math.random() * moves.length)];
+  const res = resultFor(player, comp);
 
   resultEl.style.display = "block";
+  
   if (res === "draw"){
     resultEl.innerHTML = `You chose <b>${player}</b>, Reaper chose <b>${comp}</b> — <b>Draw</b>. Play again.`;
-    return; // no score change, same round number
+    return;
   }
 
-  if (res === "win"){ pWins++; }
+  if (res === "win") { pWins++; }
   else { rWins++; }
 
   resultEl.innerHTML = `You chose <b>${player}</b>, Reaper chose <b>${comp}</b> — ` +
-    (res==="win" ? "<b>You win the round.</b>" : "<b>Reaper wins the round.</b>");
+    (res === "win" ? "<b>You win the round.</b>" : "<b>Reaper wins the round.</b>");
 
-  // Match end?
   if (pWins === 2 || rWins === 2){
     rpsResolved = true;
     const who = (pWins === 2) ? "🔥 You win — the Reaper grants you passage!" : "💀 The Reaper claims victory.";
     resultEl.innerHTML += `<br>${who}`;
-    setTimeout(()=>enter(), 1100);
+    setTimeout(() => enter(), 1100);
     return;
   }
 
-  // Next round
   round++;
   updateHUD();
 }
 
-document.querySelectorAll('.choice').forEach(btn=>{
-  btn.onclick=()=> resolveRound(btn.dataset.move);
+document.querySelectorAll('.choice').forEach(btn => {
+  btn.onclick = () => resolveRound(btn.dataset.move);
 });
 
-// Initial HUD
 updateHUD();
 </script>
 
