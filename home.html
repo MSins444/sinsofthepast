@@ -319,6 +319,29 @@ body{
   .section{ padding:0 16px; }
 }
 </style>
+
+/* REMOVE REAPER OVERLAY */
+#siteHeader {
+  background-image: none !important;
+}
+
+body.page-home {
+  background-image: none !important;
+}
+
+.hero {
+  background-image: none !important;
+}
+
+/* Keep logo SMALL only in header */
+#siteHeader .logo,
+#siteHeader .reaper-logo {
+  width: 32px !important;
+  height: 32px !important;
+  opacity: .6;
+}
+
+</style>
 </head>
 
 <body class="page-home">
