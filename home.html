@@ -94,16 +94,37 @@ main{
 
 <script>
 const KEY = 'sop_user';
-let user = JSON.parse(localStorage.getItem(KEY)) || null;
+
+// ===== AUTO-FIX LOCALSTORAGE =====
+let user;
+try {
+  const raw = localStorage.getItem(KEY);
+  user = raw ? JSON.parse(raw) : {};
+} catch {
+  user = {};
+}
+
+// Ensure fields exist
+user.lastSin = user.lastSin || '';
+user.beatGrimReaper = user.beatGrimReaper || false;
+user.discountCode = user.discountCode || '';
+user.firstVisit = user.firstVisit ?? true;
+
+// Save fixed data back
+localStorage.setItem(KEY, JSON.stringify(user));
+
+// ===== SHOW LOCKED OR CONTENT =====
 const locked  = document.getElementById('locked');
 const content = document.getElementById('content');
 const vip     = document.getElementById('vipBanner');
 const sinText = document.getElementById('sinText');
 
-// If no user, redirect to gate
-if(!user) window.location.href='index.html';
+// No user or missing data? send to gate
+if(!user || (!user.lastSin && !user.beatGrimReaper)){
+  window.location.href='index.html';
+}
 
-// Show content or locked based on skip + Reaper
+// Locked state only if skipped AND Reaper not beaten
 if(user.lastSin === 'skipped' && !user.beatGrimReaper){
   locked.classList.remove('hidden');
   content.classList.add('hidden');
