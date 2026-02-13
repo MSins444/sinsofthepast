@@ -1,183 +1,139 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"> 
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sins of the Past — Inside</title>
+<body class="page-home">
+  <!-- HEADER -->
+  <div id="siteHeader"></div>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="inner">
+      <p class="kicker">SINS OF THE PAST™</p>
+      <h1>THE UNREPENTANT CUTS</h1>
 
-<style>
-html,body{
-  margin:0;
-  background:#000;
-  color:#fff;
-  font-family:Inter,system-ui,sans-serif;
-}
+      <!-- Greeting -->
+      <p id="sin-greet" class="muted" style="display:none;"></p>
 
-.hidden{display:none}
+      <p class="lead">
+        Quiet luxury for the loud-minded.
+        Relics in fur, skin, silver, and story — made in small batches,
+        built to outlive trends.
+      </p>
 
-header{
-  padding:24px;
-  border-bottom:1px solid #222;
-  text-align:center;
-}
+      <div class="cta">
+        <a href="shop.html" class="btn primary">Enter the Shop</a>
+        <a href="about.html" class="btn">Read the Lore</a>
+        <a href="arcade.html" class="btn ghost">Play for Passage</a>
+      </div>
 
-header img{
-  max-width:200px;
-  border-radius:12px;
-  margin-bottom:12px;
-}
+      <div class="hero-notes">
+        <span class="badge">ARTISIAN MADE</span>
+        <span class="badge">NO RESTOCKS</span>
+        <span class="badge">ETHICALLY SOURCED</span>
+      </div>
+    </div>
+  </section>
 
-.vip{
-  background:linear-gradient(90deg,#ff5a5a,#ffb347);
-  color:#000;
-  padding:12px 16px;
-  border-radius:12px; 
-  font-weight:800;
-  margin-bottom:12px;
-}
-
-.locked{
-  min-height:80vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:24px;
-}
-
-.locked h1{
-  font-size:22px;
-  margin-bottom:12px;
-}
-
-main{
-  padding:24px;
-}
-
-.sin{
-  opacity:.7;
-  font-size:12px;
-  margin-top:6px;
-}
-</style>
-</head>
-
-<body>
-
-<!-- LOCKED STATE -->
-<section id="locked" class="locked hidden">
-  <div>
-    <h1>Access Denied</h1>
-    <p>You skipped confession and failed judgment.</p>
-    <p>Come back honest… or stronger.</p>
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="track"><span>★ LIMITED RUN ★ HANDMADE ★ SMALL BATCH ★ NO RESTOCKS ★</span><span>★ LIMITED RUN ★ HANDMADE ★ SMALL BATCH ★ NO RESTOCKS ★</span></div>
+    <div class="track"><span>★ LIMITED RUN ★ EXOTIC LEATHER ★  ★ NO RESTOCKS ★</span><span>★ LIMITED RUN ★ HANDMADE ★ SMALL BATCH ★ NO RESTOCKS ★</span></div>
   </div>
-</section>
 
-<!-- MAIN CONTENT -->
-<div id="content" class="hidden">
+  <!-- CAMPAIGN BANNER -->
+  <section class="banner">
+    <img src="assets/campaign-aw25.jpg" alt="AW25 campaign still — duality series"
+         width="2400" height="900" loading="lazy" decoding="async">
+  </section>
 
-  <header>
-    <img src="SinsF.png" alt="Sins of the Past">
-    <div id="vipBanner" class="vip hidden">
-      ☠️ You defeated the Grim Reaper — 15% off unlocked
+  <!-- PRODUCTS -->
+  <section class="section">
+    <h2>Featured</h2>
+    <div class="grid">
+      <!-- Product cards here -->
     </div>
-    <h1>Welcome inside</h1>
-    <div class="sin" id="sinText"></div>
-  </header>
+  </section>
 
-  <main>
-    <p>This is where your shop, drops, lookbooks, and rituals live.</p>
-    <div style="margin-top:24px;padding:16px;border:1px solid #222;border-radius:12px;">
-      <h3>Sample Item</h3>
-      <p>$100</p>
-      <button>Buy Now</button>
-    </div>
-  </main>
+  <!-- FOOTER -->
+  <footer class="footer">© <span id="y"></span> Sins of the Past</footer>
 
-</div>
+  <!-- Optional follower dot -->
+  <div class="cursor"></div>
 
-<script>
-const KEY = 'sop_user';
-let user;
+  <!-- SCRIPTS -->
+  <script type="module" src="app.js"></script>
 
-// ===== LOAD & CLEAN USER DATA =====
-try {
-  const raw = localStorage.getItem(KEY);
-  user = raw ? JSON.parse(raw) : {};
-} catch {
-  user = {};
-}
+  <script>
+  // ====================== CURSOR ======================
+  const cursor = document.querySelector('.cursor');
+  document.addEventListener('mousemove', e => {
+    if (!cursor) return;
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
 
-// Fix old or missing values
-if(!user.lastSin || typeof user.lastSin !== 'string'){
-  user.lastSin = '';
-}
-if(typeof user.beatGrimReaper !== 'boolean'){
-  user.beatGrimReaper = false;
-}
-if(!user.discountCode) user.discountCode = '';
-localStorage.setItem(KEY, JSON.stringify(user));
+  // ====================== FOOTER YEAR ======================
+  const y = document.getElementById('y');
+  if (y) y.textContent = new Date().getFullYear();
 
-const locked  = document.getElementById('locked');
-const content = document.getElementById('content');
-const vip     = document.getElementById('vipBanner');
-const sinText = document.getElementById('sinText');
+  // ====================== HEADER ======================
+  (async function(){
+    const mount = document.getElementById('siteHeader');
+    if (!mount) return;
 
-// ===== DECIDE ACCESS =====
-// Only lock if skipped and NOT beaten
-const isLocked = user.lastSin.toLowerCase() === 'skipped' && !user.beatGrimReaper;
+    const res = await fetch('header.html', { cache: 'no-store' });
+    const html = await res.text();
+    mount.innerHTML = html;
 
-if(isLocked){
-  locked.classList.remove('hidden');
-  content.classList.add('hidden');
-} else {
-  content.classList.remove('hidden');
-  locked.classList.add('hidden');
-}
+    // Set active nav based on body class
+    const body = document.body;
+    const map = {
+      'page-home':   { label: 'Home',   nav: 'home' },
+      'page-shop':   { label: 'Shop',   nav: 'shop' },
+      'page-about':  { label: 'Lore',   nav: 'lore' },
+      'page-arcade': { label: 'Arcade', nav: 'arcade' },
+      'page-contact':{ label: 'Contact',nav: 'contact' },
+      'page-care':   { label: 'Care',   nav: 'care' }
+    };
+    const key = Object.keys(map).find(c => body.classList.contains(c));
+    const cfg = map[key] || { label: '', nav: '' };
 
-// ===== SHOW SIN =====
-if(user.lastSin && user.lastSin.toLowerCase() !== 'skipped'){
-  sinText.textContent = `Last sin confessed: ${user.lastSin}`;
-} else if(user.beatGrimReaper){
-  sinText.textContent = `You entered by force.`;
-} else {
-  sinText.textContent = '';
-}
+    const pageLabel = document.getElementById('pageLabel');
+    if (pageLabel) pageLabel.textContent = cfg.label ? cfg.label.toUpperCase() : '';
 
-// ===== VIP =====
-if(user.beatGrimReaper && user.discountCode){
-  vip.classList.remove('hidden');
-  console.log('Apply discount code:', user.discountCode);
-}
+    document.querySelectorAll('.nav a[data-nav]').forEach(a => {
+      if (a.dataset.nav === cfg.nav) {
+        a.classList.add('active');
+        a.setAttribute('aria-current', 'page');
+      } else {
+        a.classList.remove('active');
+        a.removeAttribute('aria-current');
+      }
+    });
 
-function enter() {
-  // Clear any pending loads
-  window.location.href = 'home.html';
-}
+    // Trigger any cart updater
+    window.dispatchEvent(new Event('stp:header:ready'));
+  })();
 
-// ===== CONFESS SIN =====
-document.getElementById('saveSin').onclick = () => {
-  const val = sinInput.value.trim();
-  if(!val){
-    msg.textContent = 'Say something… or face judgment.';
-    return;
+  // ====================== USER DATA ======================
+  const defaultUser = {
+    name: '',
+    lastSin: '',
+    beatGrimReaper: false,
+    discountCode: '',
+    firstVisit: true
+  };
+
+  // Load or initialize user
+  let user = JSON.parse(localStorage.getItem('user')) || { skipped: false, allowedFeatures: [] };
+
+  function saveUser() {
+    localStorage.setItem('user', JSON.stringify(user));
   }
-  user.lastSin = val;
-  saveUser();
-  enter();
-};
 
-// ===== SKIP SIN / REAPER GAME =====
-document.getElementById('skipSin').onclick = () => {
-  user.lastSin = 'skipped';
-  saveUser();
-  sinCard.classList.add('hidden');
-  reaperGame.classList.remove('hidden');
-};
+  // Example: Hide the "All Sins" section if they skipped
+  if(user.skipped) {
+    document.getElementById('allSinsSection').classList.add('hidden');
+    document.getElementById('redemptionSection').classList.add('hidden');
+    document.body.innerHTML += '<div class="warning">⚠️ Because you skipped confession, certain areas are locked.</div>';
+  }
 
-</script>
-
+  </script>
 </body>
-</html>
