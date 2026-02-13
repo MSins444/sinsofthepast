@@ -1,79 +1,166 @@
-<div id="siteHeader"></div>
-<main id="main" tabindex="-1">
-  <section class="section">
-    <div class="header">
-      <h1>Shop</h1>
-      <p>Discover our collection of unique, handcrafted accessories. Each piece is a blend of vintage inspiration and modern edge, designed to make a statement.</p>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+:root {
+  --bg: #000;
+  --ink: #fff;
+  --mute: #999;
+  --line: rgba(255,255,255,.06);
+}
 
-    <div class="products">
-      <!-- Product cards will go here -->
-    </div>
+#siteHeader {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,.8);
+  border-bottom: 1px solid var(--line);
+  padding: 0;
+  margin: 0;
+}
 
-    <p class="footer">All products are made in limited quantities. Once they're gone, they're gone.</p>
-  </section> 
-  <a href="selected.html" data-nav="selected">Selected Pieces</a>
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 24px;
+}
 
-<header class="header" role="banner">
-  <a class="brand" href="home.html" aria-label="Go to Home">
+.logo-link {
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 12px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  font-weight: 700;
+  opacity: .8;
+  transition: opacity .2s ease;
+}
 
-    <span>Sins of the Past</span>
-  </a>
+.logo-link:hover {
+  opacity: 1;
+}
 
-  <nav class="nav" aria-label="Primary">
-    <a href="home.html" data-nav="home">Home</a>
-    <a href="shop.html" data-nav="shop">Shop</a>
-    <a href="about.html" data-nav="lore">Lore</a>
-    <a href="arcade.html" data-nav="arcade">Arcade</a>
-    <a href="contact.html" data-nav="contact">Contact</a>
-    <a href="care.html" data-nav="care">Care</a>
-  </nav>
+.nav {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
-  <a href="cart.html" id="cartLink" aria-label="View cart">
-    Cart <span id="cartCount" style="opacity:.8"></span>
-  </a>
-</header>
-<body><script>
-(async function(){
-  const mount = document.getElementById('siteHeader');
-  if (!mount) return;
+.nav a {
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  opacity: .65;
+  transition: all .2s ease;
+  position: relative;
+  font-weight: 600;
+}
 
-  try {
-    const res = await fetch('header.html', { cache: 'no-store' });
-    if (!res.ok) throw new Error(`header.html not found: ${res.status}`);
-    mount.innerHTML = await res.text();
+.nav a:hover {
+  opacity: 1;
+}
 
-    const map = {
-      'page-home': 'home',
-      'page-selected': 'selected',
-      'page-shop': 'shop',
-      'page-about': 'lore',
-      'page-arcade': 'arcade',
-      'page-contact': 'contact',
-      'page-care': 'care'
-    };
+.nav a.active {
+  opacity: 1;
+  color: #00e0c6;
+}
 
-    const bodyClass = document.body.className;
-    const activeNav = map[bodyClass] || '';
+.nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #00e0c6;
+}
 
-    document.querySelectorAll('.nav a[data-nav]').forEach(a=>{
-      if(a.dataset.nav === activeNav){
-        a.classList.add('active');
-        a.setAttribute('aria-current','page');
-      } else {
-        a.classList.remove('active');
-        a.removeAttribute('aria-current');
-      }
-    });
+.header-right {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-left: auto;
+}
 
-  } catch(err){
-    console.error('Header loader error:', err);
+#cartLink {
+  position: relative;
+  cursor: pointer;
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: .65;
+  transition: opacity .2s ease;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+#cartLink:hover {
+  opacity: 1;
+}
+
+#cartCount {
+  font-size: 9px;
+  opacity: .5;
+  margin-left: 4px;
+}
+
+@media (max-width: 768px) {
+  .header-inner {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 16px;
   }
-})();
-</script>
-</body>
 
-<!-- Remove or comment out any of these: -->
-<img src="assets/reaper.png" class="logo-large">
-<div class="bg-reaper"></div>
-<section class="hero-bg" style="background-image:url('assets/reaper.png')">
+  .nav {
+    gap: 16px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+</head>
+<body>
+
+<header id="siteHeader" role="banner">
+  <div class="header-inner">
+    <a href="home.html" class="logo-link">SINS OF THE PAST™</a>
+
+    <nav role="navigation">
+      <ul class="nav">
+        <li><a href="home.html" data-nav="home">Home</a></li>
+        <li><a href="shop.html" data-nav="shop">Shop</a></li>
+        <li><a href="about.html" data-nav="about">Lore</a></li>
+        <li><a href="arcade.html" data-nav="arcade">Arcade</a></li>
+        <li><a href="contact.html" data-nav="contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-right">
+      <button id="cartLink" aria-label="Open shopping cart">
+        Bag<span id="cartCount"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+</body>
+</html>
