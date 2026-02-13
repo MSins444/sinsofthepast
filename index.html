@@ -4,15 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sins of the Past — The Gate</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
 <style>
 html,body{
-  margin:0;
-  height:100%;
-  font-family:'Press Start 2P', monospace;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  margin:0;height:100%;
+  font-family:'Press Start 2P',monospace;
+  display:flex;align-items:center;justify-content:center;
   color:#fff;
   background:#000;
 }
@@ -22,7 +21,6 @@ html,body{
   border:2px solid #00e0c6;
   border-radius:12px;
   padding:16px;
-  text-align:center;
 }
 label{font-size:11px}
 input{
@@ -39,14 +37,16 @@ button{
 .primary{background:#ff5a5a;color:#000;font-weight:bold}
 .msg{font-size:10px;margin-top:8px;opacity:.7}
 .hidden{display:none}
-img{width:100%;border-radius:8px;margin-bottom:12px;}
+img{
+  width:100%;border-radius:12px;margin-bottom:12px;
+}
 </style>
 </head>
 
 <body>
 
 <div class="card" id="sinCard">
-  <img src="assets/SinsF.png" alt="Sins of the Past Logo">
+  <img src="SinsF.png" alt="Sins of the Past">
   <p>Before you enter… confess your <b>last sin</b>.</p>
   <label>Type it:</label>
   <input id="sinInput" placeholder="pride, greed, lust…" autocomplete="off">
@@ -76,67 +76,73 @@ const sinCard = document.getElementById('sinCard');
 const reaperGame = document.getElementById('reaperGame');
 const gameMsg = document.getElementById('gameMsg');
 
-// Initialize user
-let user = JSON.parse(localStorage.getItem(KEY)) || {
-  lastSin:'',
-  beatGrimReaper:false,
-  discountCode:'REAPER15',
-  firstVisit:true
-};
+// ===== AUTO-FIX LOCALSTORAGE =====
+let user;
+try {
+  const raw = localStorage.getItem(KEY);
+  user = raw ? JSON.parse(raw) : {};
+} catch {
+  user = {};
+}
 
-function saveUser(){
+// Ensure all fields exist
+user.lastSin = user.lastSin || '';
+user.beatGrimReaper = user.beatGrimReaper || false;
+user.discountCode = user.discountCode || '';
+user.firstVisit = user.firstVisit ?? true;
+
+localStorage.setItem(KEY, JSON.stringify(user));
+
+// ===== SAVE USER =====
+function saveUser() {
   localStorage.setItem(KEY, JSON.stringify(user));
 }
 
-// CONFESS
+// ===== CONFESS =====
 document.getElementById('saveSin').onclick = () => {
   const val = sinInput.value.trim();
   if(!val){
-    msg.textContent = 'Say something… or face judgment.';
+    msg.textContent='Say something… or face judgment.';
     return;
   }
   user.lastSin = val;
+  user.beatGrimReaper = false; // reset Reaper
   saveUser();
   window.location.href = 'home.html';
 };
 
-// SKIP → Reaper mini-game
+// ===== SKIP =====
 document.getElementById('skipSin').onclick = () => {
   user.lastSin = 'skipped';
+  user.beatGrimReaper = false;
   saveUser();
   sinCard.classList.add('hidden');
   reaperGame.classList.remove('hidden');
 };
 
-// Reaper mini-game
-let playerWins = 0;
-let reaperWins = 0;
+// ===== REAPER MINI-GAME =====
+let playerWins=0, reaperWins=0;
 const beats = { rock:'scythe', scythe:'paper', paper:'rock' };
 
-document.querySelectorAll('[data-move]').forEach(btn => {
+document.querySelectorAll('[data-move]').forEach(btn=>{
   btn.onclick = () => {
     const player = btn.dataset.move;
     const reaper = ['rock','paper','scythe'][Math.floor(Math.random()*3)];
 
-    if(player === reaper){
-      gameMsg.textContent = 'Draw… fate hesitates.';
-      return;
+    if(player===reaper){ gameMsg.textContent='A draw… fate hesitates.'; return; }
+    if(beats[player]===reaper){
+      playerWins++; gameMsg.textContent='You win this round.';
+    } else{
+      reaperWins++; gameMsg.textContent='The Reaper wins this round.';
     }
 
-    if(beats[player] === reaper){
-      playerWins++;
-      gameMsg.textContent = 'You win this round.';
-    } else {
-      reaperWins++;
-      gameMsg.textContent = 'The Reaper claims a round.';
-    }
-
-    if(playerWins === 2 || reaperWins === 2){
-      if(playerWins === 2){
-        user.beatGrimReaper = true;
+    if(playerWins===2 || reaperWins===2){
+      if(playerWins===2){
+        user.beatGrimReaper=true;
+        user.discountCode='REAPER15';
       }
       saveUser();
-      setTimeout(() => window.location.href = 'home.html', 900);
+      setTimeout(()=>window.location.href='home.html',900);
     }
   }
 });
@@ -144,4 +150,3 @@ document.querySelectorAll('[data-move]').forEach(btn => {
 
 </body>
 </html>
-
