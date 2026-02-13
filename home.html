@@ -6,19 +6,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sins of the Past — Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%23ff5a5a'>†</text></svg>">
 <style>
 :root{
   --bg: #000;
   --ink: #fff;
-  --mute: #aaa;
-  --line: rgba(255,255,255,.08);
-  --shadow: 0 18px 60px rgba(0,0,0,.35);
-  --shadow2: 0 10px 30px rgba(0,0,0,.22);
-  --film: rgba(255,255,255,.06);
+  --mute: #999;
+  --line: rgba(255,255,255,.06);
+  --shadow: 0 20px 60px rgba(0,0,0,.4);
+  --shadow2: 0 8px 24px rgba(0,0,0,.3);
 }
 
 html,body{
   margin:0;
+  padding:0;
   height:100%;
   background:var(--bg);
   color:var(--ink);
@@ -29,27 +30,7 @@ html,body{
 body{
   display:flex;
   flex-direction:column;
-  background:
-    radial-gradient(900px 500px at 50% -120px, rgba(255,255,255,.04), transparent 60%),
-    radial-gradient(700px 420px at 20% 30%, rgba(0,224,198,.05), transparent 60%),
-    radial-gradient(700px 420px at 80% 55%, rgba(255,64,129,.04), transparent 60%),
-    var(--bg);
-}
-
-.page-home{
-  font-family:'Press Start 2P',monospace;
-}
-
-/* Film grain overlay */
-.film-grain{
-  pointer-events:none;
-  position:fixed;
-  inset:0;
-  opacity:.08;
-  mix-blend-mode:overlay;
-  background-image:url("assets/noise.png");
-  background-size:320px 320px;
-  z-index:0;
+  min-height:100vh;
 }
 
 /* ===== HEADER ===== */
@@ -58,114 +39,100 @@ body{
   top:0;
   z-index:1000;
   backdrop-filter:blur(10px);
-  background:rgba(10,11,15,.62);
+  background:rgba(0,0,0,.8);
+  border-bottom:1px solid var(--line);
 }
 
-/* ===== HERO SECTION ===== */
+/* ===== HERO ===== */
 .hero{
   position:relative;
-  border:1px solid var(--line);
-  border-radius:20px;
-  overflow:hidden;
-  background:
-    linear-gradient(180deg, rgba(8,9,12,.25), rgba(8,9,12,.88)),
-    linear-gradient(90deg, rgba(255,255,255,.02), transparent 35%, rgba(255,255,255,.01));
-  box-shadow:var(--shadow);
-  margin:24px auto;
-  padding:clamp(28px, 4vw, 44px);
-  max-width:1000px;
-  width:min(100% - 32px, 1000px);
-}
-
-.hero::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(500px 240px at 50% 20%, rgba(255,255,255,.04), transparent 65%);
-  pointer-events:none;
-  z-index:0;
+  margin:60px auto;
+  padding:0 24px;
+  max-width:780px;
+  text-align:center;
 }
 
 .hero .inner{
   position:relative;
   z-index:1;
-  text-align:center;
 }
 
 .kicker{
-  font-size:11px;
-  letter-spacing:.34em;
+  font-size:10px;
+  letter-spacing:.3em;
   text-transform:uppercase;
-  opacity:.65;
-  margin:0 0 12px;
+  opacity:.55;
+  margin:0 0 16px;
 }
 
 .hero h1{
-  margin:0 0 16px;
-  font-size:clamp(28px, 5vw, 54px);
-  letter-spacing:.06em;
+  margin:0 0 20px;
+  font-size:clamp(32px, 5vw, 56px);
+  letter-spacing:.05em;
   line-height:1.1;
   text-transform:uppercase;
-  font-weight:800;
+  font-weight:700;
 }
 
 .lead{
-  margin:0 auto 20px;
-  max-width:72ch;
+  margin:0 auto 28px;
+  max-width:64ch;
   color:var(--mute);
-  font-size:clamp(12px, 1.5vw, 15px);
-  line-height:1.7;
+  font-size:13px;
+  letter-spacing:.02em;
+  line-height:1.8;
+  font-weight:400;
 }
 
 #sin-greet{
-  font-size:12px;
+  font-size:11px;
   color:#00e0c6;
-  text-shadow:0 0 8px #00e0c6;
-  margin:0 0 16px;
-  padding:12px 14px;
-  border:1px solid #00e0c6;
-  border-radius:10px;
-  background:rgba(0,224,198,.08);
+  text-shadow:0 0 12px rgba(0,224,198,.5);
+  margin:0 auto 20px;
+  padding:14px 16px;
+  border:1px solid rgba(0,224,198,.4);
+  border-radius:8px;
+  background:rgba(0,224,198,.05);
   display:none;
+  max-width:600px;
+  line-height:1.6;
 }
 
-/* ===== CTA BUTTONS ===== */
+/* ===== CTA ===== */
 .cta{
   display:flex;
-  gap:10px;
+  gap:12px;
   justify-content:center;
   flex-wrap:wrap;
-  margin:20px 0;
+  margin:28px 0 0;
 }
 
 .btn{
-  padding:10px 16px;
-  border-radius:12px;
+  padding:12px 20px;
+  border-radius:4px;
   border:1px solid var(--line);
-  background:#0c0f19;
+  background:transparent;
   color:var(--ink);
   cursor:pointer;
-  font-size:11px;
+  font-size:10px;
   letter-spacing:.08em;
   text-transform:uppercase;
   text-decoration:none;
   font-weight:600;
-  transition:all .15s ease;
+  transition:all .2s ease;
   display:inline-block;
-  box-shadow:var(--shadow2);
 }
 
 .btn:hover{
-  border-color:rgba(255,255,255,.2);
-  background:rgba(255,255,255,.05);
-  transform:translateY(-2px);
+  border-color:rgba(255,255,255,.3);
+  background:rgba(255,255,255,.03);
 }
 
 .btn.primary{
   background:#ff5a5a;
   border-color:#ff5a5a;
   color:#000;
-  font-weight:800;
+  font-weight:700;
 }
 
 .btn.primary:hover{
@@ -174,27 +141,30 @@ body{
 }
 
 .btn.ghost{
-  background:transparent;
-  border:1px solid var(--line);
+  opacity:.7;
+}
+
+.btn.ghost:hover{
+  opacity:1;
 }
 
 /* ===== BADGES ===== */
 .hero-notes{
-  margin:18px 0 0;
+  margin:20px 0 0;
   display:flex;
   justify-content:center;
-  gap:10px;
+  gap:16px;
   flex-wrap:wrap;
 }
 
 .badge{
   border:1px solid var(--line);
-  padding:7px 10px;
-  border-radius:999px;
-  font-size:9px;
-  letter-spacing:.1em;
-  opacity:.68;
-  background:rgba(12,13,18,.35);
+  padding:6px 12px;
+  border-radius:3px;
+  font-size:8px;
+  letter-spacing:.12em;
+  opacity:.5;
+  background:transparent;
   text-transform:uppercase;
 }
 
@@ -204,21 +174,21 @@ body{
   overflow:hidden;
   border-top:1px solid var(--line);
   border-bottom:1px solid var(--line);
-  background:rgba(12,13,18,.25);
-  padding:8px 0;
+  padding:10px 0;
+  margin:40px 0;
 }
 
 .marquee .track{
   display:flex;
-  animation:scroll 20s linear infinite;
+  animation:scroll 24s linear infinite;
   white-space:nowrap;
 }
 
 .marquee span{
-  font-size:10px;
-  letter-spacing:.12em;
-  opacity:.6;
-  padding:0 20px;
+  font-size:9px;
+  letter-spacing:.1em;
+  opacity:.4;
+  padding:0 24px;
   text-transform:uppercase;
 }
 
@@ -229,12 +199,11 @@ body{
 
 /* ===== BANNER ===== */
 .banner{
-  margin:24px auto;
-  width:min(100% - 32px, 1280px);
-  border-radius:16px;
+  margin:40px auto;
+  width:min(100% - 48px, 1100px);
+  border-radius:2px;
   overflow:hidden;
   border:1px solid var(--line);
-  box-shadow:var(--shadow2);
 }
 
 .banner img{
@@ -243,51 +212,49 @@ body{
   height:auto;
   aspect-ratio:16/6;
   object-fit:cover;
-  background:#0f1117;
+  background:#0a0a0a;
 }
 
 /* ===== SECTION ===== */
 .section{
-  margin:40px auto;
-  max-width:1280px;
+  margin:60px auto;
+  max-width:1100px;
   width:100%;
-  padding:0 16px;
+  padding:0 24px;
 }
 
 .section h2{
-  font-size:clamp(18px, 3vw, 32px);
-  letter-spacing:.08em;
+  font-size:clamp(16px, 2.5vw, 28px);
+  letter-spacing:.1em;
   text-transform:uppercase;
-  margin:0 0 24px;
-  padding:0 10px;
+  margin:0 0 32px;
+  font-weight:600;
+  opacity:.9;
 }
 
 /* ===== GRID ===== */
 .grid{
   display:grid;
-  gap:20px;
-  grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+  gap:24px;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
 }
 
 .card{
-  border-radius:16px;
+  border-radius:0;
   overflow:hidden;
   border:1px solid var(--line);
-  background:rgba(12,13,18,.55);
-  box-shadow:var(--shadow2);
-  transition:all .18s ease;
+  background:transparent;
+  transition:all .25s ease;
 }
 
 .card:hover{
-  transform:translateY(-4px);
-  border-color:rgba(255,255,255,.14);
-  box-shadow:var(--shadow);
+  border-color:rgba(255,255,255,.15);
 }
 
 .card .img{
   width:100%;
-  aspect-ratio:4/5;
-  background:#0f1117;
+  aspect-ratio:3/4;
+  background:#0a0a0a;
   overflow:hidden;
   display:block;
 }
@@ -296,46 +263,48 @@ body{
   width:100%;
   height:100%;
   object-fit:cover;
-  filter:contrast(1.02) saturate(1.04);
 }
 
 .card .meta{
-  padding:14px;
+  padding:16px 0;
 }
 
 .card h3{
-  margin:0 0 6px;
-  font-size:13px;
+  margin:0 0 8px;
+  font-size:11px;
   letter-spacing:.05em;
   text-transform:uppercase;
+  font-weight:600;
 }
 
 .muted{
   color:var(--mute);
-  font-size:11px;
-  line-height:1.5;
+  font-size:10px;
+  line-height:1.6;
+  opacity:.7;
 }
 
 /* ===== FOOTER ===== */
 .footer{
   margin-top:auto;
-  padding:24px;
+  padding:32px 24px;
   text-align:center;
   border-top:1px solid var(--line);
   color:var(--mute);
-  font-size:10px;
-  letter-spacing:.12em;
+  font-size:9px;
+  letter-spacing:.1em;
   text-transform:uppercase;
+  opacity:.5;
 }
 
 /* ===== CURSOR ===== */
 .cursor{
   pointer-events:none;
   position:fixed;
-  width:12px;
-  height:12px;
-  background:rgba(0,224,198,.4);
-  border:1px solid #00e0c6;
+  width:8px;
+  height:8px;
+  background:rgba(0,224,198,.3);
+  border:1px solid rgba(0,224,198,.6);
   border-radius:50%;
   z-index:9999;
   mix-blend-mode:screen;
@@ -343,28 +312,16 @@ body{
 }
 
 @media (max-width:768px){
-  .grid{
-    grid-template-columns:1fr;
-  }
-  .cta{
-    flex-direction:column;
-  }
-  .btn{
-    width:100%;
-  }
-  .hero-notes{
-    flex-direction:column;
-  }
-  .badge{
-    width:100%;
-  }
+  .grid{ grid-template-columns:1fr; }
+  .cta{ flex-direction:column; }
+  .btn{ width:100%; }
+  .hero{ margin:40px auto; }
+  .section{ padding:0 16px; }
 }
 </style>
 </head>
 
 <body class="page-home">
-  <div class="film-grain" aria-hidden="true"></div>
-
   <!-- HEADER -->
   <div id="siteHeader"></div>
 
@@ -374,13 +331,11 @@ body{
       <p class="kicker">SINS OF THE PAST™</p>
       <h1>THE UNREPENTANT CUTS</h1>
 
-      <!-- Greeting -->
       <p id="sin-greet"></p>
 
       <p class="lead">
         Quiet luxury for the loud-minded.
-        Relics in fur, skin, silver, and story — made in small batches,
-        built to outlive trends.
+        Relics in fur, skin, silver, and story — made in small batches, built to outlive trends.
       </p>
 
       <div class="cta">
@@ -390,9 +345,9 @@ body{
       </div>
 
       <div class="hero-notes">
-        <span class="badge">ARTISIAN MADE</span>
-        <span class="badge">NO RESTOCKS</span>
+        <span class="badge">ARTISAN MADE</span>
         <span class="badge">ETHICALLY SOURCED</span>
+        <span class="badge">NO RESTOCKS</span>
       </div>
     </div>
   </section>
@@ -402,44 +357,39 @@ body{
     <div class="track"><span>★ LIMITED RUN ★ HANDMADE ★ SMALL BATCH ★ NO RESTOCKS ★</span><span>★ LIMITED RUN ★ HANDMADE ★ SMALL BATCH ★ NO RESTOCKS ★</span></div>
   </div>
 
-  <!-- CAMPAIGN BANNER -->
+  <!-- BANNER -->
   <section class="banner">
-    <img src="assets/campaign-aw25.jpg" alt="AW25 campaign still — duality series" onerror="this.style.display='none'">
+    <img src="assets/campaign-aw25.jpg" alt="AW25 campaign" onerror="this.style.display='none'">
   </section>
 
-  <!-- FEATURED SECTION -->
+  <!-- FEATURED -->
   <section class="section">
     <h2>Featured</h2>
     <div class="grid">
-      <!-- Product cards would go here -->
+      <!-- Products go here -->
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer class="footer">© <span id="y"></span> Sins of the Past</footer>
 
-  <!-- Optional follower dot -->
   <div class="cursor"></div>
 
   <script>
-  // ====================== CURSOR ======================
   const cursor = document.querySelector('.cursor');
   document.addEventListener('mousemove', e => {
     if (!cursor) return;
     cursor.style.display = 'block';
-    cursor.style.left = (e.clientX - 6) + 'px';
-    cursor.style.top = (e.clientY - 6) + 'px';
+    cursor.style.left = (e.clientX - 4) + 'px';
+    cursor.style.top = (e.clientY - 4) + 'px';
   });
 
-  // ====================== FOOTER YEAR ======================
   const y = document.getElementById('y');
   if (y) y.textContent = new Date().getFullYear();
 
-  // ====================== HEADER ======================
   (async function(){
     const mount = document.getElementById('siteHeader');
     if (!mount) return;
-
     try {
       const res = await fetch('header.html', { cache: 'no-store' });
       if (!res.ok) throw new Error('Header not found');
@@ -448,18 +398,16 @@ body{
 
       const body = document.body;
       const map = {
-        'page-home':   { label: 'Home',   nav: 'home' },
-        'page-shop':   { label: 'Shop',   nav: 'shop' },
-        'page-about':  { label: 'Lore',   nav: 'lore' },
-        'page-arcade': { label: 'Arcade', nav: 'arcade' },
-        'page-contact':{ label: 'Contact',nav: 'contact' },
-        'page-care':   { label: 'Care',   nav: 'care' }
+        'page-home':{ label:'Home', nav:'home' },
+        'page-shop':{ label:'Shop', nav:'shop' },
+        'page-about':{ label:'Lore', nav:'lore' },
+        'page-arcade':{ label:'Arcade', nav:'arcade' }
       };
       const key = Object.keys(map).find(c => body.classList.contains(c));
-      const cfg = map[key] || { label: '', nav: '' };
+      const cfg = map[key] || { label:'', nav:'' };
 
       const pageLabel = document.getElementById('pageLabel');
-      if (pageLabel) pageLabel.textContent = cfg.label ? cfg.label.toUpperCase() : '';
+      if (pageLabel) pageLabel.textContent = cfg.label?.toUpperCase() || '';
 
       document.querySelectorAll('.nav a[data-nav]').forEach(a => {
         if (a.dataset.nav === cfg.nav) {
@@ -467,27 +415,16 @@ body{
           a.setAttribute('aria-current', 'page');
         } else {
           a.classList.remove('active');
-          a.removeAttribute('aria-current');
         }
       });
-
-      window.dispatchEvent(new Event('stp:header:ready'));
     } catch (err) {
-      console.warn('Header fetch failed:', err);
+      console.warn('Header fetch failed');
     }
   })();
 
-  // ====================== USER DATA ======================
   let user = JSON.parse(localStorage.getItem('user')) || { 
-    lastSin: null,
-    skipped: false,
-    allowedFeatures: [],
-    email: null
+    lastSin: null, skipped: false, allowedFeatures: [], email: null 
   };
-
-  function saveUser() {
-    localStorage.setItem('user', JSON.stringify(user));
-  }
 
   if(user.skipped && !user.lastSin) {
     window.location.href = 'index.html?access=denied';
@@ -501,7 +438,6 @@ body{
       greet.textContent = `Welcome back, confessor${emailText}. Your sin has been recorded: "${user.lastSin}"`;
     }
   }
-
   </script>
 </body>
 </html>
