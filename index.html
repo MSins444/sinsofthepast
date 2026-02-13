@@ -10,10 +10,9 @@
 <style>
 html,body{
   margin:0;height:100%;
+  background:#000;color:#fff;
   font-family:'Press Start 2P',monospace;
   display:flex;align-items:center;justify-content:center;
-  color:#fff;
-  background:#000;
 }
 .card{
   width:min(460px,92vw);
@@ -21,6 +20,10 @@ html,body{
   border:2px solid #00e0c6;
   border-radius:12px;
   padding:16px;
+  text-align:center;
+}
+.card img{
+  max-width:100%;border-radius:12px;margin-bottom:12px;
 }
 label{font-size:11px}
 input{
@@ -37,9 +40,6 @@ button{
 .primary{background:#ff5a5a;color:#000;font-weight:bold}
 .msg{font-size:10px;margin-top:8px;opacity:.7}
 .hidden{display:none}
-img{
-  width:100%;border-radius:12px;margin-bottom:12px;
-}
 </style>
 </head>
 
@@ -58,6 +58,7 @@ img{
 </div>
 
 <div class="card hidden" id="reaperGame">
+  <img src="GrimReaper.png" alt="Grim Reaper">
   <p>You refused confession.</p>
   <p>Beat the <b>Grim Reaper</b> (Best of 3).</p>
   <div class="btns">
@@ -70,13 +71,14 @@ img{
 
 <script>
 const KEY = 'sop_user';
-const sinInput = document.getElementById('sinInput');
-const msg = document.getElementById('msg');
-const sinCard = document.getElementById('sinCard');
-const reaperGame = document.getElementById('reaperGame');
-const gameMsg = document.getElementById('gameMsg');
 
-// ===== AUTO-FIX LOCALSTORAGE =====
+const sinInput   = document.getElementById('sinInput');
+const msg        = document.getElementById('msg');
+const sinCard    = document.getElementById('sinCard');
+const reaperGame = document.getElementById('reaperGame');
+const gameMsg    = document.getElementById('gameMsg');
+
+// ===== LOAD & AUTO-FIX USER DATA =====
 let user;
 try {
   const raw = localStorage.getItem(KEY);
@@ -85,7 +87,6 @@ try {
   user = {};
 }
 
-// Ensure all fields exist
 user.lastSin = user.lastSin || '';
 user.beatGrimReaper = user.beatGrimReaper || false;
 user.discountCode = user.discountCode || '';
@@ -93,35 +94,37 @@ user.firstVisit = user.firstVisit ?? true;
 
 localStorage.setItem(KEY, JSON.stringify(user));
 
-// ===== SAVE USER =====
+// ===== FUNCTIONS =====
 function saveUser() {
   localStorage.setItem(KEY, JSON.stringify(user));
 }
 
-// ===== CONFESS =====
+function enter() {
+  window.location.href = 'home.html';
+}
+
+// ===== CONFESS SIN =====
 document.getElementById('saveSin').onclick = () => {
   const val = sinInput.value.trim();
   if(!val){
-    msg.textContent='Say something… or face judgment.';
+    msg.textContent = 'Say something… or face judgment.';
     return;
   }
   user.lastSin = val;
-  user.beatGrimReaper = false; // reset Reaper
   saveUser();
-  window.location.href = 'home.html';
+  enter();
 };
 
-// ===== SKIP =====
+// ===== SKIP SIN / REAPER GAME =====
 document.getElementById('skipSin').onclick = () => {
   user.lastSin = 'skipped';
-  user.beatGrimReaper = false;
   saveUser();
   sinCard.classList.add('hidden');
   reaperGame.classList.remove('hidden');
 };
 
-// ===== REAPER MINI-GAME =====
-let playerWins=0, reaperWins=0;
+let playerWins = 0;
+let reaperWins = 0;
 const beats = { rock:'scythe', scythe:'paper', paper:'rock' };
 
 document.querySelectorAll('[data-move]').forEach(btn=>{
@@ -129,22 +132,28 @@ document.querySelectorAll('[data-move]').forEach(btn=>{
     const player = btn.dataset.move;
     const reaper = ['rock','paper','scythe'][Math.floor(Math.random()*3)];
 
-    if(player===reaper){ gameMsg.textContent='A draw… fate hesitates.'; return; }
-    if(beats[player]===reaper){
-      playerWins++; gameMsg.textContent='You win this round.';
-    } else{
-      reaperWins++; gameMsg.textContent='The Reaper wins this round.';
+    if(player === reaper){
+      gameMsg.textContent = 'A draw… fate hesitates.';
+      return;
     }
 
-    if(playerWins===2 || reaperWins===2){
-      if(playerWins===2){
-        user.beatGrimReaper=true;
-        user.discountCode='REAPER15';
+    if(beats[player] === reaper){
+      playerWins++;
+      gameMsg.textContent = 'You win this round.';
+    } else {
+      reaperWins++;
+      gameMsg.textContent = 'The Reaper claims a round.';
+    }
+
+    if(playerWins === 2 || reaperWins === 2){
+      if(playerWins === 2){
+        user.beatGrimReaper = true;
+        user.discountCode = 'REAPER15';
       }
       saveUser();
-      setTimeout(()=>window.location.href='home.html',900);
+      setTimeout(enter, 1000);
     }
-  }
+  };
 });
 </script>
 

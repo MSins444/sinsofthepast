@@ -20,6 +20,13 @@ html,body{
 header{
   padding:24px;
   border-bottom:1px solid #222;
+  text-align:center;
+}
+
+header img{
+  max-width:200px;
+  border-radius:12px;
+  margin-bottom:12px;
 }
 
 .vip{
@@ -72,6 +79,7 @@ main{
 <div id="content" class="hidden">
 
   <header>
+    <img src="SinsF.png" alt="Sins of the Past">
     <div id="vipBanner" class="vip hidden">
       ☠️ You defeated the Grim Reaper — 15% off unlocked
     </div>
@@ -81,8 +89,6 @@ main{
 
   <main>
     <p>This is where your shop, drops, lookbooks, and rituals live.</p>
-
-    <!-- Example product -->
     <div style="margin-top:24px;padding:16px;border:1px solid #222;border-radius:12px;">
       <h3>Sample Item</h3>
       <p>$100</p>
@@ -94,9 +100,9 @@ main{
 
 <script>
 const KEY = 'sop_user';
-
-// ===== AUTO-FIX LOCALSTORAGE =====
 let user;
+
+// ===== LOAD & AUTO-FIX =====
 try {
   const raw = localStorage.getItem(KEY);
   user = raw ? JSON.parse(raw) : {};
@@ -104,27 +110,19 @@ try {
   user = {};
 }
 
-// Ensure fields exist
 user.lastSin = user.lastSin || '';
 user.beatGrimReaper = user.beatGrimReaper || false;
 user.discountCode = user.discountCode || '';
 user.firstVisit = user.firstVisit ?? true;
 
-// Save fixed data back
 localStorage.setItem(KEY, JSON.stringify(user));
 
-// ===== SHOW LOCKED OR CONTENT =====
 const locked  = document.getElementById('locked');
 const content = document.getElementById('content');
 const vip     = document.getElementById('vipBanner');
 const sinText = document.getElementById('sinText');
 
-// No user or missing data? send to gate
-if(!user || (!user.lastSin && !user.beatGrimReaper)){
-  window.location.href='index.html';
-}
-
-// Locked state only if skipped AND Reaper not beaten
+// ===== LOCK RULE =====
 if(user.lastSin === 'skipped' && !user.beatGrimReaper){
   locked.classList.remove('hidden');
   content.classList.add('hidden');
@@ -133,7 +131,7 @@ if(user.lastSin === 'skipped' && !user.beatGrimReaper){
   locked.classList.add('hidden');
 }
 
-// SIN TEXT
+// ===== SIN TEXT =====
 if(user.lastSin && user.lastSin !== 'skipped'){
   sinText.textContent = `Last sin confessed: ${user.lastSin}`;
 } else if(user.beatGrimReaper){
@@ -142,7 +140,7 @@ if(user.lastSin && user.lastSin !== 'skipped'){
   sinText.textContent = '';
 }
 
-// VIP
+// ===== VIP =====
 if(user.beatGrimReaper && user.discountCode){
   vip.classList.remove('hidden');
   console.log('Apply discount:', user.discountCode);
