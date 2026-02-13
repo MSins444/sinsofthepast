@@ -84,6 +84,20 @@ input, textarea, [contenteditable="true"] { cursor: text !important; }
   <div id="rpsResult" class="msg" style="margin-top:10px"></div>
 </div>
 
+<!-- Email collection screen (hidden until sin is confessed) -->
+<div id="emailCard" class="card" style="display:none;">
+  <p>Before you proceed, leave your email.</p>
+  <label for="emailInput">Your email:</label>
+  <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="off">
+  
+  <div class="btns">
+    <button id="emailBtn" class="btn primary">Enter</button>
+    <button id="emailSkipBtn" class="btn">Skip for now</button>
+  </div>
+  
+  <div id="emailMsg" class="msg"></div>
+</div>
+
 <div id="press" aria-hidden="true">PRESS START</div>
 
 <div class="util">Not you? <a id="resetLink">reset intro</a></div>
@@ -119,7 +133,7 @@ let rpsResolved = false;
 const user = JSON.parse(localStorage.getItem('user')) || {
   lastSin: null,
   skipped: false,
-  allowedFeatures: ['landing', 'confess']
+  allowedFeatures: ['landing', 'confess', 'view_all_sins', 'view_redemption']
 };
 
 function saveUser() {
@@ -174,7 +188,34 @@ saveBtn.onclick = () => {
   localStorage.setItem(KEY, val);
   msg.textContent = '✓ Your sin has been recorded.';
   msg.style.display = 'block';
-  setTimeout(goToLanding, 1500);
+  
+  // Show email screen instead of going directly to home
+  setTimeout(() => {
+    card.style.display = 'none';
+    emailCard.style.display = 'block';
+  }, 1000);
+};
+
+// ===== EMAIL SUBMISSION =====
+emailBtn.onclick = () => {
+  const email = emailInput.value.trim();
+  if(!email){
+    emailMsg.textContent = 'Email required to enter.';
+    emailMsg.style.display = 'block';
+    return;
+  }
+  user.email = email;
+  saveUser();
+  emailMsg.textContent = '✓ Email saved. Welcome.';
+  emailMsg.style.display = 'block';
+  setTimeout(goToLanding, 1000);
+};
+
+// ===== SKIP EMAIL =====
+emailSkipBtn.onclick = () => {
+  user.email = null;
+  saveUser();
+  goToLanding();
 };
 
 // ===== SKIP SIN (Play Mini-Game) =====
