@@ -128,11 +128,20 @@
     localStorage.setItem('user', JSON.stringify(user));
   }
 
-  // Example: Hide the "All Sins" section if they skipped
-  if(user.skipped) {
-    document.getElementById('allSinsSection').classList.add('hidden');
-    document.getElementById('redemptionSection').classList.add('hidden');
-    document.body.innerHTML += '<div class="warning">⚠️ Because you skipped confession, certain areas are locked.</div>';
+  // Check if user has permission to view landing page
+  if(user.skipped && !user.lastSin) {
+    // They skipped confession - redirect back
+    window.location.href = 'index.html?access=denied';
+    throw new Error('Access denied - confession required');
+  }
+
+  // If they confessed, show greeting
+  if(user.lastSin && !user.skipped) {
+    const greet = document.getElementById('sin-greet');
+    if(greet) {
+      greet.style.display = 'block';
+      greet.textContent = `Welcome back, confessor. Your sin has been recorded: "${user.lastSin}"`;
+    }
   }
 
   </script>
