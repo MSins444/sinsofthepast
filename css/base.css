@@ -172,9 +172,9 @@ img { max-width:100%; display:block; }
 /* ===== MARQUEE FINAL POLISH ===== */
 
 .marquee{
-  margin: 22px 0;
+  margin: 60px 0;
   display: grid;
-  gap: 12px;
+  gap: 18px;
   overflow: hidden;
   text-align: center;
 }
@@ -206,7 +206,7 @@ img { max-width:100%; display:block; }
   font-weight: 600;
   letter-spacing: .08em;
   text-transform: uppercase;
-  font-size: clamp(12px, 1.6vw, 14px);
+  font-size:10px; 
 }
 
 /* optional subtle glow for depth */
