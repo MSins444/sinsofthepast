@@ -98,7 +98,7 @@ main{
 </style>
 </head>
 
-<body>
+<body class="page-shop">
 <main>
 
   <div class="header">
@@ -138,6 +138,40 @@ main{
   <div class="footer">
     NO RESTOCKS · NO RUSH · COMING SOON
   </div>
+
+  <!-- Insert shared header mount (same as home) -->
+  <div id="siteHeader"></div>
+
+  <!-- Add this script before </body> to load shared header and mark active nav -->
+  <script>
+  (async function(){
+    const mount = document.getElementById('siteHeader');
+    if (!mount) return;
+    try {
+      const res = await fetch('header.html', { cache: 'no-store' });
+      if (!res.ok) throw new Error('Header not found');
+      const html = await res.text();
+      const temp = document.createElement('div');
+      temp.innerHTML = html;
+      const header = temp.querySelector('header') || temp.querySelector('#siteHeader');
+      if (header) mount.replaceWith(header);
+      // mark active nav for shop
+      document.querySelectorAll('.nav a[data-nav]').forEach(a=>{
+        if (a.dataset.nav === 'shop') { a.classList.add('active'); a.setAttribute('aria-current','page'); }
+        else { a.classList.remove('active'); a.removeAttribute('aria-current'); }
+      });
+      // cart count updater
+      (function updateCartCount(){
+        const cart = JSON.parse(localStorage.getItem('stp_cart')||'[]');
+        const count = cart.reduce((s,i)=> s + (i.qty||1), 0);
+        const el = document.getElementById('cartCount');
+        if (el) el.textContent = count ? ` (${count})` : '';
+      })();
+    } catch (err) {
+      console.warn('Header fetch failed:', err);
+    }
+  })();
+  </script>
 
 </main>
 </body>
