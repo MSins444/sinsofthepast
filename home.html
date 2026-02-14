@@ -35,15 +35,24 @@ body{
 
 /* ===== HEADER ===== */
 #siteHeader{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  backdrop-filter:blur(10px);
-  background:rgba(0,0,0,.8);
-  border-bottom:1px solid var(--line);
+  backdrop-filter: blur(12px);
+  background: rgba(0,0,0,.82);
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  transition: background .4s ease, border-color .4s ease;
 }
 
+
 /* ===== HERO ===== */
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:-40px;
+  background: radial-gradient(circle, rgba(255,255,255,.04), transparent 60%);
+  opacity:.35;
+  pointer-events:none;
+}
+
+
 .hero{
   position:relative;
   margin:60px auto;
@@ -248,16 +257,15 @@ body{
 }
 
 .card{
-  border-radius:0;
-  overflow:hidden;
-  border:1px solid var(--line);
-  background:transparent;
-  transition:all .25s ease;
+  transition: transform .35s cubic-bezier(.2,.6,.2,1),
+              border-color .35s ease;
 }
 
 .card:hover{
-  border-color:rgba(255,255,255,.15);
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,.18);
 }
+
 
 .card .img{
   width:100%;
@@ -325,6 +333,19 @@ body{
   .btn{ width:100%; }
   .hero{ margin:40px auto; }
   .section{ padding:0 16px; }
+}
+
+.nav a{
+  opacity:.55;
+  transition: opacity .25s ease;
+}
+
+.nav a:hover{
+  opacity:1;
+}
+.nav a.active{
+  opacity:1;
+  color:#00e0c6;
 }
 </style>
 </head>
