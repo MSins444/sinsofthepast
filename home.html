@@ -216,21 +216,27 @@ body{
 
 /* ===== BANNER ===== */
 .banner{
-  margin:40px auto;
+  margin:60px auto 10px;
   width:min(100% - 48px, 1100px);
-  border-radius:2px;
+  border-radius:6px;
   overflow:hidden;
   border:1px solid var(--line);
+  box-shadow:0 30px 90px rgba(0,0,0,.7);
 }
 
 .banner img{
-  display:block;
   width:100%;
   height:auto;
-  aspect-ratio:16/6;
-  object-fit:cover;
-  background:#0a0a0a;
+  display:block;
+  opacity:.92;
+  transition:transform 6s ease, opacity .6s ease;
 }
+
+.banner:hover img{
+  transform:scale(1.04);
+  opacity:1;
+}
+
 
 /* ===== SECTION ===== */
 .section{
