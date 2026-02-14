@@ -7,7 +7,6 @@
 <title>Sins of the Past — Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%23ff5a5a'>†</text></svg>">
- <link rel="stylesheet" href="css/base.css?v=1">
 <style>
 :root{
   --bg: #000;
@@ -36,24 +35,15 @@ body{
 
 /* ===== HEADER ===== */
 #siteHeader{
-  backdrop-filter: blur(12px);
-  background: rgba(0,0,0,.82);
-  border-bottom: 1px solid rgba(255,255,255,.05);
-  transition: background .4s ease, border-color .4s ease;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  backdrop-filter:blur(10px);
+  background:rgba(0,0,0,.8);
+  border-bottom:1px solid var(--line);
 }
-
 
 /* ===== HERO ===== */
-.hero::before{
-  content:"";
-  position:absolute;
-  inset:-40px;
-  background: radial-gradient(circle, rgba(255,255,255,.04), transparent 60%);
-  opacity:.35;
-  pointer-events:none;
-}
-
-
 .hero{
   position:relative;
   margin:60px auto;
@@ -87,7 +77,7 @@ body{
 .lead{
   margin:0 auto 28px;
   max-width:64ch;
-  color:#ffd166; /* golden accent that pops */
+  color:#ffd166;
   font-size:13px;
   letter-spacing:.02em;
   line-height:1.8;
@@ -190,24 +180,26 @@ body{
   overflow:hidden;
   border-top:1px solid var(--line);
   border-bottom:1px solid var(--line);
-  padding:10px 0;
-  margin:40px 0;
+  background:rgba(0,0,0,.4);
+  padding:24px 0;
+  margin:60px 0;
 }
 
 .marquee .track{
   display:flex;
-  animation:scroll 24s linear infinite;
+  animation:scroll 28s linear infinite;
   white-space:nowrap;
 }
 
 .marquee span{
-  font-size:9px;
-  letter-spacing:.1em;
-  color:#ffd166; /* match .lead accent */
-  opacity:.9;
-  padding:0 24px;
+  font-size:16px;
+  letter-spacing:.15em;
+  color:#ffd166;
+  opacity:.8;
+  padding:0 40px;
   text-transform:uppercase;
-  text-shadow:0 4px 12px rgba(255,209,102,0.12);
+  text-shadow:0 4px 16px rgba(255,209,102,0.2);
+  font-weight:600;
 }
 
 @keyframes scroll{
@@ -216,28 +208,30 @@ body{
 }
 
 /* ===== BANNER ===== */
-
 .banner{
-  margin: 40px auto 90px;
-  width: min(92%, 1400px);   /* wider cinematic presence */
-  position: relative;
+  margin:40px auto;
+  width:min(100% - 48px, 1100px);
+  border-radius:8px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow2);
+  background:#0a0a0a;
 }
 
 .banner img{
-  width: 100%;
-  height: auto;
-
-  display: block;
-  border-radius: 10px;
-
-  box-shadow: 0 40px 140px rgba(0,0,0,.75);
-  border: 1px solid rgba(255,255,255,.06);
-
-  object-fit: contain;        /* IMPORTANT */
+  display:block;
+  width:100%;
+  height:auto;
+  aspect-ratio:16/6;
+  object-fit:cover;
+  background:#0a0a0a;
+  transition:transform .3s ease, filter .3s ease;
 }
 
-
-
+.banner:hover img{
+  transform:scale(1.02);
+  filter:brightness(1.08);
+}
 
 /* ===== SECTION ===== */
 .section{
@@ -264,15 +258,16 @@ body{
 }
 
 .card{
-  transition: transform .35s cubic-bezier(.2,.6,.2,1),
-              border-color .35s ease;
+  border-radius:0;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:transparent;
+  transition:all .25s ease;
 }
 
 .card:hover{
-  transform: translateY(-4px);
-  border-color: rgba(255,255,255,.18);
+  border-color:rgba(255,255,255,.15);
 }
-
 
 .card .img{
   width:100%;
@@ -378,7 +373,6 @@ body{
         <a href="shop.html" class="btn primary">Enter the Shop</a>
         <a href="about.html" class="btn">Read the Lore</a>
         <a href="arcade.html" class="btn ghost">Play for Passage</a>
-        <a href="cart.html" class="btn ghost">View the Cart</a>
       </div>
 
       <div class="hero-notes">
@@ -394,11 +388,10 @@ body{
     <div class="track"><span>★ LIMITED RUN ★ HANDMADE ★ SMALL BATCH ★ NO RESTOCKS ★</span><span>★ LIMITED RUN ★ HANDMADE ★ SMALL BATCH ★ NO RESTOCKS ★</span></div>
   </div>
 
- <!-- BANNER -->
-<section class="banner">
- <img src="assets/aw25.png" alt="AW25 campaign">
-
-</section>
+  <!-- BANNER -->
+  <section class="banner">
+    <img src="assets/campaign-aw25.jpg" alt="AW25 campaign" onerror="this.style.display='none'">
+  </section>
 
   <!-- FEATURED -->
   <section class="section">
@@ -431,33 +424,38 @@ body{
     try {
       const res = await fetch('header.html', { cache: 'no-store' });
       if (!res.ok) throw new Error('Header not found');
-      const html = await res.text();
-      mount.innerHTML = html;
+      const tmp = document.createElement('div');
+      tmp.innerHTML = await res.text();
+      const header = tmp.querySelector('header') || tmp.querySelector('#siteHeader') || tmp.firstElementChild;
+      if (!header) return;
+      mount.replaceWith(header);
+      header.id = 'siteHeader';
+      header.style.position = header.style.position || 'sticky';
+      header.style.top = header.style.top || '0';
+      header.style.zIndex = header.style.zIndex || '1000';
 
-      const body = document.body;
-      const map = {
-        'page-home':{ label:'Home', nav:'home' },
-        'page-shop':{ label:'Shop', nav:'shop' },
-        'page-about':{ label:'Lore', nav:'lore' },
-        'page-arcade':{ label:'Arcade', nav:'arcade' }
-      };
-      const key = Object.keys(map).find(c => body.classList.contains(c));
-      const cfg = map[key] || { label:'', nav:'' };
-
-      const pageLabel = document.getElementById('pageLabel');
-      if (pageLabel) pageLabel.textContent = cfg.label?.toUpperCase() || '';
-
-      document.querySelectorAll('.nav a[data-nav]').forEach(a => {
-        if (a.dataset.nav === cfg.nav) {
-          a.classList.add('active');
-          a.setAttribute('aria-current', 'page');
-        } else {
-          a.classList.remove('active');
+      requestAnimationFrame(()=>{
+        const rect = header.getBoundingClientRect();
+        if (rect.top > 1) {
+          const h = header.offsetHeight || 64;
+          header.style.position = 'fixed';
+          header.style.left = '0';
+          header.style.right = '0';
+          header.style.top = '0';
+          document.body.style.paddingTop = h + 'px';
+          header.classList.add('fixed-header');
         }
+        document.querySelectorAll('.nav a[data-nav]').forEach(a=>{
+          if (a.dataset.nav === 'home') {
+            a.classList.add('active');
+            a.setAttribute('aria-current','page');
+          } else {
+            a.classList.remove('active');
+            a.removeAttribute('aria-current');
+          }
+        });
       });
-    } catch (err) {
-      console.warn('Header fetch failed');
-    }
+    } catch (err) { console.warn('Header load failed', err); }
   })();
 
   let user = JSON.parse(localStorage.getItem('user')) || { 
