@@ -95,6 +95,10 @@ main{
   color:var(--mute);
   letter-spacing:.06em;
 }
+
+/* ensure sticky/fixed header works on this page */
+#siteHeader{ position:sticky; top:0; z-index:1000; }
+.fixed-header{ box-shadow:0 8px 30px rgba(0,0,0,.45); }
 </style>
 </head>
 
@@ -142,34 +146,50 @@ main{
   <!-- Insert shared header mount (same as home) -->
   <div id="siteHeader"></div>
 
-  <!-- Add this script before </body> to load shared header and mark active nav -->
+  <!-- Add this script right before the closing </body> -->
   <script>
   (async function(){
     const mount = document.getElementById('siteHeader');
     if (!mount) return;
     try {
-      const res = await fetch('header.html', { cache: 'no-store' });
-      if (!res.ok) throw new Error('Header not found');
-      const html = await res.text();
-      const temp = document.createElement('div');
-      temp.innerHTML = html;
-      const header = temp.querySelector('header') || temp.querySelector('#siteHeader');
-      if (header) mount.replaceWith(header);
-      // mark active nav for shop
-      document.querySelectorAll('.nav a[data-nav]').forEach(a=>{
-        if (a.dataset.nav === 'shop') { a.classList.add('active'); a.setAttribute('aria-current','page'); }
-        else { a.classList.remove('active'); a.removeAttribute('aria-current'); }
+      const res = await fetch('header.html',{cache:'no-store'});
+      if (!res.ok) return;
+      const tmp = document.createElement('div');
+      tmp.innerHTML = await res.text();
+      const header = tmp.querySelector('header') || tmp.querySelector('#siteHeader') || tmp.firstElementChild;
+      if (!header) return;
+      header.id = 'siteHeader';
+      // ensure header is first child so sticky works
+      document.body.insertBefore(header, document.body.firstChild);
+      // strong defaults
+      header.style.position = header.style.position || 'sticky';
+      header.style.top = header.style.top || '0';
+      header.style.zIndex = header.style.zIndex || '1000';
+
+      // allow layout to settle, then verify sticky; fallback to fixed if needed
+      requestAnimationFrame(()=>{
+        const rect = header.getBoundingClientRect();
+        if (rect.top > 1) {
+          const h = header.offsetHeight || 64;
+          header.style.position = 'fixed';
+          header.style.left = '0';
+          header.style.right = '0';
+          header.style.top = '0';
+          document.body.style.paddingTop = h + 'px';
+          header.classList.add('fixed-header');
+        }
+        // mark active nav for shop
+        document.querySelectorAll('.nav a[data-nav]').forEach(a=>{
+          if (a.dataset.nav === 'shop') {
+            a.classList.add('active');
+            a.setAttribute('aria-current','page');
+          } else {
+            a.classList.remove('active');
+            a.removeAttribute('aria-current');
+          }
+        });
       });
-      // cart count updater
-      (function updateCartCount(){
-        const cart = JSON.parse(localStorage.getItem('stp_cart')||'[]');
-        const count = cart.reduce((s,i)=> s + (i.qty||1), 0);
-        const el = document.getElementById('cartCount');
-        if (el) el.textContent = count ? ` (${count})` : '';
-      })();
-    } catch (err) {
-      console.warn('Header fetch failed:', err);
-    }
+    } catch (err) { console.warn('Header load failed', err); }
   })();
   </script>
 
