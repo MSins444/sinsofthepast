@@ -51,7 +51,8 @@
 }
 
     /* Lore page polish */
-    .hero{ min-height:54vh; }
+   .hero{ padding:140px 24px 90px;}
+
     .hero .inner{ max-width: 900px; }
 
     .kicker{
@@ -67,8 +68,9 @@
       margin: 10px auto 0;
       font-size: clamp(15px, 2.1vw, 18px);
       line-height: 1.6;
-      color: var(--mute);
-    }
+  color: rgba(255,255,255,.62);
+}
+
 
     .lore{
       max-width: 980px;
@@ -92,6 +94,14 @@
 
     .pull b{ letter-spacing:.08em; text-transform:uppercase; font-size:12px; opacity:.8; }
     .pull p{ margin: 10px 0 0; }
+.pull{
+  background:
+    linear-gradient(135deg,
+      rgba(255,255,255,.03),
+      rgba(0,0,0,.35)
+    );
+}
+
 
     .acts{
       display:grid;
@@ -118,10 +128,18 @@
       border:1px solid var(--line);
       border-radius:18px;
       padding:16px;
-      background: rgba(255,255,255,.015);
+      background: rgba(255,255,255,.015); 
+      .sigil p{
+  opacity:.68;
+}
+
     }
-    .sigil h3{ margin:0 0 6px; }
-    .sigil p{ margin:0; color:var(--mute); line-height:1.6; }
+   .sigil h3{
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-size:13px;
+}
+
 
     .fineprint{
       max-width: 980px;
