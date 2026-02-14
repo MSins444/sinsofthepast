@@ -396,21 +396,38 @@ body{
   if (y) y.textContent = new Date().getFullYear();
 
   (async function(){
+    const mount = document.getElementById('siteHeader');
+    if (!mount) return;
     try {
       const res = await fetch('header.html', { cache: 'no-store' });
-      if (!res.ok) return;
-      const temp = document.createElement('div');
-      temp.innerHTML = await res.text();
-      const header = temp.querySelector('header') || temp.querySelector('#siteHeader') || temp.firstElementChild;
-      if (!header) return;
-      header.id = 'siteHeader';
-      // ensure it's first child so sticky works
-      document.body.insertBefore(header, document.body.firstChild);
-      // ensure CSS fallback
-      header.style.position = header.style.position || 'sticky';
-      header.style.top = header.style.top || '0';
-      header.style.zIndex = header.style.zIndex || '1000';
-    } catch (e) { console.warn(e); }
+      if (!res.ok) throw new Error('Header not found');
+      const html = await res.text();
+      mount.innerHTML = html;
+
+      const body = document.body;
+      const map = {
+        'page-home':{ label:'Home', nav:'home' },
+        'page-shop':{ label:'Shop', nav:'shop' },
+        'page-about':{ label:'Lore', nav:'lore' },
+        'page-arcade':{ label:'Arcade', nav:'arcade' }
+      };
+      const key = Object.keys(map).find(c => body.classList.contains(c));
+      const cfg = map[key] || { label:'', nav:'' };
+
+      const pageLabel = document.getElementById('pageLabel');
+      if (pageLabel) pageLabel.textContent = cfg.label?.toUpperCase() || '';
+
+      document.querySelectorAll('.nav a[data-nav]').forEach(a => {
+        if (a.dataset.nav === cfg.nav) {
+          a.classList.add('active');
+          a.setAttribute('aria-current', 'page');
+        } else {
+          a.classList.remove('active');
+        }
+      });
+    } catch (err) {
+      console.warn('Header fetch failed');
+    }
   })();
 
   let user = JSON.parse(localStorage.getItem('user')) || { 
