@@ -216,8 +216,8 @@ body{
 
 /* ===== BANNER ===== */
 .banner{
-  margin:60px auto 10px;
-  width:min(100% - 48px, 1100px);
+  margin:20px auto 70px;
+width:min(100% - 48px, 1100px);
   border-radius:6px;
   overflow:hidden;
   border:1px solid var(--line);
@@ -235,6 +235,15 @@ body{
 .banner:hover img{
   transform:scale(1.04);
   opacity:1;
+}
+
+.banner img{
+  animation: slowDrift 18s ease-in-out infinite alternate;
+}
+
+@keyframes slowDrift{
+  from{ transform:scale(1); }
+  to{ transform:scale(1.06); }
 }
 
 
