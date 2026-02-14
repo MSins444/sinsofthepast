@@ -215,47 +215,26 @@ body{
 }
 
 /* ===== BANNER ===== */
+
 .banner{
-  margin:20px auto 70px;
-  width:min(100% - 48px, 1100px);
-  border-radius:6px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  box-shadow:0 30px 90px rgba(0,0,0,.7);
-
-  /* THIS is the key fix */
-  aspect-ratio: 3 / 2;
-
-  background:#000;
-  position:relative;
+  margin: 40px auto 90px;
+  width: min(92%, 1400px);   /* wider cinematic presence */
+  position: relative;
 }
 
 .banner img{
-  width:100%;
-  height:100%;
-  object-fit:contain;   /* IMPORTANT */
-  background:#000;
+  width: 100%;
+  height: auto;
+
+  display: block;
+  border-radius: 10px;
+
+  box-shadow: 0 40px 140px rgba(0,0,0,.75);
+  border: 1px solid rgba(255,255,255,.06);
+
+  object-fit: contain;        /* IMPORTANT */
 }
 
-
-.banner::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 30% 40%,
-      rgba(255,255,255,.05),
-      transparent 45%);
-  mix-blend-mode:screen;
-  opacity:.35;
-  animation: luxurySheen 14s ease-in-out infinite alternate;
-  pointer-events:none;
-}
-
-@keyframes luxurySheen{
-  from{ transform:translateX(-6%); }
-  to{ transform:translateX(6%); }
-}
 
 
 
