@@ -47,6 +47,18 @@
   object-fit:cover;
 }
 
+.video-wrapper::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at center,
+      transparent 55%,
+      rgba(0,0,0,.38)
+    );
+  pointer-events:none;
+}
+
 
 .lore-caption {
   margin-top: 20px;
