@@ -141,30 +141,36 @@ img { max-width:100%; display:block; }
 .card .meta { padding:14px; }
 .price { font-weight:800; }
 
-/* MARQUEE (3-line stacked, stable loop) */
+/* ===== MARQUEE ===== */
 .marquee{
-  margin: 22px 0;
-  display: grid;
-  gap: 10px;
-  overflow: hidden;
+  width:100%;
+  overflow:hidden;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:10px 0;
+  margin:40px 0;
 }
 
 .marquee .track{
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-  gap: 28px;
-  will-change: transform;
-  animation: stp-marquee 20s linear infinite;
+  display:flex;
+  animation:scroll 24s linear infinite;
+  white-space:nowrap;
 }
 
-.marquee .track:nth-child(2){ animation-duration: 24s; }
-.marquee .track:nth-child(3){ animation-duration: 28s; }
+.marquee span{
+  font-size:9px;
+  letter-spacing:.1em;
+  color:#ffd166; /* match .lead accent */
+  opacity:.9;
+  padding:0 24px;
+  text-transform:uppercase;
+  text-shadow:0 4px 12px rgba(255,209,102,0.12);
+}
 
-.marquee .track span{
-  display: inline-flex;
-  gap: 28px;
-  padding-right: 28px;
+@keyframes scroll{
+  0%{ transform:translateX(0); }
+  100%{ transform:translateX(-100%); }
+
 }
 
 /* ===== MARQUEE FINAL POLISH ===== */
