@@ -209,24 +209,18 @@ body{
 
 /* ===== BANNER ===== */
 .banner{
-  margin:40px auto;
+  margin:60px auto;
   width:min(100% - 48px, 1100px);
-  border-radius:8px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  box-shadow:var(--shadow2);
-  background:#0a0a0a;
 }
 
 .banner img{
   display:block;
   width:100%;
   height:auto;
-  aspect-ratio:16/6;
-  object-fit:cover;
-  background:#0a0a0a;
-  transition:transform .3s ease, filter .3s ease;
+  filter:contrast(1.05) brightness(.98);
 }
+
+
 
 .banner:hover img{
   transform:scale(1.02);
