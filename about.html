@@ -396,8 +396,9 @@ body::before{
     const cursor = document.querySelector('.cursor');
     document.addEventListener('mousemove', e => {
       if (!cursor) return;
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top  = e.clientY + 'px';
+      cursor.style.display = 'block';
+      cursor.style.left = (e.clientX - 4) + 'px';
+      cursor.style.top = (e.clientY - 4) + 'px';
     });
 
     // Footer year
