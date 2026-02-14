@@ -23,21 +23,21 @@ html,body{
   margin:0;
   background:var(--bg);
   color:var(--ink);
-  font-family:Inter,system-ui;
+  font-family:'Press Start 2P', monospace; 
+  overflow-x:hidden;
 }
 
 main{
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  padding:56px 22px;
+  padding:0 24px;
 }
 
+
 .header{
+  margin:60px auto 52px;   
+  max-width:780px;          
   text-align:center;
-  margin-bottom:52px;
 }
+
 
 .header h1{
   margin:0 0 14px;
@@ -53,12 +53,13 @@ main{
 }
 
 .grid{
-  max-width:960px;
+  max-width:1100px;  
   margin:0 auto;
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:28px;
+  gap:24px;           
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
 }
+
 
 .card{
   border:1px solid var(--line);
