@@ -222,46 +222,39 @@ body{
   overflow:hidden;
   border:1px solid var(--line);
   box-shadow:0 30px 90px rgba(0,0,0,.7);
+
+  /* THIS is the key fix */
+  aspect-ratio: 3 / 2;
+
   background:#000;
   position:relative;
-}
-
-/* Remove scaling animation */
-.banner img{
-  width:100%;
-  height:auto;
-  display:block;
-  opacity:.92;
-}
-
-/* Add subtle luxury light movement instead */
-.banner::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 20% 50%,
-      rgba(255,255,255,.06),
-      transparent 40%);
-  opacity:.35;
-  mix-blend-mode:screen;
-  animation: luxurySheen 12s ease-in-out infinite alternate;
-  pointer-events:none;
-}
-
-@keyframes luxurySheen{
-  from{ transform:translateX(-10%); }
-  to{ transform:translateX(10%); }
-}
-
-.banner{
-  aspect-ratio: 3 / 1.4;
 }
 
 .banner img{
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit:contain;   /* IMPORTANT */
+  background:#000;
+}
+
+
+.banner::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 30% 40%,
+      rgba(255,255,255,.05),
+      transparent 45%);
+  mix-blend-mode:screen;
+  opacity:.35;
+  animation: luxurySheen 14s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+
+@keyframes luxurySheen{
+  from{ transform:translateX(-6%); }
+  to{ transform:translateX(6%); }
 }
 
 
