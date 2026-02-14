@@ -77,11 +77,17 @@ body{
 .lead{
   margin:0 auto 28px;
   max-width:64ch;
-  color:var(--mute);
+  color:#ffd166; /* golden accent that pops */
   font-size:13px;
   letter-spacing:.02em;
   line-height:1.8;
   font-weight:400;
+  text-shadow:0 6px 20px rgba(255,209,102,0.12);
+  transition:color .15s ease, transform .12s ease;
+}
+.lead:hover{
+  color:#fff4d9;
+  transform:translateY(-2px);
 }
 
 #sin-greet{
