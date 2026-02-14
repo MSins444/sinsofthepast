@@ -390,7 +390,7 @@ body{
 
   <!-- BANNER -->
   <section class="banner">
-    <img src="assets/campaign-aw25.jpg" alt="AW25 campaign" onerror="this.style.display='none'">
+    <img src="assets/aw25.png" alt="AW25 campaign" onerror="this.style.display='none'">
   </section>
 
   <!-- FEATURED -->
@@ -424,11 +424,7 @@ body{
     try {
       const res = await fetch('header.html', { cache: 'no-store' });
       if (!res.ok) throw new Error('Header not found');
-      const tmp = document.createElement('div');
-      tmp.innerHTML = await res.text();
-      const header = tmp.querySelector('header') || tmp.querySelector('#siteHeader') || tmp.firstElementChild;
-      if (!header) return;
-      mount.replaceWith(header);
+     mount.innerHTML = await res.text();
       header.id = 'siteHeader';
       header.style.position = header.style.position || 'sticky';
       header.style.top = header.style.top || '0';
