@@ -108,6 +108,7 @@ input, textarea, [contenteditable="true"] { cursor: text !important; }
 const KEY='stp_sin';
 const params = new URLSearchParams(location.search);
 const forceReset = params.get('reset')==='1';
+const accessDenied = params.get('access') === 'denied';
 
 const card  = document.getElementById('sinCard');
 const game  = document.getElementById('rpsGame');
@@ -142,6 +143,10 @@ function saveUser() {
 
 function goToLanding() {
   window.location.href = 'home.html';
+}
+
+if (!forceReset && !accessDenied) {
+  window.location.replace('./home.html');
 }
 
 // Show/Hide helpers
