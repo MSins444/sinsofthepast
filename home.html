@@ -421,6 +421,13 @@ body{
       if (!res.ok) throw new Error('Header not found');
       const tmp = document.createElement('div');
       tmp.innerHTML = await res.text();
+      const sharedStyle = tmp.querySelector('style');
+      if (sharedStyle && !document.head.querySelector('[data-stp-header-style]')) {
+        const style = document.createElement('style');
+        style.setAttribute('data-stp-header-style', '1');
+        style.textContent = sharedStyle.textContent;
+        document.head.appendChild(style);
+      }
       const header = tmp.querySelector('header') || tmp.querySelector('#siteHeader') || tmp.firstElementChild;
       if (!header) throw new Error('Header markup missing');
       mount.replaceWith(header);
