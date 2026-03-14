@@ -400,6 +400,7 @@ body{
 
   <div class="cursor"></div>
 
+  <script src="app.js"></script>
   <script>
   const cursor = document.querySelector('.cursor');
   document.addEventListener('mousemove', e => {
@@ -418,7 +419,11 @@ body{
     try {
       const res = await fetch('header.html', { cache: 'no-store' });
       if (!res.ok) throw new Error('Header not found');
-     mount.innerHTML = await res.text();
+      const tmp = document.createElement('div');
+      tmp.innerHTML = await res.text();
+      const header = tmp.querySelector('header') || tmp.querySelector('#siteHeader') || tmp.firstElementChild;
+      if (!header) throw new Error('Header markup missing');
+      mount.replaceWith(header);
       header.id = 'siteHeader';
       header.style.position = header.style.position || 'sticky';
       header.style.top = header.style.top || '0';
@@ -444,6 +449,7 @@ body{
             a.removeAttribute('aria-current');
           }
         });
+        window.dispatchEvent(new Event('stp:header:ready'));
       });
     } catch (err) { console.warn('Header load failed', err); }
   })();

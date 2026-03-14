@@ -196,6 +196,7 @@ main{
           a.removeAttribute('aria-current');
         }
       });
+      window.dispatchEvent(new Event('stp:header:ready'));
     });
   } catch (err) { console.warn('Header load failed', err); }
 })();
