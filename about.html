@@ -211,6 +211,221 @@ body::before{
 
 
   </style>
+  <style>
+    body.page-about{
+      background:
+        radial-gradient(900px 500px at 50% -120px, rgba(255,255,255,.05), transparent 60%),
+        radial-gradient(700px 420px at 18% 24%, rgba(0,224,198,.05), transparent 60%),
+        radial-gradient(700px 420px at 82% 48%, rgba(255,64,129,.045), transparent 60%),
+        var(--bg);
+      color:var(--ink);
+    }
+
+    body.page-about::before{
+      z-index:0;
+    }
+
+    .hero{
+      position:relative;
+      z-index:1;
+      max-width:1280px;
+      margin:0 auto;
+      padding:120px 24px 42px;
+    }
+
+    .hero .inner{
+      position:relative;
+      max-width:980px;
+      margin:0 auto;
+      padding:clamp(30px, 4vw, 48px);
+      text-align:center;
+      border:1px solid var(--line);
+      border-radius:22px;
+      overflow:hidden;
+      isolation:isolate;
+      background:
+        linear-gradient(180deg, rgba(8,9,12,.32), rgba(8,9,12,.88)),
+        url("assets/Sinsbg.jpg") center/cover no-repeat;
+      box-shadow:0 18px 60px rgba(0,0,0,.35);
+    }
+
+    .hero .inner::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(500px 240px at 50% 20%, rgba(255,255,255,.06), transparent 65%),
+        linear-gradient(90deg, rgba(255,255,255,.03), transparent 35%, rgba(255,255,255,.02));
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .hero .inner > *{
+      position:relative;
+      z-index:1;
+    }
+
+    .kicker{
+      margin:0 0 10px;
+      color:var(--ink-bright);
+      opacity:.72;
+      text-shadow:0 1px 10px rgba(0,0,0,.45);
+    }
+
+    .hero h1{
+      margin:0;
+      font-size:clamp(34px, 5.4vw, 64px);
+      line-height:1.02;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color:var(--ink-bright);
+      text-shadow:0 3px 20px rgba(0,0,0,.5);
+    }
+
+    .lead{
+      margin:14px auto 0;
+      color:var(--mute);
+      text-shadow:0 2px 12px rgba(0,0,0,.38);
+    }
+
+    .section{
+      z-index:1;
+      max-width:1280px;
+      margin:0 auto;
+      padding:0 24px 48px;
+    }
+
+    .lore{
+      position:relative;
+      max-width:1040px;
+      padding:clamp(24px, 3vw, 34px);
+      border:1px solid var(--line);
+      border-radius:24px;
+      background:rgba(12,13,18,.46);
+      backdrop-filter:blur(10px);
+      box-shadow:0 18px 60px rgba(0,0,0,.24);
+    }
+
+    .lore > * + h2{
+      margin-top:34px;
+    }
+
+    .lore h2{
+      margin-bottom:12px;
+      font-size:clamp(22px, 3vw, 34px);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--ink-bright);
+    }
+
+    .lore p{
+      margin:0;
+      line-height:1.8;
+    }
+
+    .pull,
+    .act,
+    .sigil,
+    .lore-film{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.03), rgba(0,0,0,.28));
+      box-shadow:0 10px 30px rgba(0,0,0,.18);
+    }
+
+    .pull{
+      margin:18px auto 0;
+      padding:20px;
+      max-width:860px;
+    }
+
+    .pull b{
+      display:block;
+      color:var(--ink-bright);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:11px;
+      opacity:.86;
+    }
+
+    .pull p{
+      margin-top:10px;
+    }
+
+    .sigils{
+      margin-top:18px;
+      gap:14px;
+    }
+
+    .sigil{
+      padding:18px;
+      background:rgba(12,13,18,.52);
+    }
+
+    .sigil h3,
+    .act h3{
+      margin:0 0 8px;
+      color:var(--ink-bright);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:13px;
+    }
+
+    .sigil p{
+      color:var(--mute);
+      opacity:.92;
+    }
+
+    .acts{
+      margin-top:18px;
+      gap:14px;
+    }
+
+    .act{
+      padding:20px;
+      background:rgba(12,13,18,.58);
+    }
+
+    .lore-film{
+      margin:24px auto 0;
+      max-width:1000px;
+      padding:22px;
+      text-align:center;
+      background:rgba(12,13,18,.52);
+    }
+
+    .video-wrapper{
+      box-shadow:0 30px 90px rgba(0,0,0,.55);
+    }
+
+    .lore-caption{
+      margin-top:16px;
+      color:var(--mute);
+      font-style:italic;
+    }
+
+    .card{
+      background:rgba(12,13,18,.55);
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow:0 10px 30px rgba(0,0,0,.22);
+    }
+
+    .card .img{
+      border:1px solid var(--line);
+    }
+
+    .fineprint,
+    .muted{
+      color:var(--mute);
+      opacity:.92;
+    }
+
+    @media (max-width:720px){
+      .hero{ padding-top:104px; }
+      .lore{ padding:22px 18px; }
+    }
+  </style>
 </head>
 
 <body class="page-about">
