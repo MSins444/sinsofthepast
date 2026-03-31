@@ -3,13 +3,349 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Care & Craftsmanship — Sins of the Past</title>
+  <title>Care & Craftsmanship - Sins of the Past</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  <link rel="stylesheet" href="css/base.css?v=1">
+  <style>
+    body.page-care{
+      background:
+        radial-gradient(900px 500px at 50% -120px, rgba(255,255,255,.05), transparent 60%),
+        radial-gradient(700px 420px at 18% 24%, rgba(0,224,198,.05), transparent 60%),
+        radial-gradient(700px 420px at 82% 48%, rgba(255,64,129,.045), transparent 60%),
+        var(--bg);
+      color:var(--ink);
+    }
 
-<!-- Apply saved theme -->
+    body.page-care::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background-image:url("assets/grain.png");
+      opacity:.035;
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .page-shell{
+      position:relative;
+      z-index:1;
+    }
+
+    .hero{
+      min-height:auto;
+      max-width:1280px;
+      margin:0 auto;
+      padding:120px 24px 34px;
+      background:none;
+    }
+
+    .hero .inner{
+      position:relative;
+      max-width:980px;
+      margin:0 auto;
+      padding:clamp(30px, 4vw, 48px);
+      text-align:center;
+      border:1px solid var(--line);
+      border-radius:22px;
+      overflow:hidden;
+      isolation:isolate;
+      background:
+        linear-gradient(180deg, rgba(8,9,12,.32), rgba(8,9,12,.88)),
+        url("assets/Sinsbg.jpg") center/cover no-repeat;
+      box-shadow:0 18px 60px rgba(0,0,0,.35);
+    }
+
+    .hero .inner::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(500px 240px at 50% 20%, rgba(255,255,255,.06), transparent 65%),
+        linear-gradient(90deg, rgba(255,255,255,.03), transparent 35%, rgba(255,255,255,.02));
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .hero .inner > *{
+      position:relative;
+      z-index:1;
+    }
+
+    .kicker{
+      margin:0 0 10px;
+      font-size:11px;
+      letter-spacing:.34em;
+      text-transform:uppercase;
+      color:var(--ink-bright);
+      opacity:.72;
+      text-shadow:0 1px 10px rgba(0,0,0,.45);
+    }
+
+    .hero h1{
+      margin:0;
+      font-size:clamp(34px, 5.4vw, 64px);
+      line-height:1.02;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      color:var(--ink-bright);
+      text-shadow:0 3px 20px rgba(0,0,0,.5);
+    }
+
+    .lead{
+      max-width:62ch;
+      margin:14px auto 0;
+      font-size:clamp(15px, 2vw, 18px);
+      line-height:1.65;
+      color:var(--mute);
+      text-shadow:0 2px 12px rgba(0,0,0,.38);
+    }
+
+    .intro-band{
+      max-width:1040px;
+      margin:0 auto;
+      padding:0 24px;
+    }
+
+    .intro-card{
+      border:1px solid var(--line);
+      border-radius:24px;
+      background:rgba(12,13,18,.46);
+      backdrop-filter:blur(10px);
+      box-shadow:0 18px 60px rgba(0,0,0,.24);
+      padding:24px;
+    }
+
+    .intro-grid{
+      display:grid;
+      grid-template-columns:1.3fr .7fr;
+      gap:18px;
+      align-items:start;
+    }
+
+    .intro-card h2{
+      margin:0 0 10px;
+      font-size:clamp(22px, 3vw, 32px);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--ink-bright);
+    }
+
+    .material-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-content:flex-start;
+      justify-content:flex-end;
+    }
+
+    .tag{
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:11px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--ink-bright);
+      background:rgba(12,13,18,.55);
+    }
+
+    .care-sections{
+      max-width:1040px;
+      margin:22px auto 0;
+      padding:0 24px 48px;
+      display:grid;
+      gap:18px;
+    }
+
+    .care-card,
+    .promise-card{
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.03), rgba(0,0,0,.28));
+      box-shadow:0 10px 30px rgba(0,0,0,.18);
+      overflow:hidden;
+    }
+
+    .care-card{
+      display:grid;
+      grid-template-columns:220px 1fr;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.02), transparent 28%),
+        linear-gradient(135deg, rgba(255,255,255,.03), rgba(0,0,0,.28));
+    }
+
+    .care-label{
+      padding:26px 22px;
+      border-right:1px solid var(--line);
+      background:rgba(12,13,18,.5);
+    }
+
+    .care-label .index{
+      display:block;
+      margin-bottom:10px;
+      font-size:11px;
+      letter-spacing:.24em;
+      text-transform:uppercase;
+      color:var(--mute);
+    }
+
+    .care-label h2{
+      margin:0;
+      font-size:clamp(18px, 2.5vw, 28px);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--ink-bright);
+    }
+
+    .care-body{
+      padding:24px 24px 22px;
+    }
+
+    .care-body p{
+      margin:0 0 14px;
+      line-height:1.75;
+      color:var(--mute);
+      max-width:70ch;
+    }
+
+    .care-list{
+      margin:0;
+      padding-left:18px;
+      color:var(--mute);
+      line-height:1.8;
+    }
+
+    .care-list li + li{
+      margin-top:8px;
+    }
+
+    .care-list b{
+      color:var(--ink-bright);
+    }
+
+    .promise-card{
+      padding:24px;
+      text-align:center;
+      background:rgba(12,13,18,.52);
+    }
+
+    .booklet-card{
+      display:grid;
+      grid-template-columns:.9fr 1.1fr;
+      gap:0;
+    }
+
+    .booklet-side{
+      padding:24px;
+      border-right:1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(12,13,18,.78));
+    }
+
+    .booklet-side .index{
+      display:block;
+      margin-bottom:10px;
+      font-size:11px;
+      letter-spacing:.24em;
+      text-transform:uppercase;
+      color:var(--mute);
+    }
+
+    .booklet-side h2{
+      margin:0 0 10px;
+      font-size:clamp(22px, 3vw, 32px);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--ink-bright);
+    }
+
+    .booklet-side p,
+    .booklet-body p{
+      color:var(--mute);
+      line-height:1.8;
+    }
+
+    .booklet-body{
+      padding:24px;
+    }
+
+    .booklet-note{
+      margin-top:14px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px 16px;
+      background:rgba(12,13,18,.55);
+      color:var(--ink-bright);
+      font-size:13px;
+      letter-spacing:.04em;
+    }
+
+    .promise-card h2{
+      margin:0 0 10px;
+      font-size:clamp(22px, 3vw, 32px);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--ink-bright);
+    }
+
+    .promise-card p{
+      max-width:70ch;
+      margin:0 auto 12px;
+      color:var(--mute);
+      line-height:1.8;
+    }
+
+    .promise-card a{
+      color:var(--ink-bright);
+      text-decoration:underline;
+      text-decoration-color:rgba(217,220,226,.35);
+    }
+
+    .footer{
+      position:relative;
+      z-index:1;
+      background:transparent;
+    }
+
+    @media (max-width: 860px){
+      .intro-grid,
+      .care-card,
+      .booklet-card{
+        grid-template-columns:1fr;
+      }
+
+      .care-label{
+        border-right:none;
+        border-bottom:1px solid var(--line);
+      }
+
+      .booklet-side{
+        border-right:none;
+        border-bottom:1px solid var(--line);
+      }
+
+      .material-tags{
+        justify-content:flex-start;
+      }
+    }
+
+    @media (max-width: 720px){
+      .hero{
+        padding-top:104px;
+      }
+
+      .intro-card,
+      .care-body,
+      .care-label,
+      .promise-card{
+        padding-left:18px;
+        padding-right:18px;
+      }
+    }
+  </style>
+</head>
+<body class="page-care">
 <script>
 (function(){
   const acid = localStorage.getItem('stp_theme_acid');
@@ -19,156 +355,177 @@
 })();
 </script>
 
-<header class="header">
-  <a class="brand" href="home.html">
-    <img src="assets/lgo.png" alt="Sins of the Past" onerror="this.style.display='none'">
-    <span>Sins of the Past</span>
-  </a>
+<div class="page-shell">
+  <div id="siteHeader"></div>
 
-  <nav class="nav">
-    <a href="home.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="about.html">About</a>
-    <a href="arcade.html">Arcade</a>
-    <a href="care.html" class="active">Care</a>
-    <a href="contact.html">Contact</a>
-  </nav>
+  <main>
+    <section class="hero">
+      <div class="inner">
+        <p class="kicker">Care Ledger</p>
+        <h1>Care &amp; Craftsmanship</h1>
+        <p class="lead">
+          Natural materials, disciplined construction, and pieces that age like evidence.
+          Treat them with ceremony and they only get better.
+        </p>
+      </div>
+    </section>
 
-  <a href="cart.html" id="cartLink">Cart <span id="cartCount" style="opacity:.8"></span></a>
-</header>
+    <section class="intro-band">
+      <div class="intro-card">
+        <div class="intro-grid">
+          <div>
+            <h2>What We Work With</h2>
+            <p class="muted">
+              Sins of the Past uses natural, ethically sourced materials: raw Japanese denim,
+              exotic leathers, fox and mink fur, full-grain leather, .925 sterling silver,
+              and black diamonds. Every object is built like a relic, not a trend, and arrives
+              with a printed care booklet and verification code.
+            </p>
+          </div>
+          <div class="material-tags" aria-label="Core materials">
+            <span class="tag">Raw Denim</span>
+            <span class="tag">Exotic Leather</span>
+            <span class="tag">Fox &amp; Mink</span>
+            <span class="tag">Sterling Silver</span>
+            <span class="tag">Black Diamond</span>
+            <span class="tag">Full-Grain Leather</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<main>
+    <section class="care-sections">
+      <article class="care-card">
+        <div class="care-label">
+          <span class="index">01</span>
+          <h2>Denim &amp; Mixed Textiles</h2>
+        </div>
+        <div class="care-body">
+          <p>This applies to Bad Influence Jeans, This Seems Illegal Denims, Pony Play Pants, Wrong Turn Trousers, and the "Don't Ask Me Where I Was" Jacket.</p>
+          <ul class="care-list">
+            <li><b>First rule:</b> these are luxury denim pieces, not everyday work jeans. Rotate wear and let them rest between outings.</li>
+            <li><b>Washing:</b> for raw denim areas only, turn inside out, hand wash cold with mild detergent, then hang dry away from direct sun.</li>
+            <li><b>Avoid soaking exotic panels:</b> pony hair, python, caiman, or mink trims should never be submerged.</li>
+            <li><b>No dryers:</b> heat warps leather, shrinks denim, and can crack exotic skins.</li>
+            <li><b>Storage:</b> use broad padded hangers and give tails, heads, and applique room so nothing gets crushed.</li>
+          </ul>
+        </div>
+      </article>
 
-  <section class="hero" style="min-height:40vh">
-    <div class="inner">
-      <h1>Care &amp; Craftsmanship</h1>
-      <p class="muted">
-        Natural, ethically sourced materials. High-risk, high-reward silhouettes.
-        Treat them right and they outlive you.
-      </p>
-    </div>
-  </section>
+      <article class="care-card">
+        <div class="care-label">
+          <span class="index">02</span>
+          <h2>Exotic Leather &amp; Relics</h2>
+        </div>
+        <div class="care-body">
+          <p>This applies to the "Don't Check My Bank Account" Wallet, the Two-Faced Mink Belt, exotic denim panels, and future leather relics.</p>
+          <ul class="care-list">
+            <li><b>Keep dry:</b> avoid rain, spills, and steam. If a piece gets wet, blot gently and let it air-dry naturally away from heat.</li>
+            <li><b>No household cleaners:</b> skip alcohol, wipes, and generic sprays. Use products made specifically for reptile or exotic leather if needed.</li>
+            <li><b>Protect sculpted details:</b> raised heads and shaped elements should not be bent, crushed, or sat on.</li>
+            <li><b>Storage:</b> keep pieces in a dust bag or breathable pouch and never fold heads or tails under pressure.</li>
+            <li><b>Light and heat:</b> prolonged sun can fade color and dry scales, so store in a cool shaded space.</li>
+          </ul>
+        </div>
+      </article>
 
-  <!-- Materials overview -->
-  <section class="section">
-    <h2>What We Work With</h2>
-    <p class="muted" style="max-width:900px;margin:8px auto 24px">
-      <b>Sins of the Past</b> uses only natural, ethically sourced materials:
-      raw Japanese denim, exotic leathers (python, caiman, cobra), fox and mink
-      fur, full-grain leather, .925 sterling silver, and black diamonds.
-      Every piece is built like a relic, not a trend.
-    </p>
-  </section>
+      <article class="care-card">
+        <div class="care-label">
+          <span class="index">03</span>
+          <h2>Fox &amp; Mink Fur</h2>
+        </div>
+        <div class="care-body">
+          <p>This applies to Back-From-The-Dead Fox Coat, Bad Decision Aviator, Text-Me-Back Fox Wrap, After-Hours Muff, and the fur side of the Two-Faced Mink Belt.</p>
+          <ul class="care-list">
+            <li><b>Professional cleaning only:</b> never wash fur at home. Use a qualified furrier for deep cleaning.</li>
+            <li><b>If fur gets damp:</b> shake gently, hang in a cool ventilated room, and let it air-dry without rubbing, brushing, or heat.</li>
+            <li><b>Storage:</b> hang larger pieces on broad padded hangers and use breathable garment bags instead of plastic.</li>
+            <li><b>Avoid perfume and hair products:</b> apply sprays before dressing and let them settle first.</li>
+            <li><b>Small goods:</b> store flat in a dust bag with the fur side up and no heavy weight on top.</li>
+          </ul>
+        </div>
+      </article>
 
-  <!-- Denim & mixed textiles -->
-  <section class="section">
-    <h2>Denim &amp; Mixed Textile Pieces</h2>
-    <p class="muted" style="max-width:900px;margin:8px auto 16px">
-      This applies to: <b>Bad Influence Jeans™</b>, <b>This Seems Illegal Denims™</b>,
-      <b>Pony Play Pants™</b>, <b>Wrong Turn Trousers™</b>,
-      and the <b>“Don’t Ask Me Where I Was” Jacket™</b>.
-    </p>
-    <ul class="muted" style="max-width:900px;margin:0 auto 24px;line-height:1.8">
-      <li><b>First rule:</b> these are luxury denim pieces, not everyday work jeans. Rotate wear and rest them between outings.</li>
-      <li><b>Washing (raw denim areas only):</b> turn inside out, cold water, mild detergent, hand wash. Hang dry away from direct sun.</li>
-      <li><b>Avoid soaking exotic panels:</b> pony hair, python, caiman, or mink trims should not be submerged. </li>
-      <li><b>No dryers, ever:</b> heat warps leather, shrinks denim, and can crack exotic skins.</li>
-      <li><b>Storage:</b> hang on wide, padded hangers; avoid overcrowding so tails, heads, and appliqués don’t get crushed.</li>
-    </ul>
-  </section>
+      <article class="care-card">
+        <div class="care-label">
+          <span class="index">04</span>
+          <h2>Sterling Silver &amp; Hardware</h2>
+        </div>
+        <div class="care-body">
+          <p>This applies to the Bad Habits Chain, "Do Not Open" zipper pulls, scythe hardware on denim and bags, and any SOTP silver accents.</p>
+          <ul class="care-list">
+            <li><b>Material:</b> .925 sterling silver with optional black diamond inlay.</li>
+            <li><b>Daily wear:</b> avoid chlorine, pools, hot tubs, harsh chemicals, and abrasive contact.</li>
+            <li><b>Cleaning:</b> polish with a soft jewelry cloth. For deeper tarnish, use silver-specific polish only.</li>
+            <li><b>Zipper pulls:</b> support the pull with your fingers while zipping to avoid torque on the hardware.</li>
+            <li><b>Storage:</b> keep pieces in anti-tarnish pouches or separate compartments so they do not scratch each other.</li>
+          </ul>
+        </div>
+      </article>
 
-  <!-- Exotic leather: wallets, belts, trims -->
-  <section class="section">
-    <h2>Exotic Leather &amp; Relic Pieces</h2>
-    <p class="muted" style="max-width:900px;margin:8px auto 16px">
-      This applies to: the <b>“Don’t Check My Bank Account” Wallet™</b> (cobra),
-      <b>Two-Faced Mink Belt™</b>, exotic panels on denim, and future
-      SOTP leather relics.
-    </p>
-    <ul class="muted" style="max-width:900px;margin:0 auto 24px;line-height:1.8">
-      <li><b>Keep dry:</b> avoid rain, spills, and steam. If it gets wet, blot with a soft cloth and let it air-dry naturally, away from heat sources.</li>
-      <li><b>No household cleaners:</b> never use alcohol, baby wipes, or generic leather sprays on exotic skin. If needed, use a conditioner formulated specifically for reptile or exotic leather.</li>
-      <li><b>Mind the head &amp; raised details:</b> cobra heads and sculpted areas should not be bent or sat on. Treat them like jewelry, not a throw-around wallet.</li>
-      <li><b>Storage:</b> keep in the SOTP dust bag or a breathable pouch. Lay flat; do not fold exotic heads or tails under pressure.</li>
-      <li><b>Heat &amp; light:</b> prolonged sun can fade color and dry the scales. Store in a cool, shaded space.</li>
-    </ul>
-  </section>
+      <article class="care-card">
+        <div class="care-label">
+          <span class="index">05</span>
+          <h2>Storage, Travel &amp; Repairs</h2>
+        </div>
+        <div class="care-body">
+          <ul class="care-list">
+            <li><b>Dust bags first:</b> use SOTP dust bags and garment bags whenever a piece is out of rotation.</li>
+            <li><b>Give objects room:</b> do not overpack closets, luggage, or shelves around tails, heads, hardware, and sculptural details.</li>
+            <li><b>Long-term storage:</b> keep fur in a cool, dry, dark environment and avoid attics, garages, or direct sunlight.</li>
+            <li><b>Repairs:</b> if a stitch loosens, a scale lifts, or hardware needs adjustment, contact us before attempting DIY fixes.</li>
+          </ul>
+        </div>
+      </article>
 
-  <!-- Fur: fox & mink -->
-  <section class="section">
-    <h2>Fox &amp; Mink Fur</h2>
-    <p class="muted" style="max-width:900px;margin:8px auto 16px">
-      This applies to: <b>Back-From-The-Dead Fox Coat™</b>,
-      <b>Bad Decision Aviator™</b>, <b>Text-Me-Back Fox Wrap™</b>,
-      <b>After-Hours Muff™</b>, and the fur side of the
-      <b>Two-Faced Mink Belt™</b>.
-    </p>
-    <ul class="muted" style="max-width:900px;margin:0 auto 24px;line-height:1.8">
-      <li><b>Professional cleaning only:</b> never wash fur at home. For deep cleaning, use a qualified furrier.</li>
-      <li><b>If fur gets damp:</b> shake out gently, hang in a cool, ventilated room, and let it air-dry. Do not rub, brush while wet, or apply heat.</li>
-      <li><b>Storage:</b> hang coats and aviators on broad, padded hangers. Do not store in plastic; use a breathable garment bag.</li>
-      <li><b>Avoid perfume and hair products:</b> sprays can dry out the pelts over time. Apply before dressing and let them settle.</li>
-      <li><b>Belts &amp; small goods:</b> store flat in a dust bag, fur side up. Do not clamp under heavy items.</li>
-    </ul>
-  </section>
+      <article class="care-card booklet-card">
+        <div class="booklet-side">
+          <span class="index">06</span>
+          <h2>Booklet &amp; Verification</h2>
+          <p>Each purchased item includes a printed Sins of the Past care booklet tucked into the order as part of the artifact.</p>
+        </div>
+        <div class="booklet-body">
+          <p>The booklet includes your piece-specific handling notes, material guidance, and a verification code that unlocks the next layer of access for the item.</p>
+          <ul class="care-list">
+            <li><b>Keep the booklet:</b> do not discard it after unboxing. It is part of the piece record.</li>
+            <li><b>Verification code:</b> each code is unique and tied to the purchased item that shipped with it.</li>
+            <li><b>Unlock access:</b> use the code to unlock the protected experience, content, or registration layer connected to your item.</li>
+            <li><b>If lost or damaged:</b> contact us with your order details before sharing the code publicly or attempting unofficial recovery.</li>
+          </ul>
+          <div class="booklet-note">Treat the booklet like provenance. The code inside is part authentication, part access key.</div>
+        </div>
+      </article>
 
-  <!-- Silver hardware & jewelry -->
-  <section class="section">
-    <h2>Sterling Silver &amp; Hardware</h2>
-    <p class="muted" style="max-width:900px;margin:8px auto 16px">
-      This applies to: the <b>Bad Habits Chain™</b>, <b>“Do Not Open” Zipper Pulls™</b>,
-      scythe hardware on denim and bags, and any SOTP silver accents.
-    </p>
-    <ul class="muted" style="max-width:900px;margin:0 auto 24px;line-height:1.8">
-      <li><b>Material:</b> .925 sterling silver with optional black diamond inlay.</li>
-      <li><b>Daily wear:</b> avoid chlorine, pools, hot tubs, and harsh chemicals. Remove before heavy training or contact with abrasive surfaces.</li>
-      <li><b>Cleaning:</b> polish gently with a soft jewelry cloth. For deeper tarnish, use a silver-specific polish — never abrasive cleaners or scouring pads.</li>
-      <li><b>Zipper pulls:</b> when installed on denim or leather, support the pull with your fingers while zipping to avoid torque on the hardware.</li>
-      <li><b>Storage:</b> keep in anti-tarnish pouches or individual compartments so pieces don’t scratch each other.</li>
-    </ul>
-  </section>
+      <article class="promise-card">
+        <h2>Our Promise</h2>
+        <p>Every Sins of the Past piece is built to feel like evidence from a life you probably should not have lived. In return, treat it like a relic, not a throwaway.</p>
+        <p>If you are ever unsure how to care for a specific item, email <a href="mailto:care@sinsofthepast.store">care@sinsofthepast.store</a> with a photo and we will advise you directly.</p>
+      </article>
+    </section>
+  </main>
 
-  <!-- General storage & promise -->
-  <section class="section">
-    <h2>Storage, Travel &amp; Repairs</h2>
-    <ul class="muted" style="max-width:900px;margin:0 auto 24px;line-height:1.8">
-      <li>Use SOTP dust bags and garment bags for all relics when not in rotation.</li>
-      <li>Do not overpack closets; give tails, heads, and hardware room to breathe.</li>
-      <li>For long-term storage of fur, keep in a cool, dry, dark environment. Avoid attics, garages, or direct sunlight.</li>
-      <li>If a stitch loosens, a scale lifts, or hardware needs adjustment, contact us before attempting any DIY fixes.</li>
-    </ul>
-  </section>
-
-  <section class="section">
-    <h2>Our Promise</h2>
-    <p class="muted" style="max-width:900px;margin:8px auto 8px">
-      Every <b>Sins of the Past</b> piece is built to feel like evidence from a life you probably
-      shouldn’t have lived. In return, we ask that you treat it like a relic, not a throwaway.
-    </p>
-    <p class="muted" style="max-width:900px;margin:0 auto 24px">
-      If you’re ever unsure how to care for a specific item, email us at
-      <a href="mailto:care@sinsofthepast.store">care@sinsofthepast.store</a> with a photo of the piece
-      and we’ll advise you directly.
-    </p>
-  </section>
-
-</main>
-
-<footer class="footer">© <span id="y"></span> Sins of the Past</footer>
+  <footer class="footer">&copy; <span id="y"></span> Sins of the Past</footer>
+</div>
 
 <script src="app.js"></script>
-<div class="cursor"></div>
 <script>
-  const cursor = document.querySelector('.cursor');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top  = e.clientY + 'px';
-  });
-
-  // Footer year
   (function(){
     var y = document.getElementById('y');
     if (y) y.textContent = new Date().getFullYear();
+  })();
+
+  (async function(){
+    const mount = document.getElementById('siteHeader');
+    if (!mount) return;
+    const res = await fetch('header.html', { cache: 'no-store' });
+    const html = await res.text();
+    mount.innerHTML = html;
+
+    const links = mount.querySelectorAll('.nav a');
+    links.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      if (href.indexOf('care.html') !== -1) link.classList.add('active');
+    });
   })();
 </script>
 </body>
