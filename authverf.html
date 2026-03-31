@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sins of the Past — Relic Verification</title>
+  <style>
+    :root {
+      --bg: #060606;
+      --bg-soft: #0d0d0d;
+      --panel: rgba(255,255,255,0.05);
+      --panel-strong: rgba(255,255,255,0.08);
+      --line: rgba(255,255,255,0.14);
+      --text: #f3f1eb;
+      --muted: #a6a095;
+      --accent: #d8d2c3;
+      --danger: #a42a2a;
+      --success: #b9aa7b;
+      --shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top, rgba(255,255,255,0.05), transparent 32%),
+        linear-gradient(180deg, #090909 0%, #050505 100%);
+      color: var(--text);
+      font-family: "Times New Roman", Georgia, serif;
+      letter-spacing: 0.02em;
+    }
+
+    body.corrupted {
+      background:
+        radial-gradient(circle at top, rgba(164,42,42,0.12), transparent 28%),
+        linear-gradient(180deg, #070707 0%, #040404 100%);
+    }
+
+    .noise::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.06;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 3px 3px, 4px 4px;
+      mix-blend-mode: soft-light;
+    }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 40px 0 72px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 48px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .sigil {
+      width: 52px;
+      height: 52px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.02);
+      box-shadow: inset 0 0 20px rgba(255,255,255,0.02);
+      font-size: 14px;
+    }
+
+    .brand-copy h1 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+    }
+
+    .brand-copy p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .status-pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 14px;
+      color: var(--muted);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: 26px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-left {
+      padding: 42px 38px;
+      min-height: 520px;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 0.74rem;
+      margin-bottom: 18px;
+    }
+
+    .headline {
+      font-size: clamp(2.5rem, 4vw, 4.5rem);
+      line-height: 0.96;
+      margin: 0 0 18px;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    .subcopy {
+      max-width: 52ch;
+      color: #cec7ba;
+      font-size: 1rem;
+      line-height: 1.8;
+      margin: 0 0 32px;
+    }
+
+    .quote {
+      margin-top: 26px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      color: var(--accent);
+      font-size: 1.02rem;
+      line-height: 1.7;
+      max-width: 42ch;
+    }
+
+    .hero-right {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-head {
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      font-weight: 400;
+    }
+
+    .panel-head span {
+      color: var(--muted);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .verify-box {
+      padding: 26px 24px 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 16px 18px;
+      border-radius: 16px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    input:focus {
+      border-color: rgba(216, 210, 195, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button, .download-btn {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      color: var(--text);
+      padding: 14px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      text-decoration: none;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    button:hover, .download-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(216, 210, 195, 0.45);
+      background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.04));
+    }
+
+    .button-primary {
+      background: linear-gradient(180deg, rgba(216,210,195,0.17), rgba(216,210,195,0.06));
+    }
+
+    .hint {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 0.92rem;
+    }
+
+    .message {
+      min-height: 24px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .message.error {
+      color: #d78787;
+    }
+
+    .message.success {
+      color: var(--success);
+    }
+
+    .result {
+      display: none;
+      margin-top: 12px;
+      border-top: 1px solid var(--line);
+      padding-top: 20px;
+      gap: 22px;
+    }
+
+    .result.active {
+      display: grid;
+    }
+
+    .verified-banner {
+      border: 1px solid rgba(185,170,123,0.35);
+      background: rgba(185,170,123,0.06);
+      color: #d8c89b;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .piece-title {
+      font-size: 2rem;
+      margin: 0;
+      font-weight: 400;
+      line-height: 1.05;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .meta {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.025);
+    }
+
+    .meta small {
+      display: block;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.7rem;
+      margin-bottom: 8px;
+    }
+
+    .meta strong {
+      display: block;
+      font-size: 0.96rem;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .lore {
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.025);
+      color: #ddd6ca;
+      line-height: 1.85;
+    }
+
+    .downloads {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .archive {
+      margin-top: 44px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .archive-card {
+      padding: 28px;
+      min-height: 260px;
+    }
+
+    .archive-card h3 {
+      margin: 0 0 16px;
+      font-size: 1rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+    }
+
+    .archive-card p {
+      margin: 0;
+      color: #cec7ba;
+      line-height: 1.85;
+    }
+
+    .glitch {
+      position: relative;
+    }
+
+    body.corrupted .glitch::before,
+    body.corrupted .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.12;
+    }
+
+    body.corrupted .glitch::before {
+      transform: translate(2px, -1px);
+      color: #c24d4d;
+      clip-path: inset(0 0 45% 0);
+    }
+
+    body.corrupted .glitch::after {
+      transform: translate(-2px, 1px);
+      color: #9a9a9a;
+      clip-path: inset(55% 0 0 0);
+    }
+
+    .hidden-note {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px dashed rgba(255,255,255,0.12);
+      color: #a79775;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      display: none;
+    }
+
+    body.corrupted .hidden-note {
+      display: block;
+    }
+
+    .footer-note {
+      margin-top: 34px;
+      color: var(--muted);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .archive {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-left {
+        min-height: auto;
+      }
+
+      .meta-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: min(100% - 18px, 1180px);
+        padding-top: 18px;
+      }
+
+      .hero-left,
+      .archive-card,
+      .verify-box {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .headline {
+        font-size: 2.2rem;
+      }
+
+      .actions,
+      .downloads {
+        flex-direction: column;
+      }
+
+      button,
+      .download-btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body class="noise">
+  <div class="shell">
+    <div class="topbar">
+      <div class="brand">
+        <div class="sigil">SOTP</div>
+        <div class="brand-copy">
+          <h1>Sins of the Past</h1>
+          <p>Relic Registry / Verification Archive</p>
+        </div>
+      </div>
+      <div class="status-pill" id="statusPill">Archive Closed</div>
+    </div>
+
+    <section class="hero">
+      <div class="card hero-left">
+        <div class="eyebrow">Authentication / Ownership / Recovery</div>
+        <h2 class="headline glitch" data-text="Every object remembers.">
+          Every object remembers.
+        </h2>
+        <p class="subcopy">
+          Enter your relic code to verify authenticity, recover your booklet,
+          and reopen the archive assigned to your piece.
+        </p>
+
+        <div class="quote">
+          The object is not the end of the story. It is the proof that the story happened.
+        </div>
+
+        <div class="hidden-note">
+          Second face unlocked / internal archive visible
+        </div>
+      </div>
+
+      <div class="card hero-right">
+        <div class="panel-head">
+          <h2>Relic Access</h2>
+          <span>Private Registry</span>
+        </div>
+
+        <div class="verify-box">
+          <div>
+            <label for="relicCode">Verification code</label>
+            <input
+              id="relicCode"
+              type="text"
+              placeholder="SOTP-COBRA-0027-LA"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+
+          <div class="actions">
+            <button class="button-primary" id="verifyBtn">Verify Relic</button>
+            <button id="clearBtn" type="button">Clear</button>
+          </div>
+
+          <div class="hint">
+            Use the code included with your piece or scan your QR redirect and enter the matching archive number.
+          </div>
+
+          <div id="message" class="message" aria-live="polite"></div>
+
+          <div id="result" class="result">
+            <div class="verified-banner">Authenticity confirmed / archive reopened</div>
+
+            <div>
+              <h3 class="piece-title" id="pieceName">—</h3>
+            </div>
+
+            <div class="meta-grid">
+              <div class="meta">
+                <small>Material</small>
+                <strong id="pieceMaterial">—</strong>
+              </div>
+              <div class="meta">
+                <small>Drop</small>
+                <strong id="pieceDrop">—</strong>
+              </div>
+              <div class="meta">
+                <small>Serial</small>
+                <strong id="pieceSerial">—</strong>
+              </div>
+              <div class="meta">
+                <small>Crafted</small>
+                <strong id="pieceCrafted">—</strong>
+              </div>
+            </div>
+
+            <div class="lore" id="pieceLore">—</div>
+
+            <div class="downloads">
+              <a id="bookletLink" class="download-btn" href="#" download>Download Booklet</a>
+              <a id="certificateLink" class="download-btn" href="#" download>Download Certificate</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="archive">
+      <div class="card archive-card">
+        <h3>Registry Notes</h3>
+        <p>
+          Use this portal for recovery, authentication, and collector trust.
+          Each code should belong to one object, one story, and one archive entry.
+        </p>
+      </div>
+
+      <div class="card archive-card">
+        <h3>Two Face System</h3>
+        <p>
+          The first view stays clean and ceremonial. Once a real code is accepted,
+          the second face appears. That shift should feel deliberate, private, and earned.
+        </p>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      Sins of the Past / Quiet luxury • small batch • no restocks
+    </div>
+  </div>
+
+  <script>
+    const relicRegistry = {
+      "SOTP-COBRA-0027-LA": {
+        pieceName: "Don't Check My Bank Account Wallet™",
+        material: "King Cobra Leather / Head Attached",
+        drop: "Act I: Quiet Violence",
+        serial: "27 / 50",
+        crafted: "Los Angeles, California",
+        lore: "Every object remembers who touched it. This relic was made to feel ceremonial from a distance and violent up close. It does not age out of the story. It enters deeper into it.",
+        bookletUrl: "assets/booklets/cobra-wallet-booklet.pdf",
+        certificateUrl: "assets/certificates/cobra-wallet-certificate.pdf"
+      },
+      "SOTP-MINK-0011-LA": {
+        pieceName: "Two Face Mink Hatband™",
+        material: "Reversible Mink / Leather",
+        drop: "Act II: Crossroads",
+        serial: "11 / 25",
+        crafted: "Los Angeles, California",
+        lore: "Two surfaces. Two readings. One object. The piece was designed to shift between refinement and threat without changing its identity.",
+        bookletUrl: "assets/booklets/two-face-mink-hatband-booklet.pdf",
+        certificateUrl: "assets/certificates/two-face-mink-hatband-certificate.pdf"
+      },
+      "SOTP-VICE-0003-LA": {
+        pieceName: "Vice Link Charm Chain™",
+        material: "Sterling Silver / Stone Set",
+        drop: "Act III: Relics of Consequence",
+        serial: "03 / 15",
+        crafted: "Los Angeles, California",
+        lore: "This object was not designed as jewelry alone. It was designed as evidence. Weight, mark, and symbol all serve the same purpose: to prove the piece existed in your hands.",
+        bookletUrl: "assets/booklets/vice-link-chain-booklet.pdf",
+        certificateUrl: "assets/certificates/vice-link-chain-certificate.pdf"
+      }
+    };
+
+    const body = document.body;
+    const input = document.getElementById("relicCode");
+    const verifyBtn = document.getElementById("verifyBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const message = document.getElementById("message");
+    const result = document.getElementById("result");
+    const statusPill = document.getElementById("statusPill");
+
+    const pieceName = document.getElementById("pieceName");
+    const pieceMaterial = document.getElementById("pieceMaterial");
+    const pieceDrop = document.getElementById("pieceDrop");
+    const pieceSerial = document.getElementById("pieceSerial");
+    const pieceCrafted = document.getElementById("pieceCrafted");
+    const pieceLore = document.getElementById("pieceLore");
+    const bookletLink = document.getElementById("bookletLink");
+    const certificateLink = document.getElementById("certificateLink");
+
+    function normalizeCode(value) {
+      return value.trim().toUpperCase();
+    }
+
+    function resetView() {
+      input.value = "";
+      message.textContent = "";
+      message.className = "message";
+      result.classList.remove("active");
+      body.classList.remove("corrupted");
+      statusPill.textContent = "Archive Closed";
+    }
+
+    function showError(text) {
+      result.classList.remove("active");
+      body.classList.remove("corrupted");
+      statusPill.textContent = "Archive Closed";
+      message.textContent = text;
+      message.className = "message error";
+    }
+
+    function showSuccess(entry) {
+      pieceName.textContent = entry.pieceName;
+      pieceMaterial.textContent = entry.material;
+      pieceDrop.textContent = entry.drop;
+      pieceSerial.textContent = entry.serial;
+      pieceCrafted.textContent = entry.crafted;
+      pieceLore.textContent = entry.lore;
+      bookletLink.href = entry.bookletUrl;
+      certificateLink.href = entry.certificateUrl;
+
+      result.classList.add("active");
+      body.classList.add("corrupted");
+      statusPill.textContent = "Archive Open";
+      message.textContent = "Verified. Your relic is registered in the archive.";
+      message.className = "message success";
+    }
+
+    function verifyRelic() {
+      const code = normalizeCode(input.value);
+
+      if (!code) {
+        showError("Enter a verification code.");
+        return;
+      }
+
+      const entry = relicRegistry[code];
+
+      if (!entry) {
+        showError("Code not recognized. Check the archive number and try again.");
+        return;
+      }
+
+      showSuccess(entry);
+    }
+
+    verifyBtn.addEventListener("click", verifyRelic);
+
+    clearBtn.addEventListener("click", resetView);
+
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        verifyRelic();
+      }
+    });
+  </script>
+</body>
+</html>
