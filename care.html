@@ -270,6 +270,41 @@
       padding:24px;
     }
 
+    .booklet-actions{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-top:16px;
+    }
+
+    .booklet-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:44px;
+      padding:10px 16px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(12,13,18,.7);
+      color:var(--ink-bright);
+      text-decoration:none;
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    .booklet-link:hover{
+      background:rgba(18,20,28,.9);
+    }
+
+    .booklet-helper{
+      color:var(--mute);
+      font-size:13px;
+      line-height:1.7;
+      max-width:34ch;
+    }
+
     .booklet-note{
       margin-top:14px;
       border:1px solid var(--line);
@@ -492,6 +527,10 @@
             <li><b>Unlock access:</b> use the code to unlock the protected experience, content, or registration layer connected to your item.</li>
             <li><b>If lost or damaged:</b> contact us with your order details before sharing the code publicly or attempting unofficial recovery.</li>
           </ul>
+          <div class="booklet-actions">
+            <a class="booklet-link" href="authverf.html">Enter Verification Code</a>
+            <p class="booklet-helper">Use your booklet code here to verify your piece and access your digital copy.</p>
+          </div>
           <div class="booklet-note">Treat the booklet like provenance. The code inside is part authentication, part access key.</div>
         </div>
       </article>
