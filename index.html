@@ -6,33 +6,34 @@
 <title>Sins of the Past — Intro</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-html,body{margin:0;height:100%;background:#000;color:#fff;font-family:'Press Start 2P',monospace;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column}
+:root{--ink:#d9dce2;--mute:#b8bec8;--ink-bright:#f1f4f8;--line:rgba(217,220,226,.18)}
+html,body{margin:0;height:100%;background:#000;color:var(--ink);font-family:'Press Start 2P',monospace;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column}
 #grid{position:absolute;inset:0;background:
   linear-gradient(#111 1px,transparent 1px),
   linear-gradient(90deg,#111 1px,transparent 1px);
 background-size:40px 40px;opacity:.35;transform:perspective(900px) rotateX(60deg)}
 #logo{max-width:min(420px,70vw);margin:0 16px 18px;z-index:1;animation:glow 2s ease-in-out infinite alternate}
 @keyframes glow{from{text-shadow:0 0 8px #ff5a5a,0 0 16px #00e0c6}to{text-shadow:0 0 20px #ff5a5a,0 0 40px #00e0c6}}
-#press{font-size:14px;letter-spacing:2px;margin-top:16px;display:none;z-index:1;animation:blink 1s steps(2,start) infinite}
+#press{font-size:14px;letter-spacing:2px;margin-top:16px;display:none;z-index:1;animation:blink 1s steps(2,start) infinite;color:var(--ink-bright);text-shadow:0 2px 12px rgba(0,0,0,.45)}
 @keyframes blink{to{visibility:hidden}}
 .fade{animation:fadeout .8s forwards}
 @keyframes fadeout{to{opacity:0;visibility:hidden}}
 
-.card{z-index:2;width:min(480px,92vw);background:rgba(14,14,20,.9);border:2px solid #00e0c6;border-radius:12px;padding:16px}
-.card p{font-size:11px;line-height:1.6;margin:0 0 8px}
-label{display:block;font-size:11px;margin:8px 0 4px;opacity:.9}
-input[type=text]{width:100%;padding:8px;border-radius:8px;border:1px solid #444;background:#0b0c13;color:#fff;font-family:inherit;font-size:12px}
+.card{z-index:2;width:min(480px,92vw);background:rgba(14,14,20,.9);border:2px solid #cfd5df;border-radius:12px;padding:16px;box-shadow:0 16px 36px rgba(0,0,0,.35)}
+.card p{font-size:11px;line-height:1.6;margin:0 0 8px;color:var(--ink-bright);text-shadow:0 2px 12px rgba(0,0,0,.35)}
+label{display:block;font-size:11px;margin:8px 0 4px;opacity:.9;color:var(--mute)}
+input[type=text]{width:100%;padding:8px;border-radius:8px;border:1px solid #444;background:#0b0c13;color:var(--ink);font-family:inherit;font-size:12px}
 .btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.btn{padding:8px 12px;border-radius:8px;border:1px solid #444;background:#0b0c13;color:#fff;cursor:pointer}
-.btn.primary{border-color:transparent;background:#ff5a5a;color:#111;font-weight:bold}
-.msg{display:none;font-size:10px;color:#aaa;margin-top:6px}
+.btn{padding:8px 12px;border-radius:8px;border:1px solid #444;background:#0b0c13;color:var(--ink-bright);cursor:pointer}
+.btn.primary{border-color:transparent;background:#cfd5df;color:#111;font-weight:bold}
+.msg{display:none;font-size:10px;color:var(--mute);margin-top:6px}
 
 .score{display:flex;justify-content:space-between;align-items:center;border:1px solid #333;border-radius:10px;padding:10px 12px;margin:8px 0 12px}
 .score b{font-size:12px}
-.badge{display:inline-block;padding:4px 8px;border-radius:8px;border:1px solid #444;font-size:10px}
-.util{position:fixed;bottom:10px;left:10px;z-index:3;font-size:10px;opacity:.7}
-.util a{color:#9cf;text-decoration:underline;cursor:pointer}
-.footer-hint{position:fixed;bottom:10px;right:10px;z-index:3;font-size:10px;opacity:.6}
+.badge{display:inline-block;padding:4px 8px;border-radius:8px;border:1px solid #444;font-size:10px;color:var(--ink-bright)}
+.util{position:fixed;bottom:10px;left:10px;z-index:3;font-size:10px;opacity:.7;color:var(--mute)}
+.util a{color:var(--ink-bright);text-decoration:underline;cursor:pointer}
+.footer-hint{position:fixed;bottom:10px;right:10px;z-index:3;font-size:10px;opacity:.6;color:var(--mute)}
 
 /* cover-page cursor (paths here are relative to THIS html file) */
 :root{ --cursor: url('assets/indexgrim.png') 12 12, auto; }

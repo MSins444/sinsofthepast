@@ -8,12 +8,13 @@
   --bg: #0B0C0E;              /* deep near-black */
   --surface: #0E1013;         /* cards/nav */
   --surface-2: #121419;       /* gentle contrast */
-  --ink: #E8E8E6;             /* primary text */
-  --mute: #A8A8A3;            /* secondary text */
-  --ink-soft: #8B8B85;        /* tertiary text */
+  --ink: #D9DCE2;             /* primary silver text */
+  --mute: #B8BEC8;            /* secondary silver text */
+  --ink-soft: #98A0AC;        /* tertiary silver text */
+  --ink-bright: #F1F4F8;      /* bright silver highlights */
 
-  --line: rgba(255,255,255,.08);
-  --hair: rgba(255,255,255,.06);
+  --line: rgba(217,220,226,.16);
+  --hair: rgba(217,220,226,.10);
 
   /* Accents (more mineral than neon) */
   --acid: #9CE8D8;            /* matured cyan */
@@ -44,6 +45,13 @@ html, body {
 }
 a { color:inherit; text-decoration:none; }
 img { max-width:100%; display:block; }
+h1, h2, h3, .brand, .logo-link, .page-label {
+  color: var(--ink-bright);
+  text-shadow: 0 2px 14px rgba(0,0,0,.28);
+}
+p, li, label, .muted, .subtitle, .note {
+  color: var(--mute);
+}
 
 /* ===========================
    Header / Nav

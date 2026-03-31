@@ -20,7 +20,7 @@
 
   <style>
     :root{
-      --bg:#0b0d11; --ink:#f2f2f2; --muted:#a7a7a7; --acid:#00e0c6; --glass:rgba(255,255,255,.06);
+      --bg:#0b0d11; --ink:#d9dce2; --muted:#b8bec8; --ink-bright:#f1f4f8; --acid:#00e0c6; --glass:rgba(255,255,255,.06);
     }
     *{ box-sizing:border-box }
     html,body{ height:100% }
@@ -71,7 +71,7 @@
       border:1px solid rgba(255,255,255,.12); border-radius:20px; padding:28px;
       box-shadow:0 20px 60px rgba(0,0,0,.45); backdrop-filter: blur(6px) saturate(120%);
     }
-    .title{ font-size:clamp(28px, 5vw, 48px); line-height:1.05; font-weight:800; text-align:center; letter-spacing:.02em; margin:4px 0 8px; }
+    .title{ font-size:clamp(28px, 5vw, 48px); line-height:1.05; font-weight:800; text-align:center; letter-spacing:.02em; margin:4px 0 8px; color:var(--ink-bright); text-shadow:0 3px 18px rgba(0,0,0,.45); }
     .tagline{ text-align:center; color:var(--muted); font-size:clamp(14px, 2.4vw, 16px); margin:0 0 22px; }
 
     /* Countdown */
@@ -172,7 +172,7 @@
   </div>
 
   <noscript>
-    <div style="position:fixed;inset:0;display:grid;place-items:center;background:#000;color:#fff">
+    <div style="position:fixed;inset:0;display:grid;place-items:center;background:#000;color:#d9dce2">
       Enable JavaScript to see the countdown.
     </div>
   </noscript>

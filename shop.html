@@ -12,9 +12,10 @@
 <style>
 :root{
   --bg:#0a0b0f;
-  --ink:#f6f6f8;
-  --mute:#9aa0b2;
-  --line:#1b1f2e;
+  --ink:#d9dce2;
+  --mute:#b8bec8;
+  --line:rgba(217,220,226,.18);
+  --ink-bright:#f1f4f8;
   --gold:#c8a75e;
 }
 
@@ -43,6 +44,8 @@ main{
   margin:0 0 14px;
   font-size:clamp(30px,6vw,58px);
   letter-spacing:.06em;
+  color:var(--ink-bright);
+  text-shadow:0 3px 18px rgba(0,0,0,.45);
 }
 
 .header p{

@@ -10,9 +10,10 @@
 <style>
 :root{
   --bg: #000;
-  --ink: #fff;
-  --mute: #999;
-  --line: rgba(255,255,255,.06);
+  --ink: #d9dce2;
+  --mute: #b8bec8;
+  --line: rgba(217,220,226,.18);
+  --ink-bright: #f1f4f8;
   --shadow: 0 20px 60px rgba(0,0,0,.4);
   --shadow2: 0 8px 24px rgba(0,0,0,.3);
 }
@@ -63,6 +64,8 @@ body{
   text-transform:uppercase;
   opacity:.55;
   margin:0 0 16px;
+  color:var(--ink-bright);
+  text-shadow:0 2px 12px rgba(0,0,0,.45);
 }
 
 .hero h1{
@@ -72,21 +75,23 @@ body{
   line-height:1.1;
   text-transform:uppercase;
   font-weight:700;
+  color:var(--ink-bright);
+  text-shadow:0 3px 20px rgba(0,0,0,.5);
 }
 
 .lead{
   margin:0 auto 28px;
   max-width:64ch;
-  color:#ffd166;
+  color:var(--mute);
   font-size:13px;
   letter-spacing:.02em;
   line-height:1.8;
   font-weight:400;
-  text-shadow:0 6px 20px rgba(255,209,102,0.12);
+  text-shadow:0 3px 16px rgba(0,0,0,.38);
   transition:color .15s ease, transform .12s ease;
 }
 .lead:hover{
-  color:#fff4d9;
+  color:var(--ink-bright);
   transform:translateY(-2px);
 }
 

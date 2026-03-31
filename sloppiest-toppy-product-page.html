@@ -23,8 +23,9 @@
       --ink:#0c2340;          /* deep navy */
       --crimson:#be2036;      /* CTA accent */
       --gold:#f5c614;         /* subtle highlight */
-      --text:#e6e8ee;         /* primary text on dark */
-      --muted:#9aa3b2;        /* secondary text on dark */
+      --text:#d9dce2;         /* primary silver text on dark */
+      --muted:#b8bec8;        /* secondary silver text on dark */
+      --text-bright:#f1f4f8;
       --panel:rgba(255,255,255,0.03);
       --stroke:rgba(255,255,255,0.12);
       --soft:rgba(255,255,255,0.06);
@@ -44,14 +45,14 @@
     .stack{display:grid;gap:2rem}
 
     /* ===== Hero ===== */
-    header.hero{position:relative;min-height:56vh;display:grid;place-items:center;color:#fff;overflow:hidden}
+    header.hero{position:relative;min-height:56vh;display:grid;place-items:center;color:var(--text-bright);overflow:hidden}
     .hero::before{content:"";position:absolute;inset:0;background:
       radial-gradient(1200px 600px at 70% -10%, rgba(255,255,255,.10), transparent 60%),
       linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.65))}
     .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.9) contrast(1.05) brightness(.85)}
     .hero .pitch{position:relative;text-align:center;padding:4rem 1rem}
-    .kicker{letter-spacing:.18em;text-transform:uppercase;font-weight:600;opacity:.9}
-    h1.title{font-family:"Playfair Display",serif;font-size:clamp(2rem,4vw + 1rem,3.5rem);margin:.3rem 0 1rem}
+    .kicker{letter-spacing:.18em;text-transform:uppercase;font-weight:600;opacity:.9;color:var(--text-bright);text-shadow:0 2px 12px rgba(0,0,0,.4)}
+    h1.title{font-family:"Playfair Display",serif;font-size:clamp(2rem,4vw + 1rem,3.5rem);margin:.3rem 0 1rem;color:var(--text-bright);text-shadow:0 3px 18px rgba(0,0,0,.45)}
     .accent{color:var(--crimson)}
     .badges{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
     .badge{background:var(--panel);border:1px solid var(--stroke);padding:.4rem .7rem;border-radius:999px;font-size:.8rem;backdrop-filter:saturate(120%) blur(2px)}
@@ -73,7 +74,7 @@
     .buy{position:sticky;top:1.25rem;align-self:start;background:var(--panel);border:1px solid var(--stroke);border-radius:18px;padding:1.25rem;backdrop-filter:saturate(120%) blur(2px)}
     .brand{display:flex;align-items:center;gap:.75rem}
     .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--crimson)}
-    .model{font-size:1.25rem;font-weight:700;color:#fff}
+    .model{font-size:1.25rem;font-weight:700;color:var(--text-bright)}
     .subtitle{color:var(--muted);font-size:.95rem}
     .price{display:flex;align-items:baseline;gap:.65rem;margin:.4rem 0 1rem}
     .price b{font-size:1.8rem;color:var(--gold)}
@@ -97,7 +98,7 @@
     .stripe .row{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;padding:1.25rem;border:1px solid var(--stroke);border-radius:16px;background:var(--panel)}
     @media (max-width:900px){.stripe .row{grid-template-columns:1fr}}
     .stripe img.layered{width:100%;border-radius:12px;box-shadow:0 20px 40px rgba(0,0,0,.35)}
-    .stripe h2{font-family:"Playfair Display",serif;margin:.25rem 0 .5rem;color:#fff}
+    .stripe h2{font-family:"Playfair Display",serif;margin:.25rem 0 .5rem;color:var(--text-bright);text-shadow:0 2px 12px rgba(0,0,0,.35)}
     .stripe p{color:var(--text);line-height:1.7}
     .tech{display:flex;gap:.75rem;align-items:center;margin-top:.5rem;font-weight:600;color:#e9ecf5}
 
@@ -105,7 +106,7 @@
     .usp{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
     @media (max-width:900px){.usp{grid-template-columns:1fr}}
     .usp .card{background:var(--panel);border:1px solid var(--stroke);border-radius:16px;padding:1rem 1.1rem}
-    .usp h3{margin:.2rem 0 .3rem;color:#fff}
+    .usp h3{margin:.2rem 0 .3rem;color:var(--text-bright)}
     .usp p{margin:0;color:var(--muted)}
 
     /* Testimonials */
@@ -254,7 +255,7 @@
 
     <!-- Testimonials -->
     <section class="container" aria-label="Customer reviews">
-      <h2 style="font-family:'Playfair Display',serif;color:#fff;margin-bottom:.5rem">What customers say</h2>
+      <h2 style="font-family:'Playfair Display',serif;color:#f1f4f8;margin-bottom:.5rem">What customers say</h2>
       <div class="t-wrap">
         <div class="t-track" id="tTrack">
           <article class="t-card"><p>“The quality is better than I expected and the fit is perfect. Even the box slaps.” — <b>Tokyo W.</b></p></article>

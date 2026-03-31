@@ -13,6 +13,10 @@
       --wrap: 1180px;
       --cardW: 292px;
       --imgAR: 4/5;
+      --ink: #d9dce2;
+      --mute: #b8bec8;
+      --line: rgba(217,220,226,.18);
+      --silver-highlight: #f1f4f8;
 
       --film: rgba(255,255,255,.06);
       --shadow: 0 18px 60px rgba(0,0,0,.35);
@@ -34,6 +38,7 @@
         radial-gradient(700px 420px at 20% 30%, rgba(0,224,198,.06), transparent 60%),
         radial-gradient(700px 420px at 80% 55%, rgba(255,64,129,.05), transparent 60%),
         var(--bg);
+      color: var(--ink);
     }
 
     /* Subtle film grain overlay (CSS-only) */
@@ -88,6 +93,8 @@
       letter-spacing: .34em;
       text-transform: uppercase;
       opacity: .70;
+      color: var(--silver-highlight);
+      text-shadow: 0 1px 10px rgba(0,0,0,.45);
     }
     .title{
       margin: 10px 0 10px;
@@ -96,6 +103,8 @@
       line-height: 1.02;
       text-transform: uppercase;
       font-weight: 800;
+      color: var(--silver-highlight);
+      text-shadow: 0 3px 20px rgba(0,0,0,.5);
     }
     .logline{
       margin: 0 auto;
@@ -103,6 +112,7 @@
       color: var(--mute);
       font-size: clamp(14px, 1.7vw, 17px);
       line-height: 1.6;
+      text-shadow: 0 2px 12px rgba(0,0,0,.38);
     }
 
     .credits-meta{
@@ -120,6 +130,7 @@
       letter-spacing: .08em;
       opacity: .78;
       background: rgba(12,13,18,.35);
+      color: var(--silver-highlight);
     }
 
     .credits-cta{
@@ -150,6 +161,7 @@
       font-size: 18px;
       letter-spacing: .14em;
       text-transform: uppercase;
+      color: var(--silver-highlight);
     }
     .scene-left p{
       margin:6px 0 0;
@@ -234,6 +246,7 @@
       margin: 2px 0 6px;
       font-size: 16px;
       letter-spacing: .02em;
+      color: var(--silver-highlight);
     }
     .muted{ color: var(--mute); }
 
