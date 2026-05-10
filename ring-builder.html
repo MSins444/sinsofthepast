@@ -43,10 +43,8 @@
       <div class="builder-grid">
         <div class="builder-preview">
           <div class="ring-card" aria-live="polite">
-            <div id="ringVisual" class="ring-visual" aria-hidden="true">
-              <span id="stoneVisual"></span>
-              <i></i>
-              <b></b>
+            <div id="ringStage" class="ring-stage" aria-label="Interactive 3D ring preview">
+              <canvas id="ringCanvas"></canvas>
             </div>
 
             <p id="summaryTier" class="summary-tier">Archive Commission</p>
@@ -186,6 +184,6 @@
   <footer class="footer">&copy; <span id="y"></span> Sins of the Past</footer>
 
   <script src="app.js" defer></script>
-  <script src="ring-builder.js" defer></script>
+  <script type="module" src="ring-builder.js"></script>
 </body>
 </html>
