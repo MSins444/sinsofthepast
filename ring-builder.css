@@ -1,5 +1,16 @@
 .page-ring-builder {
   background: #050505;
+  font-family: "Press Start 2P", monospace;
+}
+
+.page-ring-builder .header,
+.page-ring-builder .brand,
+.page-ring-builder .nav,
+.page-ring-builder .header-meta,
+.page-ring-builder button,
+.page-ring-builder input,
+.page-ring-builder select {
+  font-family: "Press Start 2P", monospace;
 }
 
 .relic-builder {
@@ -10,7 +21,7 @@
   color: #f1f1f1;
   min-height: calc(100vh - 72px);
   padding: clamp(54px, 8vw, 90px) 6vw;
-  font-family: Inter, Arial, sans-serif;
+  font-family: inherit;
 }
 
 .sr-only {
@@ -32,21 +43,24 @@
 
 .eyebrow {
   text-transform: uppercase;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.12em;
   color: #aaa;
-  font-size: 0.75rem;
+  font-size: 0.58rem;
+  line-height: 1.8;
 }
 
 .builder-intro h1 {
-  font-size: clamp(3rem, 8vw, 7rem);
-  line-height: 0.9;
+  font-size: clamp(1.55rem, 4.8vw, 4.2rem);
+  line-height: 1.18;
   margin: 10px 0 20px;
-  font-weight: 500;
+  font-weight: 400;
+  letter-spacing: 0;
 }
 
 .builder-intro p {
   color: #b8b8b8;
-  font-size: 1.05rem;
+  font-size: 0.72rem;
+  line-height: 1.9;
 }
 
 .builder-grid {
@@ -111,7 +125,8 @@
 }
 
 .ring-card h2 {
-  font-size: 2rem;
+  font-size: clamp(1rem, 2vw, 1.55rem);
+  line-height: 1.55;
   margin: 0 0 10px;
 }
 
@@ -119,24 +134,28 @@
   color: #00e0c6 !important;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  font-size: 0.72rem;
+  font-size: 0.52rem;
+  line-height: 1.8;
 }
 
 .ring-card p {
   color: #aaa;
   margin: 4px 0;
+  font-size: 0.62rem;
+  line-height: 1.8;
 }
 
 #summaryPrice {
   color: #fff;
-  font-size: 1.15rem;
+  font-size: 0.78rem;
   margin-top: 18px;
 }
 
 .builder-status {
   min-height: 1.4em;
   color: #00e0c6;
-  font-size: 0.78rem;
+  font-size: 0.58rem;
+  line-height: 1.7;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -147,8 +166,9 @@
 }
 
 .builder-step h3 {
-  font-size: 0.85rem;
-  letter-spacing: 0.15em;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  line-height: 1.75;
   text-transform: uppercase;
   color: #999;
   margin-bottom: 18px;
@@ -161,6 +181,7 @@
 }
 
 .option {
+  font-family: inherit;
   background: transparent;
   color: #ddd;
   border: 1px solid rgba(255,255,255,0.22);
@@ -168,10 +189,11 @@
   cursor: pointer;
   transition: 0.25s ease;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  font-size: 0.56rem;
+  line-height: 1.55;
   border-radius: 6px;
-  min-width: 146px;
+  min-width: 178px;
   text-align: left;
 }
 
@@ -179,9 +201,9 @@
   display: block;
   margin-top: 7px;
   color: currentColor;
-  font-size: 0.64rem;
-  letter-spacing: 0.04em;
-  line-height: 1.35;
+  font-size: 0.46rem;
+  letter-spacing: 0;
+  line-height: 1.55;
   opacity: 0.62;
   text-transform: none;
 }
@@ -202,30 +224,35 @@
 }
 
 #engravingInput {
+  font-family: inherit;
   width: 100%;
   background: #080808;
   border: 1px solid rgba(255,255,255,0.22);
   color: white;
   padding: 16px;
-  font-size: 1rem;
-  letter-spacing: 0.08em;
+  font-size: 0.64rem;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
   text-transform: uppercase;
   border-radius: 6px;
 }
 
 .builder-select {
+  font-family: inherit;
   width: 100%;
   background: #080808;
   border: 1px solid rgba(255,255,255,0.22);
   color: white;
   padding: 16px;
-  font-size: 1rem;
-  letter-spacing: 0.08em;
+  font-size: 0.64rem;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
   text-transform: uppercase;
   border-radius: 6px;
 }
 
 .builder-submit {
+  font-family: inherit;
   width: 100%;
   margin-top: 30px;
   padding: 18px;
@@ -234,8 +261,10 @@
   border: none;
   cursor: pointer;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 0.64rem;
+  line-height: 1.7;
+  font-weight: 400;
   border-radius: 6px;
 }
 
