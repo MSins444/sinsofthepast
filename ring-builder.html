@@ -18,15 +18,16 @@
       <a href="home.html" data-nav="home">Home</a>
       <a href="shop.html" data-nav="shop">Shop</a>
       <a href="ring-builder.html" data-nav="builder" class="active" aria-current="page">Custom</a>
-      <a href="about.html" data-nav="about">Lore</a>
+      <a href="about.html" data-nav="lore">Lore</a>
       <a href="arcade.html" data-nav="arcade">Arcade</a>
       <a href="contact.html" data-nav="contact">Contact</a>
+      <a href="care.html" data-nav="care">Care</a>
     </nav>
 
     <div class="header-meta" style="display:flex;align-items:center;gap:14px">
       <span class="muted" style="letter-spacing:.12em;font-size:12px">CUSTOM</span>
       <a href="cart.html" id="cartLink" aria-label="View cart">
-        Bag <span id="cartCount" style="opacity:.8"></span>
+        Cart <span id="cartCount" style="opacity:.8"></span>
       </a>
     </div>
   </header>
@@ -36,7 +37,7 @@
       <div class="builder-intro">
         <p class="eyebrow">Sins of the Past Atelier</p>
         <h1 id="builderTitle">Forge Your Relic</h1>
-        <p>Select the form. Choose the metal. Mark the stone. Seal the archive.</p>
+        <p>Build a made-to-order ring from house silhouettes, precious metals, gemstone grades, setting styles, and private finishing details.</p>
       </div>
 
       <div class="builder-grid">
@@ -44,49 +45,136 @@
           <div class="ring-card" aria-live="polite">
             <div id="ringVisual" class="ring-visual" aria-hidden="true">
               <span id="stoneVisual"></span>
+              <i></i>
+              <b></b>
             </div>
 
+            <p id="summaryTier" class="summary-tier">Archive Commission</p>
             <h2 id="summaryName">The Oath Ring</h2>
-            <p id="summaryDetails">.925 Sterling Silver - Black Diamond - ACT I</p>
-            <p id="summaryPrice">$420 Estimated</p>
+            <p id="summaryDetails">.925 Sterling Silver - Black Diamond - Cathedral Claw - ACT I</p>
+            <p id="summaryPrice">$950 Estimated</p>
             <p id="builderStatus" class="builder-status" role="status" aria-live="polite"></p>
           </div>
         </div>
 
         <div class="builder-controls">
           <div class="builder-step">
-            <h3>01 - Relic Form</h3>
+            <h3>01 - Commission Tier</h3>
+            <div class="option-group" data-type="tier">
+              <button type="button" class="option active" data-value="Archive Commission" data-price="0">Archive <span>Private atelier entry</span></button>
+              <button type="button" class="option" data-value="Heirloom Commission" data-price="450">Heirloom <span>Hand-finished upgrade</span></button>
+              <button type="button" class="option" data-value="One of One Commission" data-price="1200">One of One <span>Signed archive build</span></button>
+            </div>
+          </div>
+
+          <div class="builder-step">
+            <h3>02 - Relic Form</h3>
             <div class="option-group" data-type="form">
-              <button type="button" class="option active" data-value="The Oath Ring" data-price="420">The Oath</button>
-              <button type="button" class="option" data-value="Vice Saint Ring" data-price="560">Vice Saint</button>
-              <button type="button" class="option" data-value="Pallbearer Signet" data-price="680">Pallbearer</button>
+              <button type="button" class="option active" data-value="The Oath Ring" data-price="420">The Oath <span>Rounded relic band</span></button>
+              <button type="button" class="option" data-value="Vice Saint Ring" data-price="560">Vice Saint <span>Soft square profile</span></button>
+              <button type="button" class="option" data-value="Pallbearer Signet" data-price="680">Pallbearer <span>Heavy signet face</span></button>
+              <button type="button" class="option" data-value="Seraph Cut Ring" data-price="820">Seraph Cut <span>Split shoulder frame</span></button>
+              <button type="button" class="option" data-value="Cathedral Mourning Ring" data-price="980">Cathedral <span>High ceremonial crown</span></button>
             </div>
           </div>
 
           <div class="builder-step">
-            <h3>02 - Metal</h3>
+            <h3>03 - Precious Metal</h3>
             <div class="option-group" data-type="metal">
-              <button type="button" class="option active" data-value=".925 Sterling Silver" data-price="0">Sterling</button>
-              <button type="button" class="option" data-value="Oxidized Silver" data-price="80">Oxidized</button>
-              <button type="button" class="option" data-value="Black Rhodium" data-price="140">Black Rhodium</button>
-              <button type="button" class="option" data-value="14K Gold" data-price="900">14K Gold</button>
+              <button type="button" class="option active" data-value=".925 Sterling Silver" data-price="0" data-metal="#c7c7c7">Sterling <span>.925 solid silver</span></button>
+              <button type="button" class="option" data-value="Oxidized Sterling Silver" data-price="120" data-metal="#555555">Oxidized <span>Darkened recesses</span></button>
+              <button type="button" class="option" data-value="Black Rhodium over Silver" data-price="260" data-metal="#111111">Black Rhodium <span>Mirror-black plate</span></button>
+              <button type="button" class="option" data-value="14K Yellow Gold" data-price="1150" data-metal="#c59b3c">14K Gold <span>Warm solid gold</span></button>
+              <button type="button" class="option" data-value="18K Champagne Gold" data-price="1850" data-metal="#d6b56d">18K Champagne <span>Soft gold tone</span></button>
+              <button type="button" class="option" data-value="Platinum 950" data-price="2400" data-metal="#d9dce2">Platinum <span>950 platinum</span></button>
             </div>
           </div>
 
           <div class="builder-step">
-            <h3>03 - Stone</h3>
+            <h3>04 - Surface Finish</h3>
+            <div class="option-group" data-type="finish">
+              <button type="button" class="option active" data-value="High Polish" data-price="0">High Polish <span>Mirror shine</span></button>
+              <button type="button" class="option" data-value="Satin Brushed" data-price="90">Satin <span>Soft directional grain</span></button>
+              <button type="button" class="option" data-value="Antique Patina" data-price="140">Antique <span>Shadowed detail</span></button>
+              <button type="button" class="option" data-value="Hammered Relic" data-price="220">Hammered <span>Hand-struck surface</span></button>
+              <button type="button" class="option" data-value="Ice Pavement Texture" data-price="360">Ice Pavement <span>Micro-faceted glint</span></button>
+            </div>
+          </div>
+
+          <div class="builder-step">
+            <h3>05 - Center Stone</h3>
             <div class="option-group" data-type="stone">
-              <button type="button" class="option active" data-value="Black Diamond" data-price="0" data-color="#111111">Black Diamond</button>
-              <button type="button" class="option" data-value="Ruby" data-price="120" data-color="#8f1616">Ruby</button>
-              <button type="button" class="option" data-value="Sapphire" data-price="120" data-color="#163b8f">Sapphire</button>
-              <button type="button" class="option" data-value="Emerald" data-price="150" data-color="#0f6b3f">Emerald</button>
+              <button type="button" class="option active" data-value="Black Diamond" data-price="180" data-color="#111111">Black Diamond <span>1.0ct rose cut</span></button>
+              <button type="button" class="option" data-value="Salt and Pepper Diamond" data-price="420" data-color="#9b9b92">Salt Diamond <span>Included natural diamond</span></button>
+              <button type="button" class="option" data-value="Lab VVS Diamond" data-price="900" data-color="#edf7ff">VVS Diamond <span>Near colorless fire</span></button>
+              <button type="button" class="option" data-value="Mozambique Ruby" data-price="620" data-color="#8f1616">Ruby <span>Deep red cabochon</span></button>
+              <button type="button" class="option" data-value="Ceylon Sapphire" data-price="680" data-color="#163b8f">Sapphire <span>Royal blue oval</span></button>
+              <button type="button" class="option" data-value="Colombian Emerald" data-price="820" data-color="#0f6b3f">Emerald <span>Vivid green step cut</span></button>
+              <button type="button" class="option" data-value="Opal Phantom" data-price="540" data-color="#d8f2eb">Opal Phantom <span>Milky spectral flash</span></button>
             </div>
           </div>
 
           <div class="builder-step">
-            <h3>04 - Archive Mark</h3>
+            <h3>06 - Setting Architecture</h3>
+            <div class="option-group" data-type="setting">
+              <button type="button" class="option active" data-value="Cathedral Claw" data-price="350">Cathedral Claw <span>Raised prong crown</span></button>
+              <button type="button" class="option" data-value="Flush Signet Set" data-price="240">Flush Set <span>Stone sunk into face</span></button>
+              <button type="button" class="option" data-value="Bezel Coffin Set" data-price="420">Bezel Coffin <span>Full protective rim</span></button>
+              <button type="button" class="option" data-value="Halo Thorn Set" data-price="760">Halo Thorn <span>Diamond thorn halo</span></button>
+              <button type="button" class="option" data-value="Suspended Tension Set" data-price="980">Tension Set <span>Floating stone effect</span></button>
+            </div>
+          </div>
+
+          <div class="builder-step">
+            <h3>07 - Side Detail</h3>
+            <div class="option-group" data-type="accent">
+              <button type="button" class="option active" data-value="Plain Shoulders" data-price="0">Plain <span>Clean shoulders</span></button>
+              <button type="button" class="option" data-value="Twin Black Diamond Shoulders" data-price="320">Twin Black <span>Two black diamonds</span></button>
+              <button type="button" class="option" data-value="White Diamond Pave Shoulders" data-price="850">Pave <span>Micro diamond run</span></button>
+              <button type="button" class="option" data-value="Skull Relief Shoulders" data-price="260">Skull Relief <span>Sculpted side marks</span></button>
+              <button type="button" class="option" data-value="Hidden Ruby Understone" data-price="390">Hidden Ruby <span>Secret interior stone</span></button>
+            </div>
+          </div>
+
+          <div class="builder-step">
+            <h3>08 - Ring Size</h3>
+            <label class="sr-only" for="ringSizeInput">Ring size</label>
+            <select id="ringSizeInput" class="builder-select">
+              <option value="Size 4">Size 4</option>
+              <option value="Size 4.5">Size 4.5</option>
+              <option value="Size 5">Size 5</option>
+              <option value="Size 5.5">Size 5.5</option>
+              <option value="Size 6">Size 6</option>
+              <option value="Size 6.5">Size 6.5</option>
+              <option value="Size 7" selected>Size 7</option>
+              <option value="Size 7.5">Size 7.5</option>
+              <option value="Size 8">Size 8</option>
+              <option value="Size 8.5">Size 8.5</option>
+              <option value="Size 9">Size 9</option>
+              <option value="Size 9.5">Size 9.5</option>
+              <option value="Size 10">Size 10</option>
+              <option value="Size 10.5">Size 10.5</option>
+              <option value="Size 11">Size 11</option>
+              <option value="Size 11.5">Size 11.5</option>
+              <option value="Size 12">Size 12</option>
+              <option value="Custom sizing consultation">Custom sizing consultation</option>
+            </select>
+          </div>
+
+          <div class="builder-step">
+            <h3>09 - Archive Mark</h3>
             <label class="sr-only" for="engravingInput">Archive mark</label>
             <input id="engravingInput" maxlength="18" placeholder="ACT I / XIII / ONLY THE FREE" autocomplete="off">
+          </div>
+
+          <div class="builder-step">
+            <h3>10 - Presentation</h3>
+            <div class="option-group" data-type="presentation">
+              <button type="button" class="option active" data-value="Black Archive Box" data-price="0">Archive Box <span>Included</span></button>
+              <button type="button" class="option" data-value="Lacquer Coffin Case" data-price="180">Coffin Case <span>Gloss lacquer case</span></button>
+              <button type="button" class="option" data-value="Numbered Relic Certificate" data-price="140">Certificate <span>Numbered archive card</span></button>
+              <button type="button" class="option" data-value="Full White Glove Kit" data-price="420">White Glove Kit <span>Case, cloth, certificate</span></button>
+            </div>
           </div>
 
           <button type="button" class="builder-submit" id="builderSubmit">Add Custom Relic to Bag</button>
