@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Forge Your Relic - Sins of the Past</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="ring-builder.css">
+</head>
+<body class="page-ring-builder">
+  <header class="header" role="banner">
+    <a class="brand" href="home.html" aria-label="Go to Home">
+      <img src="assets/lgo.png" alt="" onerror="this.style.display='none'">
+      <span>Sins of the Past</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <a href="home.html" data-nav="home">Home</a>
+      <a href="shop.html" data-nav="shop">Shop</a>
+      <a href="ring-builder.html" data-nav="builder" class="active" aria-current="page">Custom</a>
+      <a href="about.html" data-nav="about">Lore</a>
+      <a href="arcade.html" data-nav="arcade">Arcade</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+    </nav>
+
+    <div class="header-meta" style="display:flex;align-items:center;gap:14px">
+      <span class="muted" style="letter-spacing:.12em;font-size:12px">CUSTOM</span>
+      <a href="cart.html" id="cartLink" aria-label="View cart">
+        Bag <span id="cartCount" style="opacity:.8"></span>
+      </a>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="relic-builder" aria-labelledby="builderTitle">
+      <div class="builder-intro">
+        <p class="eyebrow">Sins of the Past Atelier</p>
+        <h1 id="builderTitle">Forge Your Relic</h1>
+        <p>Select the form. Choose the metal. Mark the stone. Seal the archive.</p>
+      </div>
+
+      <div class="builder-grid">
+        <div class="builder-preview">
+          <div class="ring-card" aria-live="polite">
+            <div id="ringVisual" class="ring-visual" aria-hidden="true">
+              <span id="stoneVisual"></span>
+            </div>
+
+            <h2 id="summaryName">The Oath Ring</h2>
+            <p id="summaryDetails">.925 Sterling Silver - Black Diamond - ACT I</p>
+            <p id="summaryPrice">$420 Estimated</p>
+            <p id="builderStatus" class="builder-status" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <div class="builder-controls">
+          <div class="builder-step">
+            <h3>01 - Relic Form</h3>
+            <div class="option-group" data-type="form">
+              <button type="button" class="option active" data-value="The Oath Ring" data-price="420">The Oath</button>
+              <button type="button" class="option" data-value="Vice Saint Ring" data-price="560">Vice Saint</button>
+              <button type="button" class="option" data-value="Pallbearer Signet" data-price="680">Pallbearer</button>
+            </div>
+          </div>
+
+          <div class="builder-step">
+            <h3>02 - Metal</h3>
+            <div class="option-group" data-type="metal">
+              <button type="button" class="option active" data-value=".925 Sterling Silver" data-price="0">Sterling</button>
+              <button type="button" class="option" data-value="Oxidized Silver" data-price="80">Oxidized</button>
+              <button type="button" class="option" data-value="Black Rhodium" data-price="140">Black Rhodium</button>
+              <button type="button" class="option" data-value="14K Gold" data-price="900">14K Gold</button>
+            </div>
+          </div>
+
+          <div class="builder-step">
+            <h3>03 - Stone</h3>
+            <div class="option-group" data-type="stone">
+              <button type="button" class="option active" data-value="Black Diamond" data-price="0" data-color="#111111">Black Diamond</button>
+              <button type="button" class="option" data-value="Ruby" data-price="120" data-color="#8f1616">Ruby</button>
+              <button type="button" class="option" data-value="Sapphire" data-price="120" data-color="#163b8f">Sapphire</button>
+              <button type="button" class="option" data-value="Emerald" data-price="150" data-color="#0f6b3f">Emerald</button>
+            </div>
+          </div>
+
+          <div class="builder-step">
+            <h3>04 - Archive Mark</h3>
+            <label class="sr-only" for="engravingInput">Archive mark</label>
+            <input id="engravingInput" maxlength="18" placeholder="ACT I / XIII / ONLY THE FREE" autocomplete="off">
+          </div>
+
+          <button type="button" class="builder-submit" id="builderSubmit">Add Custom Relic to Bag</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">&copy; <span id="y"></span> Sins of the Past</footer>
+
+  <script src="app.js" defer></script>
+  <script src="ring-builder.js" defer></script>
+</body>
+</html>
