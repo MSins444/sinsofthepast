@@ -1,153 +1,178 @@
-const builderState = {
-  form: {
-    value: "The Oath Ring",
-    price: 420
-  },
-  metal: {
-    value: ".925 Sterling Silver",
-    price: 0
-  },
-  stone: {
-    value: "Black Diamond",
-    price: 0,
-    color: "#090909"
-  },
-  engraving: "ACT I"
-};
+(function () {
+  const DEFAULTS = {
+    form: { value: "The Oath Ring", price: 420 },
+    metal: { value: ".925 Sterling Silver", price: 0 },
+    stone: { value: "Black Diamond", price: 0, color: "#090909" },
+    engraving: "ACT I"
+  };
 
-const options = document.querySelectorAll(".option");
-const engravingInput = document.getElementById("engravingInput");
-const builderSubmit = document.getElementById("builderSubmit");
+  function initRitualBuilder() {
+    const builder = document.querySelector(".sotp-ritual-builder");
+    if (!builder || builder.dataset.ritualReady === "true") return;
 
-const summaryName = document.getElementById("summaryName");
-const summaryDetails = document.getElementById("summaryDetails");
-const summaryPrice = document.getElementById("summaryPrice");
-const builderStatus = document.getElementById("builderStatus");
-const stoneVisual = document.getElementById("stoneVisual");
-const ringVisual = document.getElementById("ringVisual");
+    builder.dataset.ritualReady = "true";
 
-options.forEach(option => {
-  option.setAttribute("aria-pressed", option.classList.contains("active") ? "true" : "false");
+    const engravingInput = builder.querySelector("#engravingInput");
+    const builderSubmit = builder.querySelector("#builderSubmit");
 
-  option.addEventListener("click", () => {
-    const group = option.closest(".option-group");
-    const type = group.dataset.type;
+    if (engravingInput && !engravingInput.value) {
+      engravingInput.value = DEFAULTS.engraving;
+    }
 
-    group.querySelectorAll(".option").forEach(btn => {
-      btn.classList.remove("active");
-      btn.setAttribute("aria-pressed", "false");
+    builder.querySelectorAll(".option").forEach(option => {
+      option.setAttribute("aria-pressed", option.classList.contains("active") ? "true" : "false");
     });
 
-    option.classList.add("active");
-    option.setAttribute("aria-pressed", "true");
+    builder.addEventListener("click", event => {
+      const option = event.target.closest(".option");
+      if (!option || !builder.contains(option)) return;
 
-    builderState[type] = {
-      value: option.dataset.value,
-      price: Number(option.dataset.price || 0),
-      color: option.dataset.color || builderState[type]?.color
+      const group = option.closest(".option-group");
+      if (!group) return;
+
+      group.querySelectorAll(".option").forEach(btn => {
+        btn.classList.toggle("active", btn === option);
+        btn.setAttribute("aria-pressed", btn === option ? "true" : "false");
+      });
+
+      updateBuilder(builder);
+    });
+
+    if (engravingInput) {
+      engravingInput.addEventListener("input", () => {
+        const cleanValue = engravingInput.value
+          .toUpperCase()
+          .replace(/[^A-Z0-9 /-]/g, "");
+
+        if (engravingInput.value !== cleanValue) engravingInput.value = cleanValue;
+        updateBuilder(builder);
+      });
+    }
+
+    if (builderSubmit) {
+      builderSubmit.addEventListener("click", () => {
+        const item = getCurrentItem(builder);
+
+        if (typeof window.addToCart === "function") {
+          window.addToCart(item);
+        } else {
+          addItemToLocalCart(item);
+        }
+
+        const builderStatus = builder.querySelector("#builderStatus");
+        if (builderStatus) {
+          builderStatus.textContent = "Private commission saved.";
+          window.clearTimeout(builderStatus.__timer);
+          builderStatus.__timer = window.setTimeout(() => {
+            builderStatus.textContent = "";
+          }, 2200);
+        }
+
+        builderSubmit.textContent = "Commission Saved";
+        window.setTimeout(() => {
+          builderSubmit.textContent = "Request Private Commission";
+        }, 1400);
+      });
+    }
+
+    updateBuilder(builder);
+  }
+
+  function getBuilderState(builder) {
+    const engravingInput = builder.querySelector("#engravingInput");
+
+    return {
+      form: readChoice(builder, "form", DEFAULTS.form),
+      metal: readChoice(builder, "metal", DEFAULTS.metal),
+      stone: readChoice(builder, "stone", DEFAULTS.stone),
+      engraving: (engravingInput?.value || "").trim().toUpperCase() || "UNMARKED"
     };
+  }
 
-    updateBuilder();
-  });
-});
+  function readChoice(builder, type, fallback) {
+    const active = builder.querySelector(`.option-group[data-type="${type}"] .option.active`);
+    if (!active) return { ...fallback };
 
-if (engravingInput) {
-  engravingInput.value = builderState.engraving;
-  engravingInput.addEventListener("input", () => {
-    const cleanValue = engravingInput.value
-      .toUpperCase()
-      .replace(/[^A-Z0-9 /-]/g, "");
+    return {
+      value: active.dataset.value || active.textContent.trim() || fallback.value,
+      price: Number(active.dataset.price || 0),
+      color: active.dataset.color || fallback.color
+    };
+  }
 
-    if (engravingInput.value !== cleanValue) engravingInput.value = cleanValue;
+  function updateBuilder(builder) {
+    const state = getBuilderState(builder);
+    const summaryName = builder.querySelector("#summaryName");
+    const summaryDetails = builder.querySelector("#summaryDetails");
+    const summaryPrice = builder.querySelector("#summaryPrice");
+    const stoneVisual = builder.querySelector("#stoneVisual");
+    const ringVisual = builder.querySelector("#ringVisual");
+    const total = state.form.price + state.metal.price + state.stone.price;
+    const metalColor = getMetalColor(state.metal.value);
 
-    builderState.engraving = cleanValue.trim() || "UNMARKED";
-    updateBuilder();
-  });
-}
+    if (summaryName) summaryName.textContent = state.form.value;
+    if (summaryDetails) {
+      summaryDetails.textContent = `${state.metal.value} - ${state.stone.value} - ${state.engraving}`;
+    }
+    if (summaryPrice) summaryPrice.textContent = `$${total.toLocaleString()} Estimated`;
+    if (stoneVisual) stoneVisual.style.background = state.stone.color;
 
-if (builderSubmit) {
-  builderSubmit.addEventListener("click", () => {
-    const item = getCurrentItem();
+    if (ringVisual) {
+      ringVisual.dataset.form = state.form.value;
+      ringVisual.style.color = metalColor;
+      ringVisual.style.borderColor = metalColor;
+      ringVisual.setAttribute("aria-label", `${state.form.value} preview with ${state.stone.value}`);
+    }
+  }
 
-    if (typeof window.addToCart === "function") {
-      window.addToCart(item);
+  function getMetalColor(metalValue) {
+    if (metalValue.includes("Oxidized")) return "#484640";
+    if (metalValue.includes("Black Rhodium")) return "#101010";
+    if (metalValue.includes("Gold")) return "#a88a3d";
+    return "#c5c2ba";
+  }
+
+  function getCurrentItem(builder) {
+    const state = getBuilderState(builder);
+    const details = [
+      state.metal.value,
+      state.stone.value,
+      state.engraving
+    ].join(" / ");
+
+    return {
+      id: `custom-relic-${state.form.value}-${details}`
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, ""),
+      name: `${state.form.value} / ${details}`,
+      price: state.form.price + state.metal.price + state.stone.price,
+      img: "assets/BlackDiamond VVS 999.sterling silver.png",
+      qty: 1
+    };
+  }
+
+  function addItemToLocalCart(item) {
+    const cart = JSON.parse(localStorage.getItem("stp_cart") || "[]");
+    const existing = cart.find(entry => entry.id === item.id);
+
+    if (existing) {
+      existing.qty += 1;
     } else {
-      addItemToLocalCart(item);
+      cart.push(item);
     }
 
-    if (builderStatus) {
-      builderStatus.textContent = "Private commission saved.";
-      window.clearTimeout(builderStatus.__timer);
-      builderStatus.__timer = window.setTimeout(() => {
-        builderStatus.textContent = "";
-      }, 2200);
-    }
-
-    builderSubmit.textContent = "Commission Saved";
-    window.setTimeout(() => {
-      builderSubmit.textContent = "Request Private Commission";
-    }, 1400);
-  });
-}
-
-function updateBuilder() {
-  if (!summaryName || !summaryDetails || !summaryPrice) return;
-
-  const total =
-    builderState.form.price +
-    builderState.metal.price +
-    builderState.stone.price;
-
-  summaryName.textContent = builderState.form.value;
-  summaryDetails.textContent = `${builderState.metal.value} - ${builderState.stone.value} - ${builderState.engraving}`;
-  summaryPrice.textContent = `$${total.toLocaleString()} Estimated`;
-
-  if (stoneVisual) stoneVisual.style.background = builderState.stone.color;
-  if (ringVisual) {
-    ringVisual.dataset.form = builderState.form.value;
-    ringVisual.style.color = getMetalColor();
-    ringVisual.style.borderColor = getMetalColor();
+    localStorage.setItem("stp_cart", JSON.stringify(cart));
+    if (typeof window.updateBadge === "function") window.updateBadge();
   }
-}
 
-function getMetalColor() {
-  if (builderState.metal.value.includes("Oxidized")) return "#484640";
-  if (builderState.metal.value.includes("Black Rhodium")) return "#101010";
-  if (builderState.metal.value.includes("Gold")) return "#a88a3d";
-  return "#c5c2ba";
-}
+  window.initRitualBuilder = initRitualBuilder;
 
-function getCurrentItem() {
-  const details = [
-    builderState.metal.value,
-    builderState.stone.value,
-    builderState.engraving
-  ].join(" / ");
-
-  return {
-    id: `custom-relic-${builderState.form.value}-${details}`
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, ""),
-    name: `${builderState.form.value} / ${details}`,
-    price: builderState.form.price + builderState.metal.price + builderState.stone.price,
-    img: "assets/BlackDiamond VVS 999.sterling silver.png",
-    qty: 1
-  };
-}
-
-function addItemToLocalCart(item) {
-  const cart = JSON.parse(localStorage.getItem("stp_cart") || "[]");
-  const existing = cart.find(entry => entry.id === item.id);
-
-  if (existing) {
-    existing.qty += 1;
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initRitualBuilder);
   } else {
-    cart.push(item);
+    initRitualBuilder();
   }
 
-  localStorage.setItem("stp_cart", JSON.stringify(cart));
-  if (typeof window.updateBadge === "function") window.updateBadge();
-}
-
-updateBuilder();
+  document.addEventListener("swup:contentReplaced", initRitualBuilder);
+})();
