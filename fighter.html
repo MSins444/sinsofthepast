@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Sins of the Past - Fighter Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css?v=3">
+  <link rel="stylesheet" href="fighter.css">
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+</head>
+<body class="page-arcade page-fighter">
+  <a href="#main" class="sr-only">Skip to content</a>
+  <div id="siteHeader"></div>
+
+  <main id="main" class="fighter-shell">
+    <section class="fighter-head">
+      <div>
+        <div class="kicker">Arcade Prototype</div>
+        <h1>Bloodline Duel</h1>
+      </div>
+      <div class="fighter-controls" aria-label="Controls">
+        <span>P1: A/D move, W jump, S block, J punch, K kick</span>
+        <span>P2: arrows move, down block, 1 punch, 2 kick</span>
+      </div>
+    </section>
+
+    <div id="fighterGame" class="fighter-game" aria-label="Fighting game canvas"></div>
+  </main>
+
+  <script src="cart-mini.js" defer></script>
+  <script src="fighter.js"></script>
+  <script>
+  (async function(){
+    try{
+      const mount = document.getElementById('siteHeader');
+      if (!mount) return;
+      const res = await fetch('header.html', { cache: 'no-store' });
+      if (!res.ok) return;
+      mount.innerHTML = await res.text();
+      const pageLabel = document.getElementById('pageLabel');
+      if (pageLabel) pageLabel.textContent = 'ARCADE';
+      document.querySelectorAll('.nav a[data-nav]').forEach(a => {
+        if (a.dataset.nav === 'arcade') {
+          a.classList.add('active');
+          a.setAttribute('aria-current', 'page');
+        } else {
+          a.classList.remove('active');
+          a.removeAttribute('aria-current');
+        }
+      });
+      window.dispatchEvent(new Event('stp:header:ready'));
+    }catch(err){
+      console.error('Header loader error:', err);
+    }
+  })();
+  </script>
+</body>
+</html>
