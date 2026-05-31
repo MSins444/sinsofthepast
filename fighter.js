@@ -7,8 +7,8 @@ const FIGHTERS = {
   p1: {
     name: 'Reaper',
     sheet: 'assets/Spritesheetgrim.png',
-    frameWidth: 256,
-    frameHeight: 256,
+    frameWidth: 6,
+    frameHeight: 12,
     scale: .78,
     tint: 0xffffff,
     startX: 260,
