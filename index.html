@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sins of the Past — Intro</title>
+<script>
+  if (new URLSearchParams(window.location.search).get('intro') !== '1') {
+    window.location.replace('coming-soon.html');
+  }
+</script>
+<noscript>
+  <meta http-equiv="refresh" content="0;url=coming-soon.html">
+</noscript>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#d9dce2;--mute:#b8bec8;--ink-bright:#f1f4f8;--line:rgba(217,220,226,.18)}
