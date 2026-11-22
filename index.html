@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Sins of the Past — a limited collection arriving soon.">
-<title>Sins of the Past™ — Coming Soon</title>
+<meta name="description" content="SOT-P Myriad — a limited collection arriving soon.">
+<title>SOT-P Myriad — Coming Soon</title>
 
 <style>
 :root{
@@ -108,8 +108,8 @@ h1{margin:0;color:var(--bright);font-size:clamp(2.3rem,8vw,6.5rem);letter-spacin
 
 <body>
 <main>
-  <header class="brandbar" aria-label="Sins of the Past status">
-    <a class="brand" href="index.html">Sins of the Past™</a>
+  <header class="brandbar" aria-label="SOT-P Myriad status">
+    <a class="brand" href="index.html">SOT-P Myriad</a>
     <span class="status">Collection arriving soon</span>
   </header>
 
@@ -157,7 +157,7 @@ h1{margin:0;color:var(--bright);font-size:clamp(2.3rem,8vw,6.5rem);letter-spacin
     </div>
   </dialog>
 
-  <footer class="footer"><span>© Sins of the Past</span><span>No restocks · No rush</span></footer>
+  <footer class="footer"><span>© SOT-P Myriad</span><span>No restocks · No rush</span></footer>
 </main>
 
 <script>
@@ -176,6 +176,7 @@ h1{margin:0;color:var(--bright);font-size:clamp(2.3rem,8vw,6.5rem);letter-spacin
   const status=document.getElementById('accountStatus');
   const createButton=document.getElementById('createAccountButton');
   const guestButton=document.getElementById('guestButton');
+  const HOME_URL='home.html';
   let mode='create';
 
   function readAccounts(){
@@ -205,6 +206,15 @@ h1{margin:0;color:var(--bright);font-size:clamp(2.3rem,8vw,6.5rem);letter-spacin
 
   function saveSession(session){localStorage.setItem(sessionKey,JSON.stringify(session));return session}
   function getSession(){try{return JSON.parse(localStorage.getItem(sessionKey)||'null')}catch(error){return null}}
+  function grantHomeAccess(session){
+    localStorage.setItem('user',JSON.stringify({
+      lastSin:session.type==='guest'?'guest':'',
+      skipped:false,
+      email:session.email||null,
+      allowedFeatures:['landing','confess','view_all_sins','view_redemption'],
+      firstVisit:false
+    }));
+  }
   function normalizeEmail(email){return email.trim().toLowerCase()}
   function setMessage(text,isError){message.textContent=text;message.classList.toggle('error',Boolean(isError))}
 
@@ -243,7 +253,7 @@ h1{margin:0;color:var(--bright);font-size:clamp(2.3rem,8vw,6.5rem);letter-spacin
   }
 
   createButton.onclick=()=>openDialog('create');
-  guestButton.onclick=()=>{saveSession({type:'guest',startedAt:new Date().toISOString()});refreshSession()};
+  guestButton.onclick=()=>{const session=saveSession({type:'guest',startedAt:new Date().toISOString()});grantHomeAccess(session);window.location.href=HOME_URL};
   document.getElementById('closeAccountDialog').onclick=()=>dialog.close();
   document.querySelectorAll('[data-account-mode]').forEach((button)=>button.onclick=()=>setMode(button.dataset.accountMode));
   dialog.addEventListener('click',(event)=>{if(event.target===dialog)dialog.close()});
@@ -271,10 +281,11 @@ h1{margin:0;color:var(--bright);font-size:clamp(2.3rem,8vw,6.5rem);letter-spacin
         if(hash!==existing.hash)throw new Error('invalid-login');
         saveSession({type:'account',email});
       }
+      grantHomeAccess(getSession());
       dialog.close();
       form.reset();
       status.textContent=mode==='create'?'Account created. Your place is saved.':'Signed in. Welcome back.';
-      refreshSession();
+      window.location.href=HOME_URL;
     }catch(error){
       const errors={'account-exists':'That email already has an account on this browser. Try Sign in.','invalid-login':'Email or password not recognized on this browser.','secure-context-required':'Account access requires HTTPS.'};
       setMessage(errors[error.message]||'Account setup failed. Please try again.',true);
